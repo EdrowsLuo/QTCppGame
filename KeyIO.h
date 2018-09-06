@@ -1,0 +1,259 @@
+//
+// Created by admin on 2018/9/5.
+//
+
+#ifndef QT_BB_KEYINPUT_H
+#define QT_BB_KEYINPUT_H
+
+#include <string>
+#include <map>
+#include <QtGui/QKeyEvent>
+#include "defext.h"
+
+using namespace std;
+
+/**
+ *
+ *
+ *
+ */
+#define USING_QT
+namespace edp{
+    /**
+     * 键盘输入
+     */
+    class KeyInput;
+
+    class KeyPipe;
+
+#ifdef USING_QT
+    class QTKeyPipe;
+#endif
+    /**
+     * 键盘输出
+     */
+    class KeyOutput;
+
+    class KeyEvent;
+
+    /**
+     * 捕获对某个或某些键的事件并保存相关数据
+     */
+    class KeyHolder;
+
+    /**
+     * 单帧事件，包含多个KeyHolder，通过从一个KeyInput读取事件来刷新
+     */
+    class KeyFrame;
+
+    class KeyState;
+
+    class KeyState{
+    public:
+        static const unsigned int Pressed  = 1;
+        static const unsigned int Down = 2;
+        static const unsigned int Up = 4;
+        static const unsigned int MainStateMask = Down + Up;
+
+        static bool isPressed(unsigned int stat){
+            return (stat & Pressed) == Pressed;
+        }
+
+        static void clearState(unsigned int &state, unsigned int code) {
+            state &= ~code;
+        }
+
+    };
+
+    class KeyEvent{
+    public:
+        int type;
+        int key;
+        string text;
+        double rawtime;
+    };
+
+    class KeyInput{
+    public:
+        Interface(void start())
+        Interface(bool getKeyEvevnt(KeyEvent &event))
+        Interface(void end())
+    };
+
+    class KeyOutput{
+    public:
+        Interface(bool keyDown(int key, const string &txt))
+        Interface(bool keyUp(int key, const string &txt))
+    };
+
+    class KeyPipe : public KeyInput,public KeyOutput {
+    public:
+        void start() {
+            output = true;
+        }
+
+        bool getKeyEvevnt(KeyEvent &event) {
+            if (events.size() > 0) {
+                event = events.back();
+                events.erase(events.end() - 1);
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        void end() {
+            output = false;
+        }
+
+        bool keyDown(int key, const string &txt){
+            if (!Timer->isRunning()) {
+                return false;
+            }
+            if (output) {
+                return false;
+            } else {
+                events.push_back(KeyEvent{
+                    KeyState::Down,
+                    key,
+                    txt,
+                    Timer->getTime()
+                });
+                return true;
+            }
+        }
+
+        bool keyUp(int key, const string &txt){
+            if (!Timer->isRunning()) {
+                return false;
+            }
+            if (output) {
+                return false;
+            } else {
+                events.push_back(KeyEvent{
+                        KeyState::Up,
+                        key,
+                        txt,
+                        Timer->getTime()
+                });
+                return true;
+            }
+        }
+
+        GetSetO(EdpTimer,Timer)
+
+    private:
+        vector<KeyEvent> events;
+        bool output;
+        EdpTimer *Timer;
+    };
+
+#ifdef USING_QT
+    class QTKeyPipe : public KeyPipe{
+    public:
+        void keyPressEvent(QKeyEvent *event){
+            keyDown(event->key(), event->text().toStdString());
+        }
+        void keyReleaseEvent(QKeyEvent *event){
+            keyUp(event->key(), event->text().toStdString());
+        }
+    };
+#endif
+
+    class KeyHolder{
+    public:
+        void acceptDownEvent(){
+            if (!KeyState::isPressed(State)) {
+                State |= KeyState::Down;
+                State |= KeyState::Pressed;
+            }
+        }
+
+        void acceptUpEvent() {
+            if (KeyState::isPressed(State)) {
+                cancel = true;
+                State |= KeyState::Up;
+            }
+        }
+
+        int parseMainState(){
+            return State & KeyState::MainStateMask;
+        }
+
+        //消耗掉事件停止继续的操作
+        void consumeEvent(){
+            KeyState::clearState(State, KeyState::Down | KeyState::Up);
+        }
+
+        //一帧结束将没有处理掉的事件删除掉
+        void pass() {
+            if (cancel) {
+                cancel = false;
+                State = 0;
+            }
+        }
+
+        GetSet(string,Name)
+        GetSet(double,Time)
+        GetSet(unsigned int,State)
+
+        bool isPressed() {
+            return KeyState::isPressed(State);
+        }
+
+    protected:
+        double Time;
+        string Name;
+        unsigned int State;
+        bool cancel;
+    };
+
+    class KeyFrame{
+    public:
+        explicit KeyFrame(KeyInput *in, EdpTimer *t) : input(in), timer(t) {
+
+        }
+
+        void update() {
+            FrameTime = timer->getTime();
+            if (input) {
+                ForEach(holders,it,it->second->setTime(FrameTime),map<int,KeyHolder*>::iterator)
+                KeyEvent event;
+                input->start();
+                while (input->getKeyEvevnt(event)) {
+                    map<int,KeyHolder*>::iterator holder = holders.find(event.key);
+                    if (holder != holders.end()) {
+                        switch (event.type) {
+                            RCase(KeyState::Down, holder->second->acceptDownEvent());
+                            DCase(KeyState::Up,holder->second->acceptUpEvent());
+                        }
+                        holder->second->setTime(event.rawtime);
+                    }
+                }
+                input->end();
+            }
+        }
+
+        void endFrame() {
+            ForEach(holders,it,it->second->pass(),map<int,KeyHolder*>::iterator)
+        }
+
+        void registerHolder(int key, KeyHolder *holder) {
+            holders[key] = holder;
+        }
+
+        Getter(double,FrameTime)
+
+    protected:
+        map<int,KeyHolder*> holders;
+        KeyInput *input;
+        EdpTimer *timer;
+
+        double FrameTime;
+    };
+
+}
+
+
+
+#endif //QT_BB_KEYINPUT_H
