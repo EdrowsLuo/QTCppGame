@@ -98,8 +98,8 @@ void BaseParser::parseLine(const string &line, Beatmap &beatmap) {
         if (parser) {
             string data = nline.substr(spl + 1, nline.size());
             StringUtil::trim(data);
-            parser->parseData(nline, beatmap);
-            qDebug() << "write to \"" << key.c_str() << "\" : " << data.c_str();
+            parser->parseData(data, beatmap);
+            /*qDebug() << "write to \"" << key.c_str() << "\" : " << data.c_str();*/
         } else {
             passBaseParse(line, beatmap);
             return;

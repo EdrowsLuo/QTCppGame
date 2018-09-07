@@ -49,7 +49,7 @@ add_executable(qt_bb
         bassclass.h
         dialog.cpp
         dialog.h
-        dialog.ui KeyIO.h defext.h EdpTimer.h GameJudgement.cpp GameJudgement.h Edp.h ManiaRuleset.cpp ManiaRuleset.h)
+        dialog.ui KeyIO.h defext.h EdpTimer.h GameJudgement.cpp GameJudgement.h Edp.h ManiaRuleset.cpp ManiaRuleset.h TestView.cpp TestView.h)
 target_link_libraries(qt_bb ${QT_LIBRARIES} )
 
 target_link_libraries(qt_bb bass)

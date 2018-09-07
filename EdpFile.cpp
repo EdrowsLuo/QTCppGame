@@ -75,7 +75,6 @@ void EdpFile::listFiles(vector<edp::EdpFile> &files) {
     long handle = _findfirst((mpath + "\\*").c_str(), &fileinfo);
     if (handle != -1) {
         do {
-            //TODO: 解决内存溢出
             if (strcmp(fileinfo.name, "..") != 0 && strcmp(fileinfo.name, ".") != 0)
                 files.push_back(*new EdpFile(*this, fileinfo.name));
         } while (_findnext(handle, &fileinfo) == 0);

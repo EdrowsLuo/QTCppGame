@@ -25,17 +25,20 @@ public:
     }
 
     static void str2int(const string &str,int &target) {
-        stringstream ss(str);
+        stringstream ss;
+        ss << str;
         ss >> target;
     }
 
     static void str2long(const string &str,long &target) {
-        stringstream ss(str);
+        stringstream ss;
+        ss << str;
         ss >> target;
     }
 
     static void str2double(const string &str, double &target) {
-        stringstream ss(str);
+        stringstream ss;
+        ss << str;
         ss >> target;
     }
 
@@ -48,8 +51,8 @@ public:
             target = false;
             return;
         }
-        string copy = str;
-        stringstream ss(copy);
+        stringstream ss;
+        ss << str;
         int i;
         ss >> i;
         target = (i != 0);

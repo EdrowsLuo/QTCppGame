@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "EdpBass.h"
 #include "KeyIO.h"
+#include "TestView.h"
 
 using namespace edp;
 
@@ -26,11 +27,7 @@ protected:
 private:
     Ui::Dialog *ui;
 
-    EdpBassChannel *channel;
-
-    KeyFrame *frame;
-    KeyHolder *holder;
-    QTKeyPipe *keyPipe;
+    TestView *view;
 
 private slots:
     void on_pushButton_4_clicked();

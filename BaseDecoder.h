@@ -83,6 +83,7 @@ namespace nso{
 
         virtual void parseData(const string &line, Beatmap &beatmap){
             converter(line,beatmap.*target);
+            DebugI(beatmap.*target)
         }
     protected:
         _Data Beatmap::* target;

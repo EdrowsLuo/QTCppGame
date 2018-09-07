@@ -99,7 +99,7 @@ void TimingPointsParser::parseLine(const string &line, nso::Beatmap &beatmap) {
     qDebug() << "parse timing at " << point.toString().c_str();
 }
 
-#define hunit(idx,prop) StringUtil::str2int(spl[idx], hitobj.prop)
+#define hunit(idx,prop) StringUtil::str2int(spl[idx], hitobj->prop)
 void HitObjectParser::parseLine(const string &line, nso::Beatmap &beatmap) {
     string nline = line;
     StringUtil::trim(nline);
@@ -119,22 +119,26 @@ void HitObjectParser::parseLine(const string &line, nso::Beatmap &beatmap) {
                 if (spl.size() < 6) {
                     throw DecodeException("mania hold format err", beatmap.decoder);
                 }
-                ManiaHold hitobj;
+                ManiaHold *hitobj = new ManiaHold() ;
                 hunit(0,x);
                 hunit(1,y);
                 hunit(2,time);
                 hunit(3,type);
                 hunit(4,hitSound);
                 string endTime;
+                Debug(nline.c_str());
+                Debug(spl[5].c_str());
                 StringUtil::splitTo(spl[5], ':', endTime);
-                StringUtil::str2int(endTime, hitobj.endTime);
+                Debug(endTime.c_str());
+                StringUtil::str2int(endTime, hitobj->endTime);
+                DebugI(hitobj->endTime)
                 beatmap.hitobjects.push_back(hitobj);
             }break;
 
             case HitObject::TYPE_CIRCLE:
             default:{
                 //暂时不解析特殊情况
-                HitCircle hitobj;
+                HitCircle *hitobj = new HitCircle();
                 hunit(0,x);
                 hunit(1,y);
                 hunit(2,time);

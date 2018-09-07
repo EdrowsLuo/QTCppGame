@@ -10,6 +10,7 @@
 #include <sstream>
 #include "BaseDecoder.h"
 #include "nsoclass.h"
+#include "defext.h"
 
 using namespace std;
 
@@ -119,15 +120,28 @@ namespace nso{
         int time;
         int type;
         int hitSound;
+        //ToString
     };
 
     class HitCircle:public HitObject{
-
+        /*virtual string toString(){
+            stringstream ss;
+            ss << "<circle> " << MapProp(type) << ", "
+                    << MapProp(time);
+            return ss.str();
+        }*/
     };
 
     class ManiaHold:public HitObject {
     public:
         int endTime;
+        /*virtual string toString(){
+            stringstream ss;
+            ss << "<hold> " << MapProp(type) << ", "
+               << MapProp(time) << ", "
+               << MapProp(endTime);
+            return ss.str();
+        }*/
     };
 
     class Beatmap {
@@ -185,7 +199,7 @@ namespace nso{
         TimingPoints timingPoints;
         Colours colours;
 
-        vector<HitObject> hitobjects;
+        vector<HitObject*> hitobjects;
     };
 }
 

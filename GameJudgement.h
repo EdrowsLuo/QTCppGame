@@ -45,13 +45,14 @@ namespace nso{
         explicit GameJudgement(_Data *d);
 
         void prepare();
-
-        virtual void onUpdate() {}
-        virtual void onFinishUpdate() {}
         void update();
+
+
 
     protected:
 
+        virtual void onUpdate() {}
+        virtual void onFinishUpdate() {}
         void updateUsingObjects(double time);
         virtual void doJudgement(double time);
         void relaseObjects(double time);

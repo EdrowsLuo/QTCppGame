@@ -40,14 +40,6 @@ int main(int argc, char *argv[])
     Dialog dialog;
     dialog.show();
 
-    BeatmapDecoder decoder("D:\\Qt\\code\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Starry's 4K Lv.15].osu");
-    Beatmap beatmap;
-    try {
-        decoder.parse(beatmap);
-    } catch (DecodeException &e) {
-        DebugS << "DecodeException : " << e.what();
-    }
-
     Debug("end");
     return a.exec();
 }

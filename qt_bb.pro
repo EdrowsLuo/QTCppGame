@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT          += opengl
 
 TARGET = qt_bb
 TEMPLATE = app
@@ -23,7 +24,8 @@ SOURCES += main.cpp\
         EdpBass.cpp\
         dialog.cpp\
         GameJudgement.cpp\
-        ManiaRuleset.cpp
+        ManiaRuleset.cpp\
+        TestView.cpp
 
 HEADERS  += mainwindow.h\
         BaseDecoder.h\
@@ -44,7 +46,8 @@ HEADERS  += mainwindow.h\
         EdpTimer.h\
         GameJudgement.h\
         Edp.h\
-        ManiaRuleset.h
+        ManiaRuleset.h\
+        TestView.h
 
 FORMS    += mainwindow.ui \
     dialog.ui
