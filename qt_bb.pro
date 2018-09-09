@@ -25,7 +25,8 @@ SOURCES += main.cpp\
         dialog.cpp\
         GameJudgement.cpp\
         ManiaRuleset.cpp\
-        TestView.cpp
+        TestView.cpp\
+        ManiaObjects.cpp
 
 HEADERS  += mainwindow.h\
         BaseDecoder.h\
@@ -47,7 +48,11 @@ HEADERS  += mainwindow.h\
         GameJudgement.h\
         Edp.h\
         ManiaRuleset.h\
-        TestView.h
+        TestView.h\
+        maniaclass.h\
+        ManiaObjects.h\
+        BeatmapBase.h\
+        Util.h
 
 FORMS    += mainwindow.ui \
     dialog.ui

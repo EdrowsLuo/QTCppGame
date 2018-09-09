@@ -5,41 +5,32 @@
 #ifndef QT_BB_RULESETMANIA_H
 #define QT_BB_RULESETMANIA_H
 
-#include "GameJudgement.h"
+
 #include "KeyIO.h"
 #include "defext.h"
+#include "EdpBass.h"
 #include "Beatmap.h"
+#include "maniaclass.h"
+#include "ManiaObjects.h"
+#include "GameJudgement.h"
+
+
+using namespace edp;
 
 namespace nso{
 
-    class ManiaRuleset;
-
-    class ManiaPlaytimeData;
-
-    class ManiaDrawdata;
-
-    class PlayingHitObject;
-
-    class PlayingNote;
-
-    class PlayingHold;
-
-    class ManiaUtil;
-
-    class ManiaGameSetting;
-
-    class ManiaGame;
-
-    struct ManiaDrawdataNode;
-
     class ManiaPlaytimeData:public JudgeData{
     public:
-        double getFrameTime();
+
         EdpTimer *getTimer();
         void update();
+
+        double getFrameTime();
+        void startJudge();
         void endJudge();
 
         Getter(vector<KeyHolder*> &,Keys)
+        GetSetO(ManiaScore,Score)
         GetSetO(KeyFrame,MKeyFrame)
 
         void setTimer(EdpTimer *t){
@@ -52,6 +43,56 @@ namespace nso{
 
         vector<KeyHolder*> Keys;
         KeyFrame *MKeyFrame;
+
+        ManiaScore *Score;
+    };
+
+    namespace Mania {
+        static const int ScoreType_Note = 1, ScoreType_Tick = 2;
+        //基础分数比例以及enum
+        static const int S300k = 5, S300 = 4, S200 = 3, S100 = 2, S50 = 1, S_MISS = 0;
+        static const int BaseScore[6] = {0, 50, 100, 200, 300, 320};
+        //额外基础分
+        static const int BaseBonus[6] = {0, 4, 8, 16, 32, 32};
+        //倍率分，负值为惩罚
+        static const int BonusMul[6] = {-100, -44, -24, -8, 1, 2};
+
+        static const double HitWindowMax = 80 , HitWindowMin = 34.5 , HitWindow300k = 20;
+
+        static const double HitWindowScale[6] = {2.5, 2.1, 1.8, 1.3, 1, 1};
+    };
+
+
+    struct ManiaHitResult{
+        int type;
+        int score;
+        double offset;
+    };
+
+
+    class ManiaScore {
+    public:
+
+        ManiaScore(Beatmap *beatmap) : RecentScore(0), TotalScore(0), Combo(0) {
+
+        }
+
+        void applyScore(ManiaHitResult &result) { //apply 一个成绩
+            RecentScore = result.score;
+            TotalScore += Mania::BaseScore[result.score];
+            Offset = (int)result.offset;
+            if (result.score != Mania::S_MISS) {
+                Combo++;
+            } else {
+                Combo = 0;
+            }
+        }
+
+    public:
+        int Offset;
+        int RecentScore;
+        int TotalScore;
+        int Combo;
     };
 
     class PlayingHitObject{
@@ -111,6 +152,7 @@ namespace nso{
         static const int HOLD = 1;
 
         explicit ManiaDrawdata(Beatmap &beatmap);
+        ManiaDrawdata();
 
         void prepare();
         void update(double time);
@@ -119,7 +161,12 @@ namespace nso{
             return datas;
         }
 
+        vector<PlayingHitObject*> * rawObjectsPointer(){
+            return &rawObjects;
+        }
+
         GetSet(int ,LineCount)
+        GetSet(float,Preempt)
 
     protected:
         virtual void onShowObject(PlayingHitObject *object){};
@@ -149,16 +196,49 @@ namespace nso{
                 return (int)(pos / (512.0 / key));
             }
         }
+
+        static int positionToLine(PlayingHitObject *obj, Beatmap *bmp) {
+            return positionToLine(obj->getX(), (int) (bmp->CircleSize + 0.001));
+        }
+
+        static double hitWindow(double od,int score) {
+            if (score == Mania::S300k) {
+                return Mania::HitWindow300k;
+            } else {
+                double s = od / 10.0;
+                return Mania::HitWindowScale[score]
+                       * (Mania::HitWindowMax * (1 - s) + Mania::HitWindowMin * s);
+            }
+        }
+
+        static int hitWindowFor(double od, double offset) {
+            if (offset < 0) {
+                offset = -offset;
+            }
+            if (offset < hitWindow(od, Mania::S300k)) {
+                return Mania::S300k;
+            } else if (offset < hitWindow(od, Mania::S300)){
+                return Mania::S300;
+            } else if (offset < hitWindow(od, Mania::S200)){
+                return Mania::S200;
+            } else if (offset < hitWindow(od, Mania::S100)){
+                return Mania::S100;
+            } else if (offset < hitWindow(od, Mania::S50)){
+                return Mania::S50;
+            } else {
+                return Mania::S_MISS;
+            }
+        }
     };
 
     class ManiaSetting{
 
-#define BindKey(keyn,...) vector<int>* key##keyn = new vector<int>{__VA_ARGS__};\
+#define BindKey(keyn,...) int a##keyn[keyn] = {__VA_ARGS__};\
+vector<int>* key##keyn = new vector<int>(a##keyn,a##keyn+keyn);\
 KeyBinding->push_back(key##keyn);
 
     public:
-        static ManiaSetting* DefaultSetting;
-
+        static ManiaSetting& DefaultSetting;
 
         ManiaSetting(){
             KeyBinding = new vector<vector<int>*>();
@@ -175,30 +255,72 @@ KeyBinding->push_back(key##keyn);
         ~ManiaSetting(){
             vector<vector<int>*> tmpb;
             KeyBinding->swap(tmpb);
-            ForEachLong(tmpb,it1,vector<vector<int>*>::iterator){
+            ForEachLong(tmpb,it1,vector<vector<int>*>::iterator) {
                 vector<int> tmp;
                 (*it1)->swap(tmp);
-            }}
+            }
         }
+
+        Getter(vector<vector<int>*>*,KeyBinding)
     private:
         vector<vector<int>*>* KeyBinding;
     };
 
     class ManiaGame{
     public:
-        explicit ManiaGame(EdpFile *f,ManiaSetting *setting = ManiaSetting::DefaultSetting):OsuFile(f),Setting(setting) {
+        explicit ManiaGame(EdpFile *f, ManiaSetting *setting) : OsuFile(f), SetDirectory(
+                new EdpFile(f->getParentPath())), Setting(setting) {
 
         }
+
+        virtual bool running(){
+            return SongChannel->isPlaying();
+        }
+
+        virtual void reset();
+
+        //开始游戏
+        virtual void runGame();
+
+        //暂停游戏
+        virtual void pauseGame();
+
+        //结束游戏
+        virtual void stopGame();
+
+        //循环更新
+        virtual void update();
+
+        //一次循环结束
+        virtual void endUpdate();
 
         //加载Beatmap，构建输入输出模块的连接
-        void prepareGame() {
+        virtual void prepareGame();
 
-        }
+        //连接按键输入
+        virtual void linkKeyInput(KeyInput *in);
+
+        Getter(EdpBassChannel *,SongChannel)
+        Getter(ManiaDrawdata *,Drawdata)
+        Getter(ManiaPlaytimeData *,PlayingData)
 
     protected:
         EdpFile *OsuFile;
+        EdpFile *SetDirectory;
         ManiaSetting *Setting;
 
+        Beatmap *OsuBeatmap;
+        EdpBassChannel *SongChannel;
+        KeyFrame *GameKeyFrame;
+
+        ManiaPlaytimeData *PlayingData;
+
+        vector<ManiaObject*> *Objects;
+
+        ManiaScore *Score;
+
+        GameJudgement<ManiaPlaytimeData> *Judgementer;
+        ManiaDrawdata *Drawdata;
 
     };
 

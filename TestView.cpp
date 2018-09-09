@@ -5,50 +5,72 @@
 #include <QtGui>
 #include "TestView.h"
 #include "defext.h"
+#include "Util.h"
 #include "BeatmapDecoder.h"
 
-TestView::TestView(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers), parent) {
-    setFixedSize(600,600);
+#include "ManiaRuleset.h"
 
-    setAutoFillBackground(false);
-    BeatmapDecoder decoder("D:\\Qt\\code\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Starry's 4K Lv.15].osu");
-    beatmap = new Beatmap;
-    try {
-        decoder.parse(*beatmap);
-    } catch (DecodeException &e) {
-        DebugS << "DecodeException : " << e.what();
+using namespace nso;
+
+
+class MKeyHolder:public KeyHolder{
+public:
+    //消耗掉事件停止继续的操作
+    virtual void consumeEvent(){
+
     }
 
-    string songpath = //"D:\\Qt\\code\\qt_bb\\data\\433128 Yui Sakakibara - Koigokoro to Beat!\\PURELYCATION.mp3";
-    "D:\\Qt\\code\\qt_bb\\data\\324288 xi - ANiMA\\anima.mp3";
-    channel = new EdpBassChannel(songpath);
-    channel->play();
+    void acceptDownEvent(){
+        if (!KeyState::isPressed(State)) {
+            State |= KeyState::Down;
+            State |= KeyState::Pressed;
+            Debug("down");
+        }
+        //Debug("down");
+    }
+
+    void clear(){
+        KeyState::clearState(State, KeyState::Down | KeyState::Up);
+        if (cancel) {
+            cancel = false;
+            State = 0;
+        }
+    }
+
+    virtual void pass() {
+
+    }
+};
+
+MKeyHolder *oHolder;
+int oOffset;
+
+TestView::TestView(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers), parent) {
+    setFixedSize(600,900);
+
+    setAutoFillBackground(false);
+
+    EdpFile *osuFile = new EdpFile(
+            //"D:\\My\\osu!droid\\Songs\\375548 Hashimoto Yukari - Hakanaki Yume\\Hashimoto Yukari - Hakanaki Yume (Bearizm) [Timing].osu"
+            "D:\\Qt\\code\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [4K Lv.4].osu"
+            //"D:\\Qt\\code\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
+            //"D:\\Qt\\code\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Starry's 4K Lv.15].osu"
+            );
+    Game = new ManiaGame(osuFile,new ManiaSetting());
+    DebugL("")
+    Game->prepareGame();
+    DebugL("")
     keyPipe = new QTKeyPipe();
-    keyPipe->setTimer(channel);
-    frame = new KeyFrame(keyPipe, channel);
+    DebugL("")
+    keyPipe->setTimer(Game->getSongChannel());
+    DebugL("")
 
-    playtimeData = new ManiaPlaytimeData();
-    playtimeData->setTimer(channel);
-    playtimeData->setMKeyFrame(frame);
+    Game->linkKeyInput(keyPipe);
 
-    holder = new KeyHolder();
-    frame->registerHolder(Qt::Key_A,holder);
-    playtimeData->getKeys().push_back(holder);
+    oHolder = new MKeyHolder();
+    Game->getPlayingData()->getMKeyFrame()->registerHolder(Qt::Key_Z, oHolder);
 
-    holder = new KeyHolder();
-    frame->registerHolder(Qt::Key_S,holder);
-    playtimeData->getKeys().push_back(holder);
-
-    holder = new KeyHolder();
-    frame->registerHolder(Qt::Key_K,holder);
-    playtimeData->getKeys().push_back(holder);
-
-    holder = new KeyHolder();
-    frame->registerHolder(Qt::Key_L,holder);
-    playtimeData->getKeys().push_back(holder);
-
-    drawdata = new ManiaDrawdata(*beatmap);
-    drawdata->prepare();
+    Debug("created");
 }
 
 void TestView::animate() {
@@ -59,9 +81,7 @@ void TestView::animate() {
 }
 
 void TestView::paintEvent(QPaintEvent *event) {
-    playtimeData->update();
-    drawdata->update(playtimeData->getFrameTime());
-
+    Game->update();
 
     QPainter painter;
     painter.begin(this);
@@ -69,6 +89,7 @@ void TestView::paintEvent(QPaintEvent *event) {
 
     painter.fillRect(event->rect(), QBrush(QColor(83, 158, 215)));
 
+    int wheight = 800;
 
     QPen pen(QColor(40,44,53));
     int offset = 100;
@@ -77,7 +98,7 @@ void TestView::paintEvent(QPaintEvent *event) {
     painter.save();
     painter.setPen(pen);
     painter.setBrush(QColor(40,44,53));
-    painter.drawRect(QRect(offset, 0, width * 4, 600));
+    painter.drawRect(QRect(offset, 0, width * 4, wheight));
     painter.restore();
 
 
@@ -85,9 +106,9 @@ void TestView::paintEvent(QPaintEvent *event) {
     pen.setColor(QColor(255,255,255));
     painter.setPen(pen);
     for (int i = 0; i < 5; ++i) {
-        painter.drawLine(offset + width * i, 0, offset + width * i, 600);
+        painter.drawLine(offset + width * i, 0, offset + width * i, wheight);
     }
-    painter.drawLine(offset + width * 5, 0, offset + width * 5, static_cast<int>(playtimeData->getFrameTime() / 100));
+    painter.drawLine(offset + width * 5, 0, offset + width * 5, static_cast<int>(Game->getPlayingData()->getFrameTime() / 100));
     painter.restore();
 
     painter.save();
@@ -101,13 +122,13 @@ void TestView::paintEvent(QPaintEvent *event) {
 
 
     //painter.setBrush(QBrush(Qt::FDiagPattern));
-    vector<ManiaDrawdataNode> &datas = drawdata->getDatas();
+    vector<ManiaDrawdataNode> &datas = Game->getDrawdata()->getDatas();
 
     //DebugI(datas.size())
     //DebugI(playtimeData->getFrameTime())
 
     int judgePosition = 550;
-    int fieldHeight = 550;
+    int fieldHeight = 700;
     int noteHeight = 10;
     int holdPadding = 15;
 
@@ -119,49 +140,51 @@ void TestView::paintEvent(QPaintEvent *event) {
 
     painter.setBrush(linearGradient2);
 
-    ForEachLong(datas,it,vector<ManiaDrawdataNode>::iterator){
-            if (it->line == 1||it->line == 2) {
-                linearGradient2.setColorAt(0, QColor(83, 158, 215, 0));
-                linearGradient2.setColorAt(1, QColor(83, 158, 215, 255));
-            } else {
-                linearGradient2.setColorAt(0, QColor(50, 130, 180, 0));
-                linearGradient2.setColorAt(1, QColor(50, 130, 180, 255));
-            }
-            if (it->type == HitObject::TYPE_MANIA_HOLD) {
+    ForEachLong(datas,it,vector<ManiaDrawdataNode>::iterator) {
+        if (it->line == 1 || it->line == 2) {
+            linearGradient2.setColorAt(0, QColor(150, 200, 255, 0));
+            linearGradient2.setColorAt(1, QColor(150, 200, 255, 255));
+            painter.setBrush(linearGradient2);
+        } else {
+            linearGradient2.setColorAt(0, QColor(83, 158, 215, 0));
+            linearGradient2.setColorAt(1, QColor(83, 158, 215, 255));
+            painter.setBrush(linearGradient2);
+        }
+        if (it->type == HitObject::TYPE_MANIA_HOLD) {
 
-                painter.drawRect(QRectF(
-                        offset + width * it->line + holdPadding,
-                        fieldHeight * (1 - it->endposition) + noteHeight,
-                        width - holdPadding * 2,
-                        fieldHeight * (it->endposition - it->position) - noteHeight * 2
-                ));
+            painter.drawRect(QRectF(
+                    offset + width * it->line + holdPadding,
+                    fieldHeight * (1 - it->endposition) + noteHeight,
+                    width - holdPadding * 2,
+                    fieldHeight * (it->endposition - it->position) - noteHeight * 2
+            ));
 
-                /*painter.drawLine(offset + width * it->line + 20,
-                                 (int) (fieldHeight * (1 - it->position)),
-                                 offset + width * it->line + 20,
-                                 (int) (fieldHeight * (1 - it->position)) + 50);*/
+            /*painter.drawLine(offset + width * it->line + 20,
+                             (int) (fieldHeight * (1 - it->position)),
+                             offset + width * it->line + 20,
+                             (int) (fieldHeight * (1 - it->position)) + 50);*/
 
-                painter.drawRect(QRectF(
-                        offset + width * it->line,
-                        fieldHeight * (1 - it->endposition) - noteHeight,
-                        width,
-                        noteHeight * 2
-                ));
-                painter.drawRect(QRectF(
-                        offset + width * it->line,
-                        fieldHeight * (1 - it->position) - noteHeight,
-                        width,
-                        noteHeight * 2
-                ));
-            } else {
-                painter.drawRect(QRectF(
-                        offset + width * it->line,
-                        fieldHeight * (1 - it->position) - noteHeight,
-                        width,
-                        noteHeight * 2
-                ));
-            }
-        }}
+            painter.drawRect(QRectF(
+                    offset + width * it->line,
+                    fieldHeight * (1 - it->endposition) - noteHeight,
+                    width,
+                    noteHeight * 2
+            ));
+            painter.drawRect(QRectF(
+                    offset + width * it->line,
+                    fieldHeight * (1 - it->position) - noteHeight,
+                    width,
+                    noteHeight * 2
+            ));
+        } else {
+            painter.drawRect(QRectF(
+                    offset + width * it->line,
+                    fieldHeight * (1 - it->position) - noteHeight,
+                    width,
+                    noteHeight * 2
+            ));
+        }
+    }
 
     linearGradient2.setColorAt(0, QColor(83, 158, 215, 0));
     linearGradient2.setColorAt(1, QColor(83, 158, 215, 255));
@@ -190,27 +213,53 @@ void TestView::paintEvent(QPaintEvent *event) {
             width,
             noteHeight * 2
     ));
+
+    pen.setColor(QColor(240, 0, 0));
+    painter.setPen(pen);
+
+    if (oHolder->parseMainState() == KeyState::Down) {
+        int time = (int) oHolder->getTime();
+        time -= 690;
+        time %= 400;
+        if (time > 200) {
+            time = time - 400;
+        }
+        oOffset = time;
+        DebugI(oOffset)
+    }
+
+    oHolder->clear();
+
     painter.drawRect(QRectF(
-            offset + width * 3,
-            fieldHeight - noteHeight,
+            offset,
+            fieldHeight * (1 - oOffset / 800.0) - noteHeight,
             width,
             noteHeight * 2
     ));
 
 
+    pen.setColor(QColor(240,240,240));
+    painter.setPen(pen);
     painter.setBrush(linearGradient);
     for (int i = 0; i < 4; ++i) {
-        if (playtimeData->getKeys()[i]->isPressed()) {
-            painter.drawRect(QRect(offset + i * width, 0, width, 600));
+        if (Game->getPlayingData()->getKeys()[i]->isPressed()) {
+            painter.drawRect(QRect(offset + i * width, 0, width, wheight));
         }
     }
+
+    stringstream ss;
+    ss << Game->getPlayingData()->getScore()->RecentScore << " - " ;
+    ss << Game->getPlayingData()->getScore()->Combo;
+    QFont font;
+    font.setFamily("Microsoft YaHei");
+    font.setPointSize(50);
+    painter.setFont(font);
+    painter.drawText(200,55,ss.str().c_str());
+
     painter.restore();
 
 
     painter.end();
-
-
-    playtimeData->endJudge();
 }
 
 
@@ -219,6 +268,7 @@ void TestView::mkeyPressEvent(QKeyEvent *event) {
     if (event->isAutoRepeat()) {
         return;
     }
+
     keyPipe->keyPressEvent(event);
 }
 
@@ -227,4 +277,8 @@ void TestView::mkeyReleaseEvent(QKeyEvent *event) {
         return;
     }
     keyPipe->keyReleaseEvent(event);
+}
+
+void TestView::test() {
+    DebugI((int)Game->getSongChannel()->getTime())
 }

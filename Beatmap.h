@@ -144,6 +144,7 @@ namespace nso{
         }*/
     };
 
+
     class Beatmap {
     public:
         BaseDecoder *decoder;

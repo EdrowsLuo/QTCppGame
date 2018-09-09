@@ -20,6 +20,14 @@ using namespace edp;
 
 namespace nso{
 
+    class DecodeException;
+    class PartParser;
+    class BaseDecoder;
+    class DataParser;
+    template <typename _Data> class DataInjecter;
+    class BaseParser;
+
+
     class DecodeException:exception{
     public:
         explicit DecodeException(const string &msg,BaseDecoder *decoder);

@@ -8,6 +8,7 @@
 #include <string>
 #include <map>
 #include <QtGui/QKeyEvent>
+#include "EdpTimer.h"
 #include "defext.h"
 
 using namespace std;
@@ -26,6 +27,7 @@ namespace edp{
 
     class KeyPipe;
 
+    class NativeKeyPipe;
 #ifdef USING_QT
     class QTKeyPipe;
 #endif
@@ -113,11 +115,12 @@ namespace edp{
             if (output) {
                 return false;
             } else {
+                double time = Timer->getTime();
                 events.push_back(KeyEvent{
                     KeyState::Down,
                     key,
                     txt,
-                    Timer->getTime()
+                    time
                 });
                 return true;
             }
@@ -162,7 +165,7 @@ namespace edp{
 
     class KeyHolder{
     public:
-        void acceptDownEvent(){
+        virtual void acceptDownEvent(){
             if (!KeyState::isPressed(State)) {
                 State |= KeyState::Down;
                 State |= KeyState::Pressed;
@@ -181,12 +184,12 @@ namespace edp{
         }
 
         //消耗掉事件停止继续的操作
-        void consumeEvent(){
+        virtual void consumeEvent(){
             KeyState::clearState(State, KeyState::Down | KeyState::Up);
         }
 
         //一帧结束将没有处理掉的事件删除掉
-        void pass() {
+        virtual void pass() {
             if (cancel) {
                 cancel = false;
                 State = 0;
@@ -210,7 +213,11 @@ namespace edp{
 
     class KeyFrame{
     public:
-        explicit KeyFrame(KeyInput *in, EdpTimer *t) : input(in), timer(t) {
+        KeyFrame(KeyInput *in, EdpTimer *t) : input(in), timer(t) {
+
+        }
+
+        explicit KeyFrame(EdpTimer *t) : timer(t) {
 
         }
 
@@ -243,6 +250,9 @@ namespace edp{
         }
 
         Getter(double,FrameTime)
+        void setKeyInput(KeyInput *in){
+            input = in;
+        }
 
     protected:
         map<int,KeyHolder*> holders;

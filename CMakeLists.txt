@@ -11,7 +11,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
-find_package(Qt4 REQUIRED)
+find_package(Qt4 COMPONENTS QtCore QtGui QtOpenGL)
 include(${QT_USE_FILE})
 include_directories(${Qt4_INCLUDE_DIRECTORIES})
 include_directories(/usr/include)
@@ -49,7 +49,21 @@ add_executable(qt_bb
         bassclass.h
         dialog.cpp
         dialog.h
-        dialog.ui KeyIO.h defext.h EdpTimer.h GameJudgement.cpp GameJudgement.h Edp.h ManiaRuleset.cpp ManiaRuleset.h TestView.cpp TestView.h)
+        dialog.ui
+        KeyIO.h
+        defext.h
+        EdpTimer.h
+        GameJudgement.cpp
+        GameJudgement.h
+        Edp.h
+        ManiaRuleset.cpp
+        ManiaRuleset.h
+        TestView.cpp
+        TestView.h
+        maniaclass.h
+        ManiaObjects.cpp
+        ManiaObjects.h
+        BeatmapBase.h Util.h)
 target_link_libraries(qt_bb ${QT_LIBRARIES} )
 
 target_link_libraries(qt_bb bass)

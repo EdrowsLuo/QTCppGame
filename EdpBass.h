@@ -26,17 +26,22 @@ namespace edp{
 
         bool isPlaying();
         bool play();
-        //bool reset();
         bool pause();
         bool stop();
         bool seekTo(double ms);
         double playingTime();
+        float getVolume();
+        bool setVolume(float vol);
+
 
         double getTime();
         bool isRunning();
 
     protected:
         DWORD handle;
+
+        long long recodeTime;
+        long long startTime;
 
         bool playing;
     };

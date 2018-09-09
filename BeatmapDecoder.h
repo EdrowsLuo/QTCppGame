@@ -18,6 +18,11 @@ namespace nso{
         virtual void load();
     };
 
+    class BackgroundParser:public PartParser {
+    public:
+        virtual void parseLine(const string &line, Beatmap &beatmap);
+    };
+
     class TimingPointsParser:public PartParser {
     public:
         virtual void parseLine(const string &line, Beatmap &beatmap);

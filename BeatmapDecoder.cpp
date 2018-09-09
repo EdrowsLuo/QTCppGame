@@ -126,12 +126,8 @@ void HitObjectParser::parseLine(const string &line, nso::Beatmap &beatmap) {
                 hunit(3,type);
                 hunit(4,hitSound);
                 string endTime;
-                Debug(nline.c_str());
-                Debug(spl[5].c_str());
                 StringUtil::splitTo(spl[5], ':', endTime);
-                Debug(endTime.c_str());
                 StringUtil::str2int(endTime, hitobj->endTime);
-                DebugI(hitobj->endTime)
                 beatmap.hitobjects.push_back(hitobj);
             }break;
 

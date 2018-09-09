@@ -11,6 +11,8 @@
 
 #define Debug(txt) qDebug(txt)
 
+#define DebugL(txt) qDebug("File:%s, Line:%d, Function:%s \nMsg: %s", __FILE__, __LINE__ , __FUNCTION__,txt);
+
 #define DebugI(txt) {\
 stringstream ss;\
 ss << txt;\
@@ -42,13 +44,9 @@ void set##name(const bool &value){ name = value; }
 
 #define ForI(v,start,end) int xxv = (end);for(int v = (start); v < xxv; v++)
 
-#define ForEach(obj,itr,func,...) {__VA_ARGS__ itr = obj.begin();\
-for (; itr != obj.end(); itr++) {\
-func;\
-}}
+#define ForEach(obj,itr,func,...) for (__VA_ARGS__ itr = (obj).begin(); itr != (obj).end(); itr++) {func;}
 
-#define ForEachLong(obj,itr,...) {__VA_ARGS__ itr = (obj).begin();\
-for (; itr != (obj).end(); itr++)
+#define ForEachLong(obj,itr,...) for (__VA_ARGS__ itr = (obj).begin(); itr != (obj).end(); itr++)
 
 #define RCase(data,func) case data:{\
  func;\
@@ -69,5 +67,7 @@ std::string strl(string r, _Type t){std::stringstream ss;ss << r << t;return ss.
 #define MapProp(name) #name << ": " << name
 
 #define Clamp(min,value,max) (((min) < (value))?(((max) < (value))? (max):(value)):(min))
+
+
 
 #endif //QT_BB_DEFEXT_H

@@ -25,6 +25,7 @@ public:
 
 public slots:
     void animate();
+    void test();
 
 protected:
     void paintEvent(QPaintEvent *event);
@@ -33,18 +34,20 @@ public:
     virtual void mkeyPressEvent(QKeyEvent *event);
     virtual void mkeyReleaseEvent(QKeyEvent *event);
 
-private:
-    EdpBassChannel *channel;
+public:
+    /*EdpBassChannel *channel;
 
     KeyFrame *frame;
     KeyHolder *holder;
-    QTKeyPipe *keyPipe;
 
     ManiaPlaytimeData *playtimeData;
 
     Beatmap *beatmap;
 
-    ManiaDrawdata *drawdata;
+    ManiaDrawdata *drawdata;*/
+
+    QTKeyPipe *keyPipe;
+    ManiaGame *Game;
 
 };
 
