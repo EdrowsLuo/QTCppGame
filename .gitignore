@@ -3,5 +3,5 @@
 /cmake-build-release
 /data
 /.idea
-*\.pro
-*\.pro\.user
+*.pro
+*.pro.user
