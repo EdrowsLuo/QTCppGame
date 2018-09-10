@@ -5,7 +5,7 @@
 #include "mycombo.h"
 #include "EdpBass.h"
 
-#include "testtest.h"
+//#include "testtest.h"
 #include "keys.h"
 using namespace edp;
 using namespace nso;
@@ -59,7 +59,7 @@ void Widget::paintEvent(QPaintEvent *event){
     painter.scale(wid/1280,hei/720);
 
     BackGround draw1;
-    trackE draw2(1);
+    trackE draw2(0);
     draw1.draw(event,&painter);
     draw2.draw(event,&painter);
     Keys drawkey0;

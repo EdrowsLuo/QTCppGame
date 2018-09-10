@@ -7,7 +7,7 @@
 QT       += core gui
 QT       += opengl
 
-TARGET = MyBKG
+TARGET = MYFDK
 TEMPLATE = app
 
 

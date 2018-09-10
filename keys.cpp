@@ -20,6 +20,7 @@ void Keys::draw(QPaintEvent *event,QPainter *painter){
    painter->setBrush(QColor(225,200,0));
    painter->drawPath(path);
    QPainterPath pathway[4];
+   QPainterPath pathway1[7];
    QLinearGradient linearGradient1(640,720,640,0);
    linearGradient1.setColorAt(0,QColor(255,255,255,150));
    linearGradient1.setColorAt(1,QColor(255,255,255,255));
@@ -36,5 +37,17 @@ void Keys::draw(QPaintEvent *event,QPainter *painter){
            }
 
    }
+   if (judge==2){
+       if (Keyjudge){
+           pathway1[num].moveTo(1280/7*num,612);
+           pathway1[num].lineTo(480+320/7*num,84);
+           pathway1[num].lineTo(480+320/7*(num+1),84);
+           pathway1[num].lineTo(1280/7*(num+1),612);
+           pathway1[num].lineTo(1280/7*num,612);
+           painter->setBrush(lineraGradient1);
+           painter->drawPath(pathway1[num]);
+       }
+   }
+
    painter->restore();
 }
