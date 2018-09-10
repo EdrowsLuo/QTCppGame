@@ -53,17 +53,14 @@ TestView::TestView(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers), p
     EdpFile *osuFile = new EdpFile(
             //"D:\\My\\osu!droid\\Songs\\375548 Hashimoto Yukari - Hakanaki Yume\\Hashimoto Yukari - Hakanaki Yume (Bearizm) [Timing].osu"
             //"D:\\Qt\\code\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [4K Lv.4].osu"
-            //"D:\\Qt\\code\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
-            "D:\\Qt\\code\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Starry's 4K Lv.15].osu"
+            "D:\\Qt\\code\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
+            //"D:\\Qt\\code\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Starry's 4K Lv.15].osu"
             );
     Game = new ManiaGame(osuFile,new ManiaSetting());
-    DebugL("")
+
     Game->prepareGame();
-    DebugL("")
     keyPipe = new QTKeyPipe();
-    DebugL("")
     keyPipe->setTimer(Game->getSongChannel());
-    DebugL("")
 
     autoPlay = new AutoKeyPipe();
     autoPlay->load(Game->getOsuBeatmap(), Game->getSetting());
