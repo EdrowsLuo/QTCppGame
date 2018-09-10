@@ -6,7 +6,12 @@
 #define QT_BB_EDP_H
 
 #include "defext.h"
+#include "direct.h"
 #include "EdpTimer.h"
+#include "EdpFile.h"
+#include "EdpBass.h"
+
+#define GAME_RELEASE
 
 namespace edp{
     class IUpdate{
@@ -19,6 +24,13 @@ namespace edp{
 
     class ILinkTimer{
         Interface(EdpTimer *getTimer())
+    };
+
+    class Project{
+    public:
+        static EdpFile *ProjectRoot;
+
+        static void initialEdp();
     };
 }
 

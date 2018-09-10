@@ -28,7 +28,8 @@ SOURCES += main.cpp\
         GameJudgement.cpp\
         ManiaRuleset.cpp\
         TestView.cpp\
-        ManiaObjects.cpp
+        ManiaObjects.cpp\
+        Edp.cpp
 
 HEADERS  += mainwindow.h\
         BaseDecoder.h\
