@@ -137,7 +137,7 @@ void SlideBox1::on_downPage_clicked()
 }
 
 
-//更新大小并重绘
+
 void SlideBox1::upDateSizes(){
 
     int w,h;

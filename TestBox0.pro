@@ -6,7 +6,7 @@
 
 QT       += core gui
 
-TARGET = TestBox
+TARGET = TestBox0
 TEMPLATE = app
 
 
