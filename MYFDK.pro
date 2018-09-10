@@ -15,10 +15,10 @@ SOURCES += main.cpp\
         widget.cpp \
     background.cpp \
     tracke.cpp \
-    rbutton.cpp \
     mycombo.cpp \
     keys.cpp\
     BaseDecoder.cpp\
+    Edp.cpp\
     EdpFile.cpp\
     EdpFileReader.cpp\
     EdpFileWriter.cpp\
@@ -29,14 +29,12 @@ SOURCES += main.cpp\
     EdpBass.cpp\
     GameJudgement.cpp\
     ManiaRuleset.cpp\
-    ManiaObjects.cpp \
-    testtest.cpp
+    ManiaObjects.cpp
 
 HEADERS  += widget.h \
     MyDraw.h \
     background.h \
     tracke.h \
-    rbutton.h \
     mycombo.h \
     keys.h\
     BaseDecoder.h\
