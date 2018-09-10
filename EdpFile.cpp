@@ -10,6 +10,7 @@
 #include <stack>
 #include <string.h>
 #include "EdpFile.h"
+#include "Edp.h"
 
 using namespace edp;
 
@@ -169,4 +170,18 @@ bool EdpFile::mkdirs() {
 
 bool EdpFile::deleteFile() {
     return -1 != remove(mpath.c_str());
+}
+
+string EdpFile::getAbusolutPathFromRoot(string &rpath) {
+    while (!rpath.empty()) {
+        if (rpath.at(0) == PATH_SEPARATOR) {
+            rpath.erase(0);
+        } else {
+            break;
+        }
+    }
+    string path = Project::ProjectRoot->getFullPath();
+    path += PATH_SEPARATOR;
+    path += rpath;
+    return path;
 }
