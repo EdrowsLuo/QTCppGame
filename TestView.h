@@ -47,6 +47,7 @@ public:
     ManiaDrawdata *drawdata;*/
 
     QTKeyPipe *keyPipe;
+    AutoKeyPipe *autoPlay;
     ManiaGame *Game;
 
 };

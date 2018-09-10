@@ -19,11 +19,11 @@ using namespace edp;
 
 namespace nso{
 
-    class ManiaPlaytimeData:public JudgeData{
+    class ManiaPlaytimeData:public JudgeData,public IUpdateByTime{
     public:
 
         EdpTimer *getTimer();
-        void update();
+        void update(double time);
 
         double getFrameTime();
         void startJudge();
@@ -165,6 +165,10 @@ namespace nso{
             return &rawObjects;
         }
 
+        vector<double> *getBeatsAvalibe(){
+            return &beatsAvalible;
+        }
+
         GetSet(int ,LineCount)
         GetSet(float,Preempt)
 
@@ -185,6 +189,9 @@ namespace nso{
         //正在判定中的物件
         vector<PlayingHitObject*> objectsUsing;
 
+        vector<double> beatsAvalible;
+
+        list<double> beats;
     };
 
     class ManiaUtil{
@@ -268,7 +275,7 @@ KeyBinding->push_back(key##keyn);
 
     class ManiaGame{
     public:
-        explicit ManiaGame(EdpFile *f, ManiaSetting *setting) : OsuFile(f), SetDirectory(
+        explicit ManiaGame(EdpFile *f, ManiaSetting *setting) : FrameTime(0), OsuFile(f), SetDirectory(
                 new EdpFile(f->getParentPath())), Setting(setting) {
 
         }
@@ -288,6 +295,7 @@ KeyBinding->push_back(key##keyn);
         //结束游戏
         virtual void stopGame();
 
+        virtual bool updateTime();
         //循环更新
         virtual void update();
 
@@ -303,6 +311,9 @@ KeyBinding->push_back(key##keyn);
         Getter(EdpBassChannel *,SongChannel)
         Getter(ManiaDrawdata *,Drawdata)
         Getter(ManiaPlaytimeData *,PlayingData)
+        Getter(Beatmap *,OsuBeatmap)
+        Getter(ManiaSetting *,Setting)
+        Getter(double,FrameTime)
 
     protected:
         EdpFile *OsuFile;
@@ -313,6 +324,8 @@ KeyBinding->push_back(key##keyn);
         EdpBassChannel *SongChannel;
         KeyFrame *GameKeyFrame;
 
+        double FrameTime;
+
         ManiaPlaytimeData *PlayingData;
 
         vector<ManiaObject*> *Objects;
@@ -322,6 +335,161 @@ KeyBinding->push_back(key##keyn);
         GameJudgement<ManiaPlaytimeData> *Judgementer;
         ManiaDrawdata *Drawdata;
 
+    };
+
+    class AutoKeyPipe:public QueryKeyInput,public IUpdateByTime{
+    public:
+
+        double minHoldTime;
+
+        AutoKeyPipe() : time(0), minHoldTime(125) {
+
+        }
+
+       /* virtual void start() {
+            output = true;
+            if (outputNext()) {
+                DebugI("start")
+            }
+        }
+
+        virtual void end() {
+            output = false;
+            if (outputNext()) {
+                DebugI("end")
+            }
+        }
+
+        bool getKeyEvevnt(KeyEvent &event) {
+            if (outputNext()) {
+                event = events.back();
+                events.erase(events.end() - 1);
+                Debug("read one input event");
+                DebugI("key: " << event.key << " time: " << event.rawtime << " type: " << event.type << " st: " << time)
+                return true;
+            } else {
+                return false;
+            }
+        }*/
+
+        void load(Beatmap *beatmap, ManiaSetting *setting) {
+            int key = beatmap->getKeys();
+            vector<vector<HitObject *> *> listByX;
+            vector<int> &keybinding = *((*setting->getKeyBinding())[key - 1]);
+            ForI(i,0,key){
+                listByX.push_back(new vector<HitObject *>());
+            }
+            ForEachLong(beatmap->hitobjects, itr, vector<HitObject *>::iterator) {
+                HitObject *object = *itr;
+                listByX[ManiaUtil::positionToLine(object->x, key)]->push_back(object);
+            }
+
+            ForI(i,0,key){
+                vector<HitObject *> &divs = *(listByX[i]);
+                ForEachLong(divs, itr, vector<HitObject *>::iterator) {
+                    HitObject *object = *itr;
+                    if ((object->type & HitObject::TYPE_MASK) == HitObject::TYPE_MANIA_HOLD) {
+                        int keynum = keybinding[i];
+                        events.push_back(KeyEvent{
+                                KeyState::Down,
+                                keynum,
+                                "a",
+                                (double)object->time
+                        });
+                        events.push_back(KeyEvent{
+                                KeyState::Up,
+                                keynum,
+                                "a",
+                                (double)(((ManiaHold &) *object).endTime)
+                        });
+                    } else {
+                        int keynum = keybinding[i];
+
+                        int nextObjectTime;
+                        vector<HitObject *>::iterator next = itr + 1;
+                        if (next != divs.end()) {
+                            nextObjectTime = (*next)->time;
+                        } else {
+                            nextObjectTime = 1000000000;
+                        }
+
+                        int offset;
+                        if (nextObjectTime - object->time > 180) {
+                            offset = 90;
+                        } else {
+                            offset = (nextObjectTime - object->time) / 2;
+                            if (offset < 30) {
+                                offset = 30;
+                            }
+                        }
+
+                        events.push_back(KeyEvent{
+                                KeyState::Down,
+                                keynum,
+                                "a",
+                                (double)object->time
+                        });
+                        events.push_back(KeyEvent{
+                                KeyState::Up,
+                                keynum,
+                                "a",
+                                (double)(object->time + offset)
+                        });
+                    }
+                }
+            }
+
+            /*ForEachLong(beatmap->hitobjects, itr, vector<HitObject *>::iterator) {
+                HitObject *object = *itr;
+                if ((object->type & HitObject::TYPE_MASK) == HitObject::TYPE_MANIA_HOLD) {
+                    int keynum = keybinding[ManiaUtil::positionToLine(object->x, key)];
+                    events.push_back(KeyEvent{
+                            KeyState::Down,
+                            keynum,
+                            "a",
+                            (double)object->time
+                    });
+                    events.push_back(KeyEvent{
+                            KeyState::Up,
+                            keynum,
+                            "a",
+                            (double)(((ManiaHold &) *object).endTime)
+                    });
+                } else {
+                    int keynum = keybinding[ManiaUtil::positionToLine(object->x, key)];
+                    events.push_back(KeyEvent{
+                            KeyState::Down,
+                            keynum,
+                            "a",
+                            (double)object->time
+                    });
+                    events.push_back(KeyEvent{
+                            KeyState::Up,
+                            keynum,
+                            "a",
+                            (double)object->time + minHoldTime
+                    });
+                }
+            }*/
+            sortByTime();
+            /*DebugI(keybinding[2])
+            DebugI(keybinding[3])
+            ForEachLong(events,i,vector<KeyEvent>::iterator) {
+                KeyEvent &event = *i;
+                DebugI("key: " << event.key << " time: " << event.rawtime << " type: " << event.type);
+            }*/
+        }
+
+        virtual bool outputNext() {
+            return events.size() > 0 && (--events.end())->rawtime < time;
+        }
+
+        void update(double t) {
+            time = t;
+        }
+
+    private:
+        double time;
     };
 
     class ManiaRuleset {

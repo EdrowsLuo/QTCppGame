@@ -236,7 +236,7 @@ void nso::ManiaHoldObject::addPlayingObjects(vector<nso::JudgeableObject<nso::Ma
     ManiaHoldStartJudgeObject *holdJudgeStartObject = new ManiaHoldStartJudgeObject(hold, RawBeatmap);
     judge->push_back(holdJudgeStartObject);
     vector<ManiaHoldTickJudgeObject*> *ticks = new vector<ManiaHoldTickJudgeObject*>;
-    double beatlenth = 333.3333333;
+    double beatlenth = RawBeatmap->controlPoints.getTimingControlPointAt(hold->getTime()).BeatLength;
     double offset = beatlenth;
     while (hold->getEndTime() > offset + hold->getTime()) {
         ManiaHoldTickJudgeObject *tick = new ManiaHoldTickJudgeObject(hold, offset, RawBeatmap);

@@ -30,9 +30,8 @@ namespace nso{
         return i->depth() < j->depth();
     }
 
-    class JudgeData:public ILinkTimer,public IUpdate{
+    class JudgeData:public ILinkTimer{
     public:
-        Interface(void update())
         Interface(void startJudge())
         Interface(void endJudge())
         Interface(double getFrameTime())

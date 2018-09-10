@@ -9,14 +9,21 @@
 #include <sstream>
 #include <string>
 
+
+
+#define SortBy(data,getarg,rev) bool sortBy##getarg(data i,data j){\
+    bool r = (i).getarg < (j).getarg;\
+    return rev ? r : ~r;\
+}
+
 #define Debug(txt) qDebug(txt)
 
 #define DebugL(txt) qDebug("File:%s, Line:%d, Function:%s \nMsg: %s", __FILE__, __LINE__ , __FUNCTION__,txt);
 
 #define DebugI(txt) {\
-stringstream ss;\
-ss << txt;\
-qDebug(ss.str().c_str());\
+    stringstream ss;\
+    ss << txt;\
+    qDebug(ss.str().c_str());\
 }
 
 #define DebugS qDebug()
@@ -42,19 +49,19 @@ void set##name(type *value){ name = value; }
 #define BoolGetSet(name) bool is##name(){ return name; }\
 void set##name(const bool &value){ name = value; }
 
-#define ForI(v,start,end) int xxv = (end);for(int v = (start); v < xxv; v++)
+#define ForI(v,start,end) for(int v = (start); v < (end); v++)
 
 #define ForEach(obj,itr,func,...) for (__VA_ARGS__ itr = (obj).begin(); itr != (obj).end(); itr++) {func;}
 
 #define ForEachLong(obj,itr,...) for (__VA_ARGS__ itr = (obj).begin(); itr != (obj).end(); itr++)
 
 #define RCase(data,func) case data:{\
- func;\
+    func;\
 }break
 
 #define DCase(data,func) case data:\
 default:{\
- func;\
+    func;\
 }break
 
 #define Interface(txt) virtual txt = 0;

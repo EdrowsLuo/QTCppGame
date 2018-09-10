@@ -52,9 +52,9 @@ TestView::TestView(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers), p
 
     EdpFile *osuFile = new EdpFile(
             //"D:\\My\\osu!droid\\Songs\\375548 Hashimoto Yukari - Hakanaki Yume\\Hashimoto Yukari - Hakanaki Yume (Bearizm) [Timing].osu"
-            "D:\\Qt\\code\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [4K Lv.4].osu"
+            //"D:\\Qt\\code\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [4K Lv.4].osu"
             //"D:\\Qt\\code\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
-            //"D:\\Qt\\code\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Starry's 4K Lv.15].osu"
+            "D:\\Qt\\code\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Starry's 4K Lv.15].osu"
             );
     Game = new ManiaGame(osuFile,new ManiaSetting());
     DebugL("")
@@ -65,7 +65,10 @@ TestView::TestView(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers), p
     keyPipe->setTimer(Game->getSongChannel());
     DebugL("")
 
-    Game->linkKeyInput(keyPipe);
+    autoPlay = new AutoKeyPipe();
+    autoPlay->load(Game->getOsuBeatmap(), Game->getSetting());
+
+    Game->linkKeyInput(autoPlay);
 
     oHolder = new MKeyHolder();
     Game->getPlayingData()->getMKeyFrame()->registerHolder(Qt::Key_Z, oHolder);
@@ -81,7 +84,11 @@ void TestView::animate() {
 }
 
 void TestView::paintEvent(QPaintEvent *event) {
-    Game->update();
+    if (Game->updateTime()) {
+        autoPlay->update(Game->getFrameTime());
+        Game->update();
+    }
+
 
     QPainter painter;
     painter.begin(this);
@@ -139,6 +146,14 @@ void TestView::paintEvent(QPaintEvent *event) {
     linearGradient2.setSpread(QGradient::PadSpread);
 
     painter.setBrush(linearGradient2);
+
+    linearGradient2.setColorAt(0, QColor(83, 158, 215, 0));
+    linearGradient2.setColorAt(1, QColor(83, 158, 215, 255));
+    painter.setBrush(linearGradient2);
+    ForEachLong(*Game->getDrawdata()->getBeatsAvalibe(),itr,vector<double>::iterator) {
+        int p = static_cast<int>(fieldHeight * (1 - *itr));
+        painter.drawLine(offset,p,offset+width*4,p);
+    }
 
     ForEachLong(datas,it,vector<ManiaDrawdataNode>::iterator) {
         if (it->line == 1 || it->line == 2) {

@@ -90,3 +90,7 @@ float EdpBassChannel::getVolume() {
 bool EdpBassChannel::setVolume(float vol) {
     return BASS_ChannelSetAttribute(handle, BASS_ATTRIB_VOL, vol);
 }
+
+double EdpBassChannel::length() {
+    return 1000 * BASS_ChannelBytes2Seconds(handle, BASS_ChannelGetLength(handle, BASS_POS_BYTE));
+}

@@ -32,6 +32,7 @@ namespace edp{
         double playingTime();
         float getVolume();
         bool setVolume(float vol);
+        double length();
 
 
         double getTime();

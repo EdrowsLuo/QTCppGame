@@ -11,6 +11,7 @@
 #include "BaseDecoder.h"
 #include "nsoclass.h"
 #include "defext.h"
+#include "algorithm"
 
 using namespace std;
 
@@ -99,9 +100,50 @@ namespace nso{
         }
     };
 
+
+    struct TimingControlPoint{
+    public:
+        int Time;
+        int Meter;
+        double BeatLength;
+
+    };
+
     class TimingPoints{
     public:
         vector<RawTimingPoint> timings;
+    };
+
+    namespace tmpfunc{
+        template <typename _T>
+        bool sortcp(_T t1,_T t2){
+            return t1.Time < t2.Time;
+        }
+    }
+
+    class ControlPoints{
+    public:
+        void load(TimingPoints &datas);
+
+        TimingControlPoint &getTimingControlPointAt(double time);
+
+        void generateBeats(double start, double end);
+
+        void generateBeats(vector<double> &l, double start, double end);
+
+
+        vector<TimingControlPoint> Timings;
+
+        vector<double > Beats;
+
+    private:
+        template<typename _T>
+        static _T &binarySearch(vector<_T> &l, int value, int s, int e);
+
+        template<typename _T>
+        static _T &binarySearch(vector<_T> &l, int value);
+
+
     };
 
     class Colours{
@@ -197,10 +239,20 @@ namespace nso{
         //Events events;
         string backgroundFile;
 
+        ControlPoints controlPoints;
+
         TimingPoints timingPoints;
         Colours colours;
 
         vector<HitObject*> hitobjects;
+
+        void loadMore() {
+            controlPoints.load(timingPoints);
+        }
+
+        int getKeys(){
+            return static_cast<int>(CircleSize + 0.0001);
+        }
     };
 }
 

@@ -11,6 +11,8 @@ TARGET = qt_bb
 TEMPLATE = app
 
 
+
+
 SOURCES += main.cpp\
         mainwindow.cpp\
         BaseDecoder.cpp\

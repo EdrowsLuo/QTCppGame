@@ -18,10 +18,10 @@ EdpTimer* ManiaPlaytimeData::getTimer() {
     return timer;
 }
 
-void ManiaPlaytimeData::update() {
+void ManiaPlaytimeData::update(double time) {
     if (timer->isRunning()) {
-        MKeyFrame->update(); //更新键盘状态
-        frameTime = MKeyFrame->getFrameTime();
+        MKeyFrame->update(time); //更新键盘状态
+        frameTime = time;
     }
 }
 
@@ -37,21 +37,7 @@ void ManiaPlaytimeData::endJudge() {
 
 
 ManiaDrawdata::ManiaDrawdata(nso::Beatmap &beatmap) : Preempt(500), LineCount((int) (beatmap.CircleSize + 0.01)) {
-    /*ForEachLong(beatmap.hitobjects, it, vector<HitObject *>::iterator) {
-        HitObject *object = *it;
-        if ((object->type & HitObject::TYPE_MASK) == HitObject::TYPE_MANIA_HOLD) {
-            rawObjects.push_back(new PlayingHold((ManiaHold &) *object));
-            //stringstream ss;
-            Debug("add hold at");
-            DebugI(object->time)
-            //ss << " raw start: " << ((ManiaHold &) *object).time << "  end: " << ((ManiaHold &) *object).endTime;
-            //Debug(it->toString().c_str());
-        } else {
-            rawObjects.push_back(new PlayingNote((HitCircle &) *object));
-            Debug("add note at");
-            DebugI(object->time)
-        }
-    }*/
+    beats.insert(beats.begin(), beatmap.controlPoints.Beats.begin(), beatmap.controlPoints.Beats.end());
 }
 
 namespace mania{
@@ -124,6 +110,18 @@ void ManiaDrawdata::update(double time) {
             });
         }
     }
+
+    beatsAvalible.clear();
+    while ((!beats.empty()) && beats.front() < time) {
+        beats.pop_front();
+    }
+    ForEachLong(beats,itr,list<double>::iterator) {
+        if (*itr < time + Preempt) {
+            beatsAvalible.push_back((*itr - time) / Preempt);
+        } else {
+            break;
+        }
+    }
 }
 
 ManiaDrawdata::ManiaDrawdata() {
@@ -148,7 +146,10 @@ void ManiaGame::prepareGame() {
         decoder.parse(*OsuBeatmap);
         EdpFile songFile(*SetDirectory, OsuBeatmap->AudioFilename);
         SongChannel = new EdpBassChannel(songFile);
-        GameKeyFrame = new KeyFrame(SongChannel);
+        GameKeyFrame = new KeyFrame();
+
+        OsuBeatmap->loadMore();
+        OsuBeatmap->controlPoints.generateBeats(-2000, SongChannel->length() + 5000);
 
         PlayingData = new ManiaPlaytimeData();
         PlayingData->setMKeyFrame(GameKeyFrame);
@@ -221,12 +222,25 @@ void ManiaGame::stopGame() {
     SongChannel->stop();
 }
 
+bool ManiaGame::updateTime() {
+    if (SongChannel->isPlaying()) {
+        FrameTime = SongChannel->getTime();
+        return true;
+    } else {
+        return false;
+    }
+}
+
 void ManiaGame::update() {
-    PlayingData->update();
+    if (SongChannel->isPlaying()) {
+        PlayingData->update(FrameTime);
 
-    Judgementer->update();
+        Judgementer->update();
 
-    Drawdata->update(PlayingData->getFrameTime());
+        Drawdata->update(PlayingData->getFrameTime());
+    }
+
+
 }
 
 void ManiaGame::endUpdate() {

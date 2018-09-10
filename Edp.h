@@ -13,6 +13,10 @@ namespace edp{
         Interface(void update())
     };
 
+    class IUpdateByTime{
+        Interface(void update(double time))
+    };
+
     class ILinkTimer{
         Interface(EdpTimer *getTimer())
     };

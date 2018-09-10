@@ -10,6 +10,7 @@
 #include <QtGui/QKeyEvent>
 #include "EdpTimer.h"
 #include "defext.h"
+#include <algorithm>
 
 using namespace std;
 
@@ -24,6 +25,8 @@ namespace edp{
      * 键盘输入
      */
     class KeyInput;
+
+    class QueryKeyInput;
 
     class KeyPipe;
 
@@ -73,6 +76,10 @@ namespace edp{
         int key;
         string text;
         double rawtime;
+
+        bool operator<(const KeyEvent &other) const {
+            return rawtime > other.rawtime;
+        }
     };
 
     class KeyInput{
@@ -82,20 +89,41 @@ namespace edp{
         Interface(void end())
     };
 
-    class KeyOutput{
+    class QueryKeyInput:public KeyInput {
     public:
-        Interface(bool keyDown(int key, const string &txt))
-        Interface(bool keyUp(int key, const string &txt))
-    };
 
-    class KeyPipe : public KeyInput,public KeyOutput {
-    public:
-        void start() {
+        /*virtual void start() {
+            output = true;
+            if (outputNext()) {
+                DebugI("start")
+            }
+        }
+
+        virtual void end() {
+            output = false;
+            if (outputNext()) {
+                DebugI("end")
+            }
+        }
+
+        bool getKeyEvevnt(KeyEvent &event) {
+            if (outputNext()) {
+                event = events.back();
+                events.erase(events.end() - 1);
+                Debug("read one input event");
+                DebugI("key: " << event.key << " time: " << event.rawtime << " type: " << event.type)
+                return true;
+            } else {
+                return false;
+            }
+        }*/
+
+        virtual void start() {
             output = true;
         }
 
         bool getKeyEvevnt(KeyEvent &event) {
-            if (events.size() > 0) {
+            if (outputNext()) {
                 event = events.back();
                 events.erase(events.end() - 1);
                 return true;
@@ -104,10 +132,37 @@ namespace edp{
             }
         }
 
-        void end() {
+        virtual void end() {
             output = false;
         }
 
+        virtual bool outputNext() {
+            return events.size() > 0;
+        }
+
+
+
+        void sortByTime() {
+            sort(events.begin(), events.end());
+        }
+
+        vector<KeyEvent> &Events(){
+            return events;
+        }
+
+    protected:
+        vector<KeyEvent> events;
+        bool output;
+    };
+
+    class KeyOutput{
+    public:
+        Interface(bool keyDown(int key, const string &txt))
+        Interface(bool keyUp(int key, const string &txt))
+    };
+
+    class KeyPipe : public QueryKeyInput,public KeyOutput {
+    public:
         bool keyDown(int key, const string &txt){
             if (!Timer->isRunning()) {
                 return false;
@@ -146,8 +201,6 @@ namespace edp{
         GetSetO(EdpTimer,Timer)
 
     private:
-        vector<KeyEvent> events;
-        bool output;
         EdpTimer *Timer;
     };
 
@@ -213,16 +266,16 @@ namespace edp{
 
     class KeyFrame{
     public:
-        KeyFrame(KeyInput *in, EdpTimer *t) : input(in), timer(t) {
+        KeyFrame(KeyInput *in) : input(in) {
 
         }
 
-        explicit KeyFrame(EdpTimer *t) : timer(t) {
+        explicit KeyFrame() {
 
         }
 
-        void update() {
-            FrameTime = timer->getTime();
+        void update(double time) {
+            FrameTime = time;
             if (input) {
                 ForEach(holders,it,it->second->setTime(FrameTime),map<int,KeyHolder*>::iterator)
                 KeyEvent event;
@@ -257,7 +310,6 @@ namespace edp{
     protected:
         map<int,KeyHolder*> holders;
         KeyInput *input;
-        EdpTimer *timer;
 
         double FrameTime;
     };

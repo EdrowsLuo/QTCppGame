@@ -18,6 +18,8 @@ namespace nso{
     class ManiaScore;
     struct ManiaDrawdataNode;
 
+    class AutoKeyPipe;
+
     struct ManiaHitResult;
 
     class ManiaObject;
