@@ -16,7 +16,7 @@ EdpFile * Project::ProjectRoot = new EdpFile(getcwd(new char[300], 300));
 
 void Project::initialEdp() {
     EdpBass::initial();
-    CJsonObject object;
+    /*CJsonObject object;
     object.AddEmptySubArray("data");
 
     EdpFile songs(*ProjectRoot, "songs");
@@ -83,7 +83,7 @@ void Project::initialEdp() {
 
 
     EdpFile out(*ProjectRoot, "songs\\songs.json");
-    /*string str;
+    *//*string str;
     IOUtil::readFull(out, str);
     CJsonObject object(str);
     //DebugI(object["data"].IsArray())
@@ -93,7 +93,7 @@ void Project::initialEdp() {
     set["data"].Get(0, settt);
 
     string xxx;
-    set.Get("file", xxx);*/
+    set.Get("file", xxx);*//*
 
 
 
@@ -101,6 +101,6 @@ void Project::initialEdp() {
     if (!out.exist()) {
         out.createNewFileWithDir();
     }
-    IOUtil::writeFull(out, object.ToFormattedString());
+    IOUtil::writeFull(out, object.ToFormattedString());*/
 }
 
