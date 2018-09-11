@@ -16,7 +16,7 @@ DifficultyScrollArea::DifficultyScrollArea(const Songs &s,QWidget *parent ) :
  //   QMessageBox::about(NULL,"s", QString::number( this->viewport()->width()));
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setBackgroundRole(QPalette::Dark);
-    this->setFrameShape(QFrame::NoFrame);
+ //   this->setFrameShape(QFrame::NoFrame);
 
   //  myAnim = new QGraphicsOpacityEffect(this);
   //  myAnim->setOpacity(0.1);
