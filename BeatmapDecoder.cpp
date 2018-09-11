@@ -55,6 +55,7 @@ void BeatmapDecoder::load() {
 
     registerParser("TimingPoints", new TimingPointsParser());
     registerParser("HitObjects", new HitObjectParser());
+    registerParser("Events", new BackgroundParser());
 }
 
 bool BeatmapDecoder::onBegin(Beatmap &beatmap) {
@@ -147,4 +148,16 @@ void HitObjectParser::parseLine(const string &line, nso::Beatmap &beatmap) {
         throw DecodeException("hitobject format err", beatmap.decoder);
     }
 
+}
+
+void BackgroundParser::parseLine(const string &line, Beatmap &beatmap) {
+    string copy = line;
+    StringUtil::trim(copy);
+    if (copy.find("0,0,\"") != string::npos) {
+        copy = copy.substr(5, copy.size());
+        string bg;
+        StringUtil::splitTo(copy, '\"', bg);
+        StringUtil::trim(bg);
+        beatmap.BackgroundFile = bg;
+    }
 }

@@ -15,6 +15,10 @@ public:
         ftime(&t);
         return  ((long long) t.time) * 1000 + t.millitm;
     }
+
+    static int clamp(int min, int data, int max) {
+        return (data < min ? min : (data < max ? data : max));
+    }
 };
 
 #endif //QT_BB_UTIL_H
