@@ -49,6 +49,7 @@ void EdpFile::initial() {
             } else {
                 mtype = Type::File;
             }
+            _findclose(handle);
         } else {
             //获取失败？？
             throw ioexception("get file attrib failed!");
@@ -79,6 +80,7 @@ void EdpFile::listFiles(vector<edp::EdpFile> &files) {
             if (strcmp(fileinfo.name, "..") != 0 && strcmp(fileinfo.name, ".") != 0)
                 files.push_back(*new EdpFile(*this, fileinfo.name));
         } while (_findnext(handle, &fileinfo) == 0);
+        _findclose(handle);
     } else {
         //获取失败？？
         throw ioexception("get file attrib failed!");
@@ -97,6 +99,7 @@ void EdpFile::list(vector<string> &files) {
             if (strcmp(fileinfo.name, "..") != 0 && strcmp(fileinfo.name, ".") != 0)
                 files.push_back(fileinfo.name); // NOLINT
         } while (_findnext(handle, &fileinfo) == 0);
+        _findclose(handle);
     } else {
         //获取失败？？
         throw ioexception("get file attrib failed!");
@@ -137,6 +140,7 @@ bool EdpFile::createNewFile() {
             return false;
         } else {
             fs.close();
+            initial();
             return true;
         }
     }

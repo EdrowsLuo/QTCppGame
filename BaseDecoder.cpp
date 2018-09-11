@@ -6,20 +6,28 @@
 #include "StringUtil.h"
 #include "string"
 #include "defext.h"
+#include <iostream>
+#include "IOUtil.h"
 
 using namespace nso;
 using namespace edp;
 
-BaseDecoder::BaseDecoder(EdpFile &file) : parserMap(), parseProperty(), reader(file) {
-
+BaseDecoder::BaseDecoder(EdpFile &file) : parserMap(), parseProperty() {
+    string data;
+    IOUtil::readFull(file, data);
+    input << data;
 }
 
-BaseDecoder::BaseDecoder(const string &path) : parserMap(), parseProperty(), reader(path) {
-
+BaseDecoder::BaseDecoder(const string &path) : parserMap(), parseProperty() {
+    string data;
+    EdpFile f(path);
+    IOUtil::readFull(f, data);
+    input << data;
 }
 
 BaseDecoder::~BaseDecoder() {
-    delete &reader;
+    //reader.close();
+    //delete &reader;
     delete &parserMap;
     delete &parseProperty;
 }
@@ -29,12 +37,17 @@ void BaseDecoder::registerParser(const string &key, nso::PartParser *parser) {
 }
 
 bool BaseDecoder::toNextLine() {
-    if (reader.readLine(currentLine)){
-        //qDebug() << currentLine.c_str() << currentLine.size();
-        parsingLine++;
-        return true;
-    } else {
-        return false;
+    try {
+        string line;
+        if (getline(input,line)){
+            currentLine = line;
+            parsingLine++;
+            return true;
+        } else {
+            return false;
+        }
+    } catch (ioexception& e) {
+        throw DecodeException("ioexception", NULL);
     }
 }
 
@@ -51,9 +64,11 @@ void BaseDecoder::parse(Beatmap &beatmap) {
     beatmap.decoder = this;
     load();
     if (onBegin(beatmap)) {
+        //DebugL("")
         string tag;
         PartParser *parser = NULL;
         while (toNextLine()) {
+            //DebugI(currentLine)
             if (parseTag(currentLine, tag)) {
                 //切换tag
                 if (parser) {
@@ -80,6 +95,10 @@ void BaseDecoder::parse(Beatmap &beatmap) {
     } else {
         throw DecodeException(beatmap.latestErr, this);
     }
+}
+
+void BaseDecoder::close() {
+    //reader.close();
 }
 
 
@@ -144,8 +163,10 @@ BaseParser* BaseParser::putKey2String(const string &key, string Beatmap::* targe
 
 DecodeException::DecodeException(const string &msg,BaseDecoder *decoder) {
     rmsg = msg;
-    content = decoder->currentLine;
-    line = decoder->parsingLine;
+    if (decoder != NULL) {
+        content = decoder->currentLine;
+        line = decoder->parsingLine;
+    }
 }
 
 DecodeException::~DecodeException() throw(){

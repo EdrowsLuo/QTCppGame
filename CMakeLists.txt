@@ -71,7 +71,7 @@ add_executable(qt_bb
         BeatmapSetData.cpp
         BeatmapSetData.h
         cJSON.h
-        cJSON.c
+        cJSON.cpp
         CJsonObject.cpp
         CJsonObject.hpp)
 target_link_libraries(qt_bb ${QT_LIBRARIES} )

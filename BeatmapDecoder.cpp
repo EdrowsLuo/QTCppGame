@@ -65,7 +65,6 @@ bool BeatmapDecoder::onBegin(Beatmap &beatmap) {
         if (currentLine.find("osu file format v") != string::npos) {
             string format = currentLine.substr(17, currentLine.size());
             StringUtil::trim(format);
-            qDebug() << "get format : " << format.c_str();
             StringUtil::str2int(format, beatmap.format);
             return true;
         }
@@ -97,7 +96,7 @@ void TimingPointsParser::parseLine(const string &line, nso::Beatmap &beatmap) {
     unit(int2bool,inherited)
     unit(int2bool,kiai)
     beatmap.timingPoints.timings.push_back(point);
-    qDebug() << "parse timing at " << point.toString().c_str();
+    //qDebug() << "parse timing at " << point.toString().c_str();
 }
 
 #define hunit(idx,prop) StringUtil::str2int(spl[idx], hitobj->prop)
