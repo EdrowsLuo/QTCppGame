@@ -65,7 +65,10 @@ TestView::TestView(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers), p
     autoPlay = new AutoKeyPipe();
     autoPlay->load(Game->getOsuBeatmap(), Game->getSetting());
 
-    Game->linkKeyInput(autoPlay);
+    Game->linkKeyInput(
+            autoPlay
+            //keyPipe
+            );
 
     oHolder = new MKeyHolder();
     Game->getPlayingData()->getMKeyFrame()->registerHolder(Qt::Key_Z, oHolder);

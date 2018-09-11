@@ -211,7 +211,8 @@ void ManiaGame::linkKeyInput(KeyInput *in) {
 }
 
 void ManiaGame::runGame() {
-    SongChannel->play();
+    //SongChannel->play();
+    SongChannel->postStart(3000);
 }
 
 void ManiaGame::pauseGame() {
@@ -223,6 +224,7 @@ void ManiaGame::stopGame() {
 }
 
 bool ManiaGame::updateTime() {
+    SongChannel->update();
     if (SongChannel->isPlaying()) {
         FrameTime = SongChannel->getTime();
         return true;

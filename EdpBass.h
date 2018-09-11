@@ -34,6 +34,11 @@ namespace edp{
         bool setVolume(float vol);
         double length();
 
+        void postStart(int ms);
+        void update();
+        void setOffset(int ms) {
+            offset = ms;
+        }
 
         double getTime();
         bool isRunning();
@@ -43,6 +48,11 @@ namespace edp{
 
         long long recodeTime;
         long long startTime;
+
+        int offset;
+        bool isPrePlaying;
+        long long postTime;
+        int postLength;
 
         bool playing;
     };
