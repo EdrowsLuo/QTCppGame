@@ -548,7 +548,9 @@ KeyBinding->push_back(key##keyn);
      */
     class GameHolder{
     public:
-        GameHolder() : Mods(0) {
+        GameHolder() :
+                Mods(0),
+                BaseVolume(50){
 
         }
 
@@ -568,12 +570,59 @@ KeyBinding->push_back(key##keyn);
 
         }
 
-        void loadGame(const string &path) {
-
+        void loadGame(EdpFile *osuFile) {
+            Game = new ManiaGame(osuFile,new ManiaSetting());
+            Game->prepareGame();
+            //Game->getSongChannel()->setVolume(BaseVolume);
+            if (modIsEnable(Mania::MOD_AUTO)) {
+                AutoPlay = new AutoKeyPipe();
+                AutoPlay->load(Game->getOsuBeatmap(), Game->getSetting());
+                Game->linkKeyInput(AutoPlay);
+            } else {
+                KeyPipe = new QTKeyPipe();
+                KeyPipe->setTimer(Game->getSongChannel());
+                Game->linkKeyInput(KeyPipe);
+            }
         }
 
+        void update(){
+            if (Game->updateTime()) {
+                if (modIsEnable(Mania::MOD_AUTO)) {
+                    AutoPlay->update(Game->getFrameTime());
+                }
+                Game->update();
+            }
+        }
+
+        virtual void mkeyPressEvent(QKeyEvent *event) {
+            if (event->isAutoRepeat()) {
+                return;
+            }
+
+            if (KeyPipe != NULL) {
+                KeyPipe->keyPressEvent(event);
+            }
+        }
+
+        virtual void mkeyReleaseEvent(QKeyEvent *event) {
+            if (event->isAutoRepeat()) {
+                return;
+            }
+            if (KeyPipe != NULL) {
+                KeyPipe->keyReleaseEvent(event);
+            }
+        }
+
+        Getter(ManiaGame *,Game)
+
     private:
-        ManiaGame *HoldingGame;
+        EdpBassChannel *Channel;
+        float BaseVolume;
+
+        QTKeyPipe *KeyPipe;
+        AutoKeyPipe *AutoPlay;
+
+        ManiaGame *Game;
 
         int Mods;
     };

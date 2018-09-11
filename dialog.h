@@ -30,6 +30,7 @@ private:
     TestView *view;
 
 private slots:
+    void on_pushButton_5_clicked();
     void on_pushButton_4_clicked();
     void on_progressBar_valueChanged(int value);
     void on_horizontalSlider_valueChanged(int value);

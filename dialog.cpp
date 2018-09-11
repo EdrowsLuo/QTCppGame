@@ -24,6 +24,7 @@ Dialog::Dialog(QWidget *parent) :
     layout->addWidget(ui->pushButton, 1, 0);
     layout->addWidget(ui->pushButton_2, 2, 0);
     layout->addWidget(ui->horizontalSlider, 3, 0);
+    layout->addWidget(ui->pushButton_5, 4, 0);
     setLayout(layout);
 
     //QMetaObject::connectSlotsByName(this);
@@ -47,10 +48,10 @@ Dialog::~Dialog()
 
 void Dialog::on_pushButton_clicked()
 {
-    if (view->Game->running()){
-        view->Game->pauseGame();
+    if (view->mGameHolder->getGame()->running()){
+        view->mGameHolder->getGame()->pauseGame();
     } else {
-        view->Game->runGame();
+        view->mGameHolder->getGame()->runGame();
     }
     Debug("clicked");
     //view->Game->pauseGame();
@@ -59,8 +60,8 @@ void Dialog::on_pushButton_clicked()
 
 void Dialog::on_pushButton_2_clicked()
 {
-    view->Game->reset();
-    view->Game->runGame();
+    view->mGameHolder->getGame()->reset();
+    view->mGameHolder->getGame()->runGame();
 }
 
 void Dialog::animate() {
@@ -69,7 +70,7 @@ void Dialog::animate() {
 
 void Dialog::on_horizontalSlider_valueChanged(int value)
 {
-    view->Game->getSongChannel()->setVolume(value / 100.0f);
+    view->mGameHolder->getGame()->getSongChannel()->setVolume(value / 100.0f);
 }
 
 void Dialog::on_progressBar_valueChanged(int value)
@@ -89,4 +90,14 @@ void Dialog::keyPressEvent(QKeyEvent *event) {
 
 void Dialog::keyReleaseEvent(QKeyEvent *event) {
     view->mkeyReleaseEvent(event);
+}
+void Dialog::on_pushButton_5_clicked()
+{
+    EdpFile *osuFile = new EdpFile(
+            //"D:\\My\\osu!droid\\Songs\\375548 Hashimoto Yukari - Hakanaki Yume\\Hashimoto Yukari - Hakanaki Yume (Bearizm) [Timing].osu"
+            //"D:\\Qt\\code\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [4K Lv.4].osu"
+            //"D:\\Qt\\code\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
+            "D:\\Qt\\code\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Starry's 4K Lv.15].osu"
+    );
+    view->mGameHolder->loadGame(osuFile);
 }

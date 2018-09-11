@@ -23,6 +23,15 @@ EdpBassChannel::EdpBassChannel(EdpFile &file) :
     handle = BASS_StreamCreateFile(FALSE, file.getFullPath().c_str(), 0, 0, 0);
 }
 
+void EdpBassChannel::reset() {
+    pause();
+    seekTo(0);
+    playing = false;
+    recodeTime = -1L;
+    startTime = -1L;
+    isPrePlaying = false;
+}
+
 bool EdpBassChannel::play() {
     if (!playing) {
         playing = true;
