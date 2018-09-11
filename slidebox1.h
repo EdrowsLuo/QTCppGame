@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QPropertyAnimation>
 #include "slideanim.h"
+#include "cJSON.h"
 
 namespace Ui {
     class SlideBox1;
@@ -20,18 +21,22 @@ public:
 
     QGraphicsOpacityEffect *upPageE,*downPageE,*sb;
 
-    explicit SlideBox1(QWidget *parent = 0);
+    explicit SlideBox1( int  , QString * ,QWidget *parent = 0);
     ~SlideBox1();
 
     QPushButton *ptf[7];
     QPropertyAnimation *slide1,*slide2,*slide3,*slide4,*slide5,*slide6,*slide7;
 
     int cT;
+    int id;
+    int numberOfSongs;
 
     int heightOfFakeButton[7] , HOUB,HODB,HOCB;
     int widthOfFakeButton[7], WOUB,WODB,WOCB;
     int xOfFakeButton[7],XOUB,XODB,XOCB;
     int yOfFakeButton[7],YOUB,YODB,YOCB;
+
+    QString *songName;
 
 
 public slots:

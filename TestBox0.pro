@@ -21,7 +21,10 @@ SOURCES += main.cpp\
     EdpFileReader.cpp \
     EdpFile.cpp \
     EdpBass.cpp \
-    Edp.cpp
+    Edp.cpp \
+    CJsonObject.cpp \
+    cJSON.cpp \
+    IOUtil.cpp
 
 HEADERS  += mainwindow.h \
     slidebox1.h \
@@ -36,7 +39,10 @@ HEADERS  += mainwindow.h \
     EdpFileReader.h \
     EdpFile.h \
     EdpBass.h \
-    Edp.h
+    Edp.h \
+    CJsonObject.hpp \
+    cJSON.h \
+    IOUtil.h
 
 FORMS    += mainwindow.ui \
     slidebox1.ui \
