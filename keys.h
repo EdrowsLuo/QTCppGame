@@ -6,10 +6,11 @@
 class Keys : public MyDraw
 {
 public:
-    Keys();
+    Keys(int);
     void draw(QPaintEvent *event,QPainter *painter);
     GetSet(bool,Keyjudge)
     GetSet(int,num)
+    //GetSet(int,judge)
 private:
     int judge,num;
     bool Keyjudge;

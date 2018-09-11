@@ -25,12 +25,19 @@ public:
     void paintEvent(QPaintEvent *event);
 public slots:
     void animate();
+protected:
+    virtual void keyPressEvent(QKeyEvent *event);
+    virtual void keyReleaseEvent(QKeyEvent *event);
 
 private:
     Ui::Widget *ui;
     int Score[7];
     ManiaGame *Game;
-    QTKeyPipe *keyPipe;
+    QTKeyPipe *keyPipee;
+    int KeyNum;
+    bool NorH;
+
+
 };
 
 #endif // WIDGET_H
