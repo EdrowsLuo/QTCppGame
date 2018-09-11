@@ -21,7 +21,7 @@ public:
     MyQSplitter *my_splitter;
     int h;
    // QPropertyAnimation *appear,*disappear;
-    QGraphicsOpacityEffect  * myAnim;
+//    QGraphicsOpacityEffect  * myAnim;
 
 private:
     Ui::DifficultyScrollArea *ui;

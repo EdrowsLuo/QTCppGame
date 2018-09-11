@@ -16,15 +16,30 @@ SOURCES += main.cpp\
     slideanim.cpp \
     difficultyscrollarea.cpp \
     myqsplitter.cpp \
-    songs.cpp
+    songs.cpp \
+    EdpFileWriter.cpp \
+    EdpFileReader.cpp \
+    EdpFile.cpp \
+    EdpBass.cpp \
+    Edp.cpp
 
 HEADERS  += mainwindow.h \
     slidebox1.h \
     slideanim.h \
     difficultyscrollarea.h \
     myqsplitter.h \
-    songs.h
+    songs.h \
+    defext.h \
+    types.h \
+    EdpTimer.h \
+    EdpFileWriter.h \
+    EdpFileReader.h \
+    EdpFile.h \
+    EdpBass.h \
+    Edp.h
 
 FORMS    += mainwindow.ui \
     slidebox1.ui \
     difficultyscrollarea.ui
+
+LIBS += -L F:\qt\QTCppGame -l bass
