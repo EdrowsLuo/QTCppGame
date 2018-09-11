@@ -75,6 +75,10 @@ std::string strl(string r, _Type t){std::stringstream ss;ss << r << t;return ss.
 
 #define Clamp(min,value,max) (((min) < (value))?(((max) < (value))? (max):(value)):(min))
 
+#define MakeString(arg,...) stringstream ss##arg;\
+ss << __VA_ARGS__;\
+string arg = ss.str();
+
 
 
 #endif //QT_BB_DEFEXT_H

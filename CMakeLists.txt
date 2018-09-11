@@ -63,7 +63,17 @@ add_executable(qt_bb
         maniaclass.h
         ManiaObjects.cpp
         ManiaObjects.h
-        BeatmapBase.h Util.h Edp.cpp)
+        BeatmapBase.h
+        Util.h
+        Edp.cpp
+        BeatmapSetLoader.cpp
+        BeatmapSetLoader.h
+        BeatmapSetData.cpp
+        BeatmapSetData.h
+        cJSON.h
+        cJSON.c
+        CJsonObject.cpp
+        CJsonObject.hpp)
 target_link_libraries(qt_bb ${QT_LIBRARIES} )
 
 target_link_libraries(qt_bb bass)
