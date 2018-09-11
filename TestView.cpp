@@ -46,7 +46,7 @@ MKeyHolder *oHolder;
 int oOffset;
 
 TestView::TestView(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers), parent) {
-    setFixedSize(600,900);
+    setFixedSize(1200,900);
 
     setAutoFillBackground(false);
 
@@ -261,7 +261,8 @@ void TestView::paintEvent(QPaintEvent *event) {
 
     stringstream ss;
     ss << Game->getPlayingData()->getScore()->RecentScore << " - " ;
-    ss << Game->getPlayingData()->getScore()->Combo;
+    ss << Game->getPlayingData()->getScore()->TotalHit << " - " ;
+    ss << Game->getPlayingData()->getScore()->getScore();
     QFont font;
     font.setFamily("Microsoft YaHei");
     font.setPointSize(50);
