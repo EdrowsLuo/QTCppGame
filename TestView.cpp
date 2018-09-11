@@ -46,7 +46,7 @@ MKeyHolder *oHolder;
 int oOffset;
 
 TestView::TestView(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers), parent) {
-    setFixedSize(1200,900);
+    setFixedSize(1200,800);
 
     setAutoFillBackground(false);
 
@@ -56,7 +56,10 @@ TestView::TestView(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers), p
             "D:\\Qt\\code\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
             //"D:\\Qt\\code\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Starry's 4K Lv.15].osu"
             );
-    Game = new ManiaGame(osuFile,new ManiaSetting());
+    mGameHolder = new GameHolder();
+
+    mGameHolder->loadGame(osuFile);
+    /*Game = new ManiaGame(osuFile,new ManiaSetting());
 
     Game->prepareGame();
     keyPipe = new QTKeyPipe();
@@ -65,10 +68,13 @@ TestView::TestView(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers), p
     autoPlay = new AutoKeyPipe();
     autoPlay->load(Game->getOsuBeatmap(), Game->getSetting());
 
-    Game->linkKeyInput(autoPlay);
+    Game->linkKeyInput(
+            autoPlay
+            //keyPipe
+            );
 
     oHolder = new MKeyHolder();
-    Game->getPlayingData()->getMKeyFrame()->registerHolder(Qt::Key_Z, oHolder);
+    Game->getPlayingData()->getMKeyFrame()->registerHolder(Qt::Key_Z, oHolder);*/
 
     Debug("created");
 }
@@ -81,11 +87,10 @@ void TestView::animate() {
 }
 
 void TestView::paintEvent(QPaintEvent *event) {
-    if (Game->updateTime()) {
-        autoPlay->update(Game->getFrameTime());
-        Game->update();
-    }
-
+    mGameHolder->update();
+    //DebugL("")
+    ManiaGame *Game = mGameHolder->getGame();
+    //DebugL("")
 
     QPainter painter;
     painter.begin(this);
@@ -229,7 +234,7 @@ void TestView::paintEvent(QPaintEvent *event) {
     pen.setColor(QColor(240, 0, 0));
     painter.setPen(pen);
 
-    if (oHolder->parseMainState() == KeyState::Down) {
+    /*if (oHolder->parseMainState() == KeyState::Down) {
         int time = (int) oHolder->getTime();
         time -= 690;
         time %= 400;
@@ -238,10 +243,9 @@ void TestView::paintEvent(QPaintEvent *event) {
         }
         oOffset = time;
         DebugI(oOffset)
-    }
+    }*/
 
-    oHolder->clear();
-
+    //DebugL("")
     painter.drawRect(QRectF(
             offset,
             fieldHeight * (1 - oOffset / 800.0) - noteHeight,
@@ -263,6 +267,9 @@ void TestView::paintEvent(QPaintEvent *event) {
     ss << Game->getPlayingData()->getScore()->RecentScore << " - " ;
     ss << Game->getPlayingData()->getScore()->TotalHit << " - " ;
     ss << Game->getPlayingData()->getScore()->getScore();
+
+
+
     QFont font;
     font.setFamily("Microsoft YaHei");
     font.setPointSize(50);
@@ -273,25 +280,20 @@ void TestView::paintEvent(QPaintEvent *event) {
 
 
     painter.end();
+
+    //DebugL("")
 }
 
 
 
 void TestView::mkeyPressEvent(QKeyEvent *event) {
-    if (event->isAutoRepeat()) {
-        return;
-    }
-
-    keyPipe->keyPressEvent(event);
+    mGameHolder->mkeyPressEvent(event);
 }
 
 void TestView::mkeyReleaseEvent(QKeyEvent *event) {
-    if (event->isAutoRepeat()) {
-        return;
-    }
-    keyPipe->keyReleaseEvent(event);
+    mGameHolder->mkeyReleaseEvent(event);
 }
 
 void TestView::test() {
-    DebugI((int)Game->getSongChannel()->getTime())
+    //DebugI((int)Game->getSongChannel()->getTime())
 }

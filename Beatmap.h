@@ -237,7 +237,7 @@ namespace nso{
         double SliderTickRate;
 
         //Events events;
-        string backgroundFile;
+        string BackgroundFile;
 
         ControlPoints controlPoints;
 

@@ -13,6 +13,8 @@ using namespace edp;
 class IOUtil {
 public:
     static void readFull(EdpFile &file, string &ptr);
+
+    static void writeFull(EdpFile &file, const string &data);
 };
 
 

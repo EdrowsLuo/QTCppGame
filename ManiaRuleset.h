@@ -63,6 +63,8 @@ namespace nso{
         static const double HitWindowMax = 80 , HitWindowMin = 34.5 , HitWindow300k = 20;
 
         static const double HitWindowScale[6] = {2.5, 2.1, 1.8, 1.3, 1, 1};
+
+        static const int MOD_AUTO = 1, MODE_NONE = 0;
     };
 
 
@@ -538,6 +540,94 @@ KeyBinding->push_back(key##keyn);
     private:
         double time;
     };
+
+
+
+    /*
+     * 长期存在，管理ManiaGame生命周期的类
+     */
+    class GameHolder{
+    public:
+        GameHolder() :
+                Mods(0),
+                BaseVolume(50){
+
+        }
+
+        bool modIsEnable(int mod) {
+            return (Mods & mod) == mod;
+        }
+
+        void enableMod(int mod) {
+            Mods |= mod;
+        }
+
+        void disableMod(int mod) {
+            Mods &= ~mod;
+        }
+
+        void loadMusic(const string &path) {
+
+        }
+
+        void loadGame(EdpFile *osuFile) {
+            Game = new ManiaGame(osuFile,new ManiaSetting());
+            Game->prepareGame();
+            //Game->getSongChannel()->setVolume(BaseVolume);
+            if (modIsEnable(Mania::MOD_AUTO)) {
+                AutoPlay = new AutoKeyPipe();
+                AutoPlay->load(Game->getOsuBeatmap(), Game->getSetting());
+                Game->linkKeyInput(AutoPlay);
+            } else {
+                KeyPipe = new QTKeyPipe();
+                KeyPipe->setTimer(Game->getSongChannel());
+                Game->linkKeyInput(KeyPipe);
+            }
+        }
+
+        void update(){
+            if (Game->updateTime()) {
+                if (modIsEnable(Mania::MOD_AUTO)) {
+                    AutoPlay->update(Game->getFrameTime());
+                }
+                Game->update();
+            }
+        }
+
+        virtual void mkeyPressEvent(QKeyEvent *event) {
+            if (event->isAutoRepeat()) {
+                return;
+            }
+
+            if (KeyPipe != NULL) {
+                KeyPipe->keyPressEvent(event);
+            }
+        }
+
+        virtual void mkeyReleaseEvent(QKeyEvent *event) {
+            if (event->isAutoRepeat()) {
+                return;
+            }
+            if (KeyPipe != NULL) {
+                KeyPipe->keyReleaseEvent(event);
+            }
+        }
+
+        Getter(ManiaGame *,Game)
+
+    private:
+        EdpBassChannel *Channel;
+        float BaseVolume;
+
+        QTKeyPipe *KeyPipe;
+        AutoKeyPipe *AutoPlay;
+
+        ManiaGame *Game;
+
+        int Mods;
+    };
+
+
 
     class ManiaRuleset {
 

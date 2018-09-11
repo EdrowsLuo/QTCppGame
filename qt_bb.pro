@@ -29,7 +29,9 @@ SOURCES += main.cpp\
         ManiaRuleset.cpp\
         TestView.cpp\
         ManiaObjects.cpp\
-        Edp.cpp
+        Edp.cpp\
+        cJSON.cpp\
+        CJsonObject.cpp
 
 HEADERS  += mainwindow.h\
         BaseDecoder.h\
@@ -55,7 +57,10 @@ HEADERS  += mainwindow.h\
         maniaclass.h\
         ManiaObjects.h\
         BeatmapBase.h\
-        Util.h
+        Util.h\
+        CJsonObject.hpp\
+        cJSON.h
+
 
 FORMS    += mainwindow.ui \
     dialog.ui

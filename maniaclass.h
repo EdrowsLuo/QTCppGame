@@ -7,6 +7,9 @@
 
 namespace nso{
     class ManiaRuleset;
+
+    class GameHolder;
+
     class ManiaPlaytimeData;
     class ManiaDrawdata;
     class PlayingHitObject;

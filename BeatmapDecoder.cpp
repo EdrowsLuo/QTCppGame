@@ -55,6 +55,7 @@ void BeatmapDecoder::load() {
 
     registerParser("TimingPoints", new TimingPointsParser());
     registerParser("HitObjects", new HitObjectParser());
+    registerParser("Events", new BackgroundParser());
 }
 
 bool BeatmapDecoder::onBegin(Beatmap &beatmap) {
@@ -64,7 +65,6 @@ bool BeatmapDecoder::onBegin(Beatmap &beatmap) {
         if (currentLine.find("osu file format v") != string::npos) {
             string format = currentLine.substr(17, currentLine.size());
             StringUtil::trim(format);
-            qDebug() << "get format : " << format.c_str();
             StringUtil::str2int(format, beatmap.format);
             return true;
         }
@@ -96,7 +96,7 @@ void TimingPointsParser::parseLine(const string &line, nso::Beatmap &beatmap) {
     unit(int2bool,inherited)
     unit(int2bool,kiai)
     beatmap.timingPoints.timings.push_back(point);
-    qDebug() << "parse timing at " << point.toString().c_str();
+    //qDebug() << "parse timing at " << point.toString().c_str();
 }
 
 #define hunit(idx,prop) StringUtil::str2int(spl[idx], hitobj->prop)
@@ -147,4 +147,16 @@ void HitObjectParser::parseLine(const string &line, nso::Beatmap &beatmap) {
         throw DecodeException("hitobject format err", beatmap.decoder);
     }
 
+}
+
+void BackgroundParser::parseLine(const string &line, Beatmap &beatmap) {
+    string copy = line;
+    StringUtil::trim(copy);
+    if (copy.find("0,0,\"") != string::npos) {
+        copy = copy.substr(5, copy.size());
+        string bg;
+        StringUtil::splitTo(copy, '\"', bg);
+        StringUtil::trim(bg);
+        beatmap.BackgroundFile = bg;
+    }
 }

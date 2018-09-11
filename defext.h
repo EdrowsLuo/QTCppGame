@@ -66,7 +66,7 @@ default:{\
 
 #define Interface(txt) virtual txt = 0;
 
-#define ToString virtual std::string toString();
+#define ToStringObject virtual std::string toString();
 
 /*template<typename _Type>
 std::string strl(string r, _Type t){std::stringstream ss;ss << r << t;return ss.str();}*/
@@ -74,6 +74,10 @@ std::string strl(string r, _Type t){std::stringstream ss;ss << r << t;return ss.
 #define MapProp(name) #name << ": " << name
 
 #define Clamp(min,value,max) (((min) < (value))?(((max) < (value))? (max):(value)):(min))
+
+#define MakeString(arg,...) stringstream ss##arg;\
+ss##arg << __VA_ARGS__;\
+string arg = ss##arg.str();
 
 
 

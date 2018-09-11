@@ -211,7 +211,8 @@ void ManiaGame::linkKeyInput(KeyInput *in) {
 }
 
 void ManiaGame::runGame() {
-    SongChannel->play();
+    //SongChannel->play();
+    SongChannel->postStart(2500);
 }
 
 void ManiaGame::pauseGame() {
@@ -223,6 +224,7 @@ void ManiaGame::stopGame() {
 }
 
 bool ManiaGame::updateTime() {
+    SongChannel->update();
     if (SongChannel->isPlaying()) {
         FrameTime = SongChannel->getTime();
         return true;
@@ -250,6 +252,7 @@ void ManiaGame::endUpdate() {
 void ManiaGame::reset() {
     pauseGame();
 
+
     Score = new ManiaScore(OsuBeatmap);
     PlayingData->setScore(Score);
 
@@ -267,5 +270,5 @@ void ManiaGame::reset() {
     Drawdata->prepare();
     Judgementer->prepare();
 
-    SongChannel->seekTo(0);
+    SongChannel->reset();
 }

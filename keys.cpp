@@ -1,24 +1,16 @@
 #include "keys.h"
 
-Keys::Keys()
+Keys::Keys(int a)
 {
+    judge=a;
 }
 
 void Keys::draw(QPaintEvent *event,QPainter *painter){
-    num=0;
-    judge=1;
+    //num=0;
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing, true);
     //painter->drawLine(0,0,1280,720);
-   QPainterPath path;
-   path.moveTo(0,612);
-   path.lineTo(48,559.2);
-   path.lineTo(1232,559.2);
-   path.lineTo(1280,612);
-   path.lineTo(0,612);
-   painter->setPen(QColor(255,215,000));
-   painter->setBrush(QColor(225,200,0));
-   painter->drawPath(path);
+    painter->setPen(QColor(255,215,000));
    QPainterPath pathway[4];
    QPainterPath pathway1[7];
    QLinearGradient linearGradient1(640,720,640,0);
@@ -37,7 +29,7 @@ void Keys::draw(QPaintEvent *event,QPainter *painter){
            }
 
    }
-   if (judge==2){
+   if (judge==0){
        if (Keyjudge){
            pathway1[num].moveTo(1280/7*num,612);
            pathway1[num].lineTo(480+320/7*num,84);

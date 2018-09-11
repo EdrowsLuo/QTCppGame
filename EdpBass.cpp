@@ -7,12 +7,29 @@
 
 using namespace edp;
 
-EdpBassChannel::EdpBassChannel(const string &path) : playing(false), recodeTime(-1L), startTime(-1L) {
+EdpBassChannel::EdpBassChannel(const string &path) :
+        playing(false),
+        recodeTime(-1L),
+        startTime(-1L),
+        isPrePlaying(false) {
     handle = BASS_StreamCreateFile(FALSE, path.c_str(), 0, 0, 0);
 }
 
-EdpBassChannel::EdpBassChannel(EdpFile &file) : playing(false), recodeTime(-1L), startTime(-1L) {
+EdpBassChannel::EdpBassChannel(EdpFile &file) :
+        playing(false),
+        recodeTime(-1L),
+        startTime(-1L),
+        isPrePlaying(false) {
     handle = BASS_StreamCreateFile(FALSE, file.getFullPath().c_str(), 0, 0, 0);
+}
+
+void EdpBassChannel::reset() {
+    pause();
+    seekTo(0);
+    playing = false;
+    recodeTime = -1L;
+    startTime = -1L;
+    isPrePlaying = false;
 }
 
 bool EdpBassChannel::play() {
@@ -32,7 +49,7 @@ bool EdpBassChannel::play() {
 }
 
 bool EdpBassChannel::isPlaying() {
-    return playing;
+    return playing || isPrePlaying;
     //return BASS_ChannelIsActive(handle) == BASS_ACTIVE_PLAYING;
 }
 
@@ -64,6 +81,13 @@ bool EdpBassChannel::seekTo(double ms) {
 }
 
 double EdpBassChannel::playingTime() {
+    if (isPrePlaying) {
+        if (recodeTime == -1L) {
+            return util::currentTimeMS() - (postTime + postLength);
+        } else {
+            return recodeTime - startTime;
+        }
+    }
     if (playing) {
         return util::currentTimeMS() - startTime;
     } else {
@@ -93,4 +117,21 @@ bool EdpBassChannel::setVolume(float vol) {
 
 double EdpBassChannel::length() {
     return 1000 * BASS_ChannelBytes2Seconds(handle, BASS_ChannelGetLength(handle, BASS_POS_BYTE));
+}
+
+
+
+void EdpBassChannel::postStart(int ms) {
+    isPrePlaying = true;
+    postTime = util::currentTimeMS();
+    postLength = ms;
+}
+
+void EdpBassChannel::update() {
+    if (isPrePlaying) {
+        if (util::currentTimeMS() - postTime > postLength) {
+            play();
+            isPrePlaying = false;
+        }
+    }
 }

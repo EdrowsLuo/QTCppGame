@@ -29,7 +29,11 @@ SOURCES += main.cpp\
     EdpBass.cpp\
     GameJudgement.cpp\
     ManiaRuleset.cpp\
-    ManiaObjects.cpp
+    ManiaObjects.cpp \
+    myscore.cpp \
+    coordinate.cpp \
+    squaredown.cpp \
+    squaredownh.cpp
 
 HEADERS  += widget.h \
     MyDraw.h \
@@ -58,7 +62,11 @@ HEADERS  += widget.h \
     maniaclass.h\
     ManiaObjects.h\
     BeatmapBase.h\
-    Util.h
+    Util.h \
+    myscore.h \
+    coordinate.h \
+    squaredown.h \
+    squaredownh.h
 
 
 
