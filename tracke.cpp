@@ -14,7 +14,7 @@ void trackE::draw (QPaintEvent *event, QPainter *painter){
     path.lineTo(480,84);
     path.lineTo(800,84);
     path.lineTo(1280,612);
-    painter->setBrush(QColor(250,250,250));
+    painter->setBrush(QColor(245,245,245));
     painter->drawPath(path);
     painter->setPen(QColor(255,215,000));
     painter->drawLine(480,84,800,84);
@@ -35,5 +35,14 @@ void trackE::draw (QPaintEvent *event, QPainter *painter){
         painter->drawLine(1097,612,755,84);
         painter->drawLine(1280,612,800,84);
     }
+    QPainterPath path1;
+    path1.moveTo(0,612);
+    path1.lineTo(48,559.2);
+    path1.lineTo(1232,559.2);
+    path1.lineTo(1280,612);
+    path1.lineTo(0,612);
+    painter->setPen(QColor(255,215,000));
+    painter->setBrush(QColor(225,200,0));
+    painter->drawPath(path1);
     painter->restore();
 }
