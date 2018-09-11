@@ -5,7 +5,7 @@
 #ifndef QT_BB_RULESETMANIA_H
 #define QT_BB_RULESETMANIA_H
 
-
+#include <cmath>
 #include "KeyIO.h"
 #include "defext.h"
 #include "EdpBass.h"
@@ -13,6 +13,7 @@
 #include "maniaclass.h"
 #include "ManiaObjects.h"
 #include "GameJudgement.h"
+#include "types.h"
 
 
 using namespace edp;
@@ -48,6 +49,8 @@ namespace nso{
     };
 
     namespace Mania {
+        static const int Max_Score = 1000000;
+
         static const int ScoreType_Note = 1, ScoreType_Tick = 2;
         //基础分数比例以及enum
         static const int S300k = 5, S300 = 4, S200 = 3, S100 = 2, S50 = 1, S_MISS = 0;
@@ -73,25 +76,69 @@ namespace nso{
     class ManiaScore {
     public:
 
-        ManiaScore(Beatmap *beatmap) : RecentScore(0), TotalScore(0), Combo(0) {
+        ManiaScore(Beatmap *beatmap) :
+                RawBeatmap(beatmap),
+                RecentScore(0),
+                TotalScore(0),
+                TotalBonus(0),
+                CurrentBonusRate(100),
+                MaxCombo(0),
+                Combo(0) {
+            TotalHit = 0;
+            ForEachLong(beatmap->hitobjects, itr, vector<HitObject *>::iterator) {
+                HitObject *object = *itr;
+                TotalHit += (object->type & HitObject::TYPE_MASK) == HitObject::TYPE_MANIA_HOLD ? 2 : 1;
+            }
+        }
 
+        int getScore() {
+            int value = TotalBonus + TotalScore;
+            //return value;
+            if (value == 640 * TotalHit) {
+                //满分检测
+                return Mania::Max_Score;
+            } else {
+                return static_cast<int>((Mania::Max_Score * (int64)value) / (640 * TotalHit));
+            }
         }
 
         void applyScore(ManiaHitResult &result) { //apply 一个成绩
             RecentScore = result.score;
-            TotalScore += Mania::BaseScore[result.score];
-            Offset = (int)result.offset;
+
+            switch (result.type) {
+                case Mania::ScoreType_Note:{
+                    TotalScore += Mania::BaseScore[result.score];
+                    CurrentBonusRate += Mania::BonusMul[result.score];
+                    CurrentBonusRate = Clamp(0, CurrentBonusRate, 100);
+                    TotalBonus += (int)(Mania::BaseBonus[result.score] * sqrt(CurrentBonusRate)+0.0001);
+                }break;
+
+                case Mania::ScoreType_Tick:
+                default:{
+                    //tick不影响分数
+                }break;
+            }
+
+
             if (result.score != Mania::S_MISS) {
                 Combo++;
             } else {
+                if (MaxCombo < Combo) {
+                    MaxCombo = Combo;
+                }
                 Combo = 0;
             }
         }
 
     public:
+        Beatmap *RawBeatmap;
         int Offset;
         int RecentScore;
         int TotalScore;
+        int TotalBonus;
+        int CurrentBonusRate;
+        int TotalHit;
+        int MaxCombo;
         int Combo;
     };
 
