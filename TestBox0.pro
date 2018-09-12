@@ -16,15 +16,47 @@ SOURCES += main.cpp\
     slideanim.cpp \
     difficultyscrollarea.cpp \
     myqsplitter.cpp \
-    songs.cpp
+    EdpFileWriter.cpp \
+    EdpFileReader.cpp \
+    EdpFile.cpp \
+    EdpBass.cpp \
+    Edp.cpp \
+    CJsonObject.cpp \
+    cJSON.cpp \
+    IOUtil.cpp \
+    difficultyframe.cpp \
+    rightframe.cpp \
+    MainWindow2.cpp \
+    songgroup.cpp \
+    my_song.cpp \
+    my_difficulty.cpp
 
 HEADERS  += mainwindow.h \
     slidebox1.h \
     slideanim.h \
     difficultyscrollarea.h \
     myqsplitter.h \
-    songs.h
+    defext.h \
+    types.h \
+    EdpTimer.h \
+    EdpFileWriter.h \
+    EdpFileReader.h \
+    EdpFile.h \
+    EdpBass.h \
+    Edp.h \
+    CJsonObject.hpp \
+    cJSON.h \
+    IOUtil.h \
+    difficultyframe.h \
+    rightframe.h \
+    songgroup.h \
+    my_song.h \
+    my_difficulty.h
 
 FORMS    += mainwindow.ui \
     slidebox1.ui \
-    difficultyscrollarea.ui
+    difficultyscrollarea.ui \
+    difficultyframe.ui \
+    rightframe.ui
+
+LIBS += -L F:\qt\QTCppGame -l bass
