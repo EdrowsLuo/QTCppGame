@@ -58,6 +58,12 @@ namespace nso{
             data = d;
         }
 
+        ~GameJudgement() {
+            delete judgeObjects;
+            delete judgeObjectsUsing;
+            delete judgeObjectsToAdd;
+        }
+
         void prepare() {
             sort(judgeObjects->begin(), judgeObjects->end(), sortfunc<_Data>);
             judgeObjectsToAdd->clear();

@@ -55,6 +55,8 @@ void set##name(const bool &value){ name = value; }
 
 #define ForEachLong(obj,itr,...) for (__VA_ARGS__ itr = (obj).begin(); itr != (obj).end(); itr++)
 
+#define ForEachInVector(obj,itr,type) for (vector<type>::iterator itr = (obj).begin(); itr != (obj).end(); itr++)
+
 #define RCase(data,func) case data:{\
     func;\
 }break
@@ -79,6 +81,10 @@ std::string strl(string r, _Type t){std::stringstream ss;ss << r << t;return ss.
 ss##arg << __VA_ARGS__;\
 string arg = ss##arg.str();
 
+#define ClearVectorDeep(obj,typee) for (vector<typee*>::iterator itr = (obj).begin(); itr != (obj).end(); itr++){\
+    typee *___tmpitrr__ = *itr;\
+    delete ___tmpitrr__;\
+}
 
 
 #endif //QT_BB_DEFEXT_H

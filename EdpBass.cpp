@@ -120,7 +120,6 @@ double EdpBassChannel::length() {
 }
 
 
-
 void EdpBassChannel::postStart(int ms) {
     isPrePlaying = true;
     postTime = util::currentTimeMS();
@@ -134,4 +133,8 @@ void EdpBassChannel::update() {
             isPrePlaying = false;
         }
     }
+}
+
+void EdpBassChannel::release() {
+    BASS_StreamFree(handle);
 }

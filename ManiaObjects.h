@@ -117,6 +117,8 @@ namespace nso{
         ManiaHoldEndJudgeObject(PlayingHold *hold, ManiaHoldStartJudgeObject *start,
                                 vector<ManiaHoldTickJudgeObject *> *ticks, Beatmap *beatmap);
 
+        ~ManiaHoldEndJudgeObject();
+
         void onJudge(ManiaPlaytimeData *data);
 
         void onRelease();
