@@ -303,7 +303,8 @@ namespace nso{
     public:
         GameHolder() :
                 Mods(0),
-                BaseVolume(0.5f){
+                BaseVolume(0.5f),
+                Game(NULL){
 
         }
 
