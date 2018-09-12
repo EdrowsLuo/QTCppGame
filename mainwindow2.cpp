@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 
+using namespace nso;
+
 void MainWindow::SN_ADD(){
     if(al==0){
         leftBoxDisappear->stop();
@@ -24,8 +26,11 @@ void MainWindow::SN_ADD(){
     if (ST<0) ST = s.Number-1;
  //   DebugL("y")
     LeftBox[(SN+100)%2] = new DifficultyScrollArea(s.songlist[(ST+s.Number)%s.Number],this);
- //   DebugL("y1")
-
+    DebugL("y1")
+    string place = "assets\\songs\\" + s.songlist[(ST+s.Number)%s.Number].fileName;
+    EdpFile f(*Project::ProjectRoot,place);
+    string fullpath = f.getFullPath();
+ //   Project::ProjectGame->loadMusic(fullpath);
 }
 
 

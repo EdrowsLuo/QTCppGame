@@ -12,6 +12,7 @@ My_Song::My_Song( CJsonObject jsong )
     jsong.Get("Artist",artistName);
     jsong.Get("Creator",creatorName);
     jsong.Get("Title",songsName);
+    jsong.Get("file",fileName);
     DebugL("m2")
  //   DebugL(songsName.c_str())
  //   DebugL("m2.5")
@@ -21,6 +22,6 @@ My_Song::My_Song( CJsonObject jsong )
  //           DebugL("m3")
         difficultylist[j] = My_Difficulty(jdifficulty[j]);
     }
-//                DebugL("m2.10")
+                DebugL("m2.10")
     delete jdifficulty;
 }
