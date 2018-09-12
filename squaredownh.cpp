@@ -28,7 +28,10 @@ void SquareDownH::draw (QPaintEvent *event, QPainter *painter){
     path1.lineTo(xq4,yq4);
     path1.lineTo(xq3,yq3);
     path1.lineTo(xq1,yq1);
+    QLinearGradient linearGradient1(640,720,640,0);
+    linearGradient1.setColorAt(0,QColor(0,192,254,230));
+    linearGradient1.setColorAt(1,QColor(0,192,254,100));
     painter->setPen(QColor(255,215,000));
-    painter->setBrush(Qt::black);
+    painter->setBrush(linearGradient1);
     painter->drawPath(path1);
 }

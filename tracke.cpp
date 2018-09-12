@@ -9,13 +9,17 @@ void trackE::draw (QPaintEvent *event, QPainter *painter){
     QPainterPath path;
     //judge=0;
     painter->setRenderHint(QPainter::Antialiasing, true);
+    QLinearGradient linearGradient1(640,720,640,0);
+    linearGradient1.setColorAt(0,QColor(40,44,53,255));
+    linearGradient1.setColorAt(1,QColor(40,44,53,150));
     painter->setPen(QColor(255,215,000));
     path.moveTo(0,612);
     path.lineTo(480,84);
     path.lineTo(800,84);
     path.lineTo(1280,612);
-    painter->setBrush(QColor(245,245,245));
+    painter->setBrush(linearGradient1);
     painter->drawPath(path);
+
     painter->setPen(QColor(255,215,000));
     painter->drawLine(480,84,800,84);
     if (judge==1)
@@ -41,8 +45,9 @@ void trackE::draw (QPaintEvent *event, QPainter *painter){
     path1.lineTo(1232,559.2);
     path1.lineTo(1280,612);
     path1.lineTo(0,612);
-    painter->setPen(QColor(255,215,000));
-    painter->setBrush(QColor(225,200,0));
+    painter->setPen(QColor(3,99,141));
+    painter->setBrush(QColor(3,99,141,150));//
     painter->drawPath(path1);
+
     painter->restore();
 }

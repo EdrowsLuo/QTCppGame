@@ -9,6 +9,8 @@
 #include "squaredown.h"
 #include "squaredownh.h"
 #include "defext.h"
+#include "shadow.h"
+#include "progressbar.h"
 //#include "testtest.h"
 #include "keys.h"
 using namespace edp;
@@ -24,20 +26,25 @@ Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent
             //"D:\\QT\\wj\\MyBKG\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
             //"D:\\QT\\wj\\MyBKG\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Starry's 4K Lv.15].osu"
             );
-    Game = new ManiaGame(osuFile,new ManiaSetting());
+    //Game = new ManiaGame(osuFile,new ManiaSetting());
     //DebugL("")
-    Game->prepareGame();
+    //Game->prepareGame();
     //DebugL("")
-    keyPipee = new QTKeyPipe();
+    //keyPipee = new QTKeyPipe();
     //DebugL("")
-    keyPipee->setTimer(Game->getSongChannel());
+    //keyPipee->setTimer(Game->getSongChannel());
     //DebugL("")
     QTimer *timer=new QTimer (this);
     connect(timer,SIGNAL(timeout()),this,SLOT(animate()));
     timer->start(20);
-    Game->linkKeyInput(keyPipee);
-    Game->runGame();
+    //Game->linkKeyInput(keyPipee);
+    //Game->runGame();
+    mGameHolder = new GameHolder();
 
+    mGameHolder->enableMod(Mania::MOD_AUTO);
+    mGameHolder ->loadGame(osuFile);
+
+    mGameHolder->getGame()->runGame();
     //EdpBassChannel *cha = new EdpBassChannel("D:\\QT\\wj\\MyBKG\\data\\324288 xi - ANiMA\\anima.mp3");
     //cha->play();
 }
@@ -53,32 +60,21 @@ Widget::~Widget()
 
 
 void Widget::keyPressEvent(QKeyEvent *event){
-    if (event->isAutoRepeat()){
-        return;
-    }
-
-    //this->keyPipe;
-
-    //if (keyPipe != NULL){
-        keyPipee->keyPressEvent(event);
-    //}
+   mGameHolder->mkeyPressEvent(event);
 }
 
 void Widget::keyReleaseEvent(QKeyEvent *event){
-    if (event->isAutoRepeat()){
-        return;
-    }
-    //if (keyPipe != NULL){
-        keyPipee->keyReleaseEvent(event);
-    //}
+    mGameHolder->mkeyReleaseEvent(event);
 }
 
 void Widget::paintEvent(QPaintEvent *event){
     Q_UNUSED(event);
     QPainter painter(this);
-    if(Game->updateTime()){
+    /*if(Game->updateTime()){
         Game->update();
-    }
+    }*/
+    mGameHolder->update();
+    ManiaGame *Game = mGameHolder->getGame();
 
     KeyNum=1;
     NorH=false;
@@ -93,9 +89,27 @@ void Widget::paintEvent(QPaintEvent *event){
     draw1.draw(event,&painter);
     draw2.draw(event,&painter);
     Keys drawkey0(KeyNum);
+    int t=Game->getPlayingData()->getScore()->getScore();
+    Scorenow=Game->getPlayingData()->getScore()->getScore();
+    if (Scorenow==Scorepre){
+        for (int j=6;j>=0;j--){
+            Score[j]=t-t/10*10;
+            t=t/10;
+            MyScore draw3(512+36*j,0,36,60,Score[j]);
+            draw3.draw(event,&painter);
+        }
+    }
+    else {
+        for (int j=6;j>=0;j--){
+            Score[j]=t-t/10*10;
+            t=t/10;
+            MyScore draw3(491+42*j,0,42,70,Score[j]);
+            draw3.draw(event,&painter);
+        }
+    }
+    Scorepre=Game->getPlayingData()->getScore()->getScore();
 
-
-    MyScore draw3(512,0,36,60,0);
+    /*MyScore draw3(512,0,36,60,0);
     draw3.draw(event,&painter);
     MyScore draw4(548,0,36,60,0);
     draw4.draw(event,&painter);
@@ -108,7 +122,7 @@ void Widget::paintEvent(QPaintEvent *event){
     MyScore draw8(692,0,36,60,0);
     draw8.draw(event,&painter);
     MyScore draw9(728,0,36,60,0);
-    draw9.draw(event,&painter);
+    draw9.draw(event,&painter);*/
 
 
     ForEachLong(Game->getDrawdata()->getDatas(),itr,vector<ManiaDrawdataNode>::iterator){
@@ -137,6 +151,13 @@ void Widget::paintEvent(QPaintEvent *event){
         drawkey0.draw(event,&painter);
         }
     }
+    Shadow drawshadow;
+    drawshadow.draw(event,&painter);
+    ProgressBar drawPB(Game->getFrameTime()/Game->getSongChannel()->length());
+    drawPB.draw(event,&painter);
+    //当前帧时间Game->getFrameTime();
+
+    //分数Game->getPlayingData()->getScore()->getScore();
 
     //Testtest test();
 }
