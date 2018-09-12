@@ -4,12 +4,12 @@
 #include <QScrollArea>
 #include "myqsplitter.h"
 #include "songs.h"
-#include "QPropertyAnimation"
+#include <QPropertyAnimation>
 #include <QGraphicsOpacityEffect>
-#include"Edp.h"
+#include "Edp.h"
 #include "EdpFile.h"
 #include "IOUtil.h"
-#include "string.h"
+#include <string.h>
 #include "cJSON.h"
 #include "CJsonObject.hpp"
 #include "my_song.h"

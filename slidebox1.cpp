@@ -1,8 +1,8 @@
 #include "slidebox1.h"
 #include "ui_slidebox1.h"
-#include "QGraphicsEffect"
-#include "QMessageBox"
-#include"QPropertyAnimation"
+#include <QGraphicsEffect>
+#include <QMessageBox>
+#include <QPropertyAnimation>
 
 SlideBox1::SlideBox1(int NOS , QString *NL ,QWidget *parent) :
     QWidget(parent),

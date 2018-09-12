@@ -3,7 +3,7 @@
 #include"Edp.h"
 #include "EdpFile.h"
 #include "IOUtil.h"
-#include "string.h"
+#include <string.h>
 #include "cJSON.h"
 #include "CJsonObject.hpp"
 
