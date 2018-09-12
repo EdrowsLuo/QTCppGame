@@ -10,6 +10,7 @@
 #include "cJSON.h"
 #include "CJsonObject.hpp"
 #include "my_song.h"
+#include "leftframe.h"
 
 class MyQSplitter : public QSplitter
 {
@@ -19,7 +20,7 @@ public:
     ~MyQSplitter();
 
     int numberofwid;
-    QPushButton *f[10];
+    LeftFrame *f[12];
 
     int splitterHeight;
 
