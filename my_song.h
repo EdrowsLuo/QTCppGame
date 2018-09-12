@@ -18,7 +18,7 @@ public:
     My_Song(){};
     int difficultyset;
     My_Difficulty *difficultylist;
-    string songsName,creatorName,artistName;
+    string songsName,creatorName,artistName,fileName;
 };
 
 #endif // MY_SONG_H
