@@ -57,7 +57,7 @@ TestView::TestView(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers), p
             //"D:\\Qt\\code\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Starry's 4K Lv.15].osu"
             );
     mGameHolder = new GameHolder();
-
+    mGameHolder->enableMod(Mania::MOD_AUTO);
     mGameHolder->loadGame(osuFile);
     /*Game = new ManiaGame(osuFile,new ManiaSetting());
 

@@ -304,7 +304,9 @@ namespace nso{
         GameHolder() :
                 Mods(0),
                 BaseVolume(0.5f),
-                Game(NULL){
+                Game(NULL),
+                KeyPipe(NULL),
+                AutoPlay(NULL){
 
         }
 
@@ -313,7 +315,7 @@ namespace nso{
         }
 
         bool enableMod(int mod) {
-            if (!checkGame()) {
+            if (checkGame()) {
                 DebugI("you can't change mod when game is loaded!")
                 return false;
             }
@@ -322,7 +324,7 @@ namespace nso{
         }
 
         bool disableMod(int mod) {
-            if (!checkGame()) {
+            if (checkGame()) {
                 DebugI("you can't change mod when game is loaded!")
                 return false;
             }
