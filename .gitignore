@@ -3,7 +3,3 @@
 /cmake-build-release
 /data
 /.idea
-main.cpp
-mainwindow.h
-mainwindow.cpp
-mainwindow.ui
