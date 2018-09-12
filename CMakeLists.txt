@@ -88,7 +88,6 @@ add_executable(qt_bb
         difficultyframe.h
         rightframe.cpp
         rightframe.h
-        MainWindow2.cpp
         songgroup.cpp
         songgroup.h
         my_song.cpp

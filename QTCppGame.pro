@@ -24,10 +24,10 @@ SOURCES += \
     myqsplitter.cpp \
     difficultyframe.cpp \
     rightframe.cpp \
-    MainWindow2.cpp \
     songgroup.cpp \
     my_song.cpp \
     my_difficulty.cpp \
+    leftframe.cpp\
     \
     \
     \
@@ -68,6 +68,7 @@ HEADERS  += \
     songgroup.h \
     my_song.h \
     my_difficulty.h \
+    leftframe.h\
     \
     \
     \
