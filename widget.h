@@ -38,7 +38,7 @@ private:
     bool NorH;
     GameHolder *mGameHolder;
     int Scorepre,Scorenow;
-
+    int Combopre,Combonow;
 };
 
 #endif // WIDGET_H

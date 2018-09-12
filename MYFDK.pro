@@ -37,7 +37,9 @@ SOURCES += main.cpp\
     shadow.cpp \
     progressbar.cpp \
     rhythmline.cpp\
-    Project.cpp
+    Project.cpp \
+    judgescore.cpp \
+    widgettest.cpp
 
 HEADERS  += widget.h \
     MyDraw.h \
@@ -74,7 +76,9 @@ HEADERS  += widget.h \
     shadow.h \
     progressbar.h \
     rhythmline.h\
-    Project.h
+    Project.h \
+    judgescore.h \
+    widgettest.h
 
 
 

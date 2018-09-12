@@ -12,6 +12,7 @@
 #include "shadow.h"
 #include "progressbar.h"
 #include "rhythmline.h"
+#include "judgescore.h"
 //#include "testtest.h"
 #include "keys.h"
 using namespace edp;
@@ -22,6 +23,7 @@ Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent
     ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    this->setFixedSize(720*16/9,720);
     EdpFile *osuFile = new EdpFile(
            //"D:\\QT\\wj\\MyBKG\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [4K Lv.4].osu"
             "D:\\QT\\wj\\MyBKG\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
@@ -37,7 +39,7 @@ Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent
     //DebugL("")
     QTimer *timer=new QTimer (this);
     connect(timer,SIGNAL(timeout()),this,SLOT(animate()));
-    timer->start(5);
+    timer->start(1);
     //Game->linkKeyInput(keyPipee);
     //Game->runGame();
     mGameHolder = new GameHolder();
@@ -46,8 +48,6 @@ Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent
     mGameHolder ->loadGame(osuFile);
 
     mGameHolder->getGame()->runGame();
-    //EdpBassChannel *cha = new EdpBassChannel("D:\\QT\\wj\\MyBKG\\data\\324288 xi - ANiMA\\anima.mp3");
-    //cha->play();
 }
 
 void Widget::animate(){
@@ -92,6 +92,17 @@ void Widget::paintEvent(QPaintEvent *event){
     Keys drawkey0(KeyNum);
     int t=Game->getPlayingData()->getScore()->getScore();
     Scorenow=Game->getPlayingData()->getScore()->getScore();
+    ForEachLong(Game->getDrawdata()->getDatas(),itr,vector<ManiaDrawdataNode>::iterator){
+        if (itr->type != ManiaDrawdata::HOLD){
+            SquareDownH draw11(itr->line,itr->position,itr->endposition,KeyNum);
+            draw11.draw(event,&painter);
+        }
+        else {
+            SquareDown draw10(itr->line,itr->position,KeyNum);
+            draw10.draw(event,&painter);
+        }
+    }
+
     if (Scorenow==Scorepre){
         for (int j=6;j>=0;j--){
             Score[j]=t-t/10*10;
@@ -136,22 +147,26 @@ void Widget::paintEvent(QPaintEvent *event){
     draw9.draw(event,&painter);*/
 
 
-    ForEachLong(Game->getDrawdata()->getDatas(),itr,vector<ManiaDrawdataNode>::iterator){
-        if (itr->type != ManiaDrawdata::HOLD){
-            SquareDownH draw11(itr->line,itr->position,itr->endposition,KeyNum);
-            draw11.draw(event,&painter);
-        }
-        else {
-            SquareDown draw10(itr->line,itr->position,KeyNum);
-            draw10.draw(event,&painter);
-        }
-    }
+
     if (KeyNum==1){
         //drawkey0.setjudge(KeyNum);;
     for (int i=0;i<4;i++){
+        Combonow=Game->getPlayingData()->getScore()->Combo;
         drawkey0.setKeyjudge(Game->getPlayingData()->getKeys()[i]->isPressed());//
         drawkey0.setnum(i);
         drawkey0.draw(event,&painter);
+        if(Game->getPlayingData()->getKeys()[i]->isPressed()){
+            if (Combopre==Combonow){
+                judgeScore draw12(Game->getPlayingData()->getScore()->RecentScore,false);
+                draw12.draw(event,&painter);
+            }
+            else {
+                judgeScore draw12(Game->getPlayingData()->getScore()->RecentScore,true);
+                draw12.draw(event,&painter);
+            }
+
+        }
+        Combopre=Game->getPlayingData()->getScore()->Combo;
         }
     }
     if (KeyNum==0){
@@ -160,8 +175,22 @@ void Widget::paintEvent(QPaintEvent *event){
         drawkey0.setKeyjudge(Game->getPlayingData()->getKeys()[j]->isPressed());//
         drawkey0.setnum(j);
         drawkey0.draw(event,&painter);
+        if(Game->getPlayingData()->getKeys()[j]->isPressed()){
+            if (Combopre==Combonow){
+                judgeScore drawjudge(Game->getPlayingData()->getScore()->RecentScore,false);
+                drawjudge.draw(event,&painter);
+            }
+            else {
+                judgeScore drawjudge(Game->getPlayingData()->getScore()->RecentScore,true);
+                drawjudge.draw(event,&painter);
+            }
+
+        }
         }
     }
+
+
+
     ForEachLong(*Game->getDrawdata()->getBeatsAvalibe(),itr,vector<double>::iterator){
         rhythmLine drawrhy(*itr);
         drawrhy.draw(event,&painter);
@@ -171,6 +200,8 @@ void Widget::paintEvent(QPaintEvent *event){
 
     ProgressBar drawPB(Game->getFrameTime()/Game->getSongChannel()->length());
     drawPB.draw(event,&painter);
+
+    //Game->getPlayingData()->getScore()->RecentScore
     //MyCombo drawcombo(Game->getPlayingData()->getScore()->Combo,false);
     //
     //drawcombo.draw(event,&painter);

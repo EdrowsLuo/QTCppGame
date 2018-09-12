@@ -3,7 +3,7 @@
 #include "MyDraw.h"
 #include <QString>
 namespace YOUKY{
-    static QString FCombo[10]{
+    static QString RCombo[10]{
         "D:/QT/wj/MyBKG/image/score-0.png",
         "D:/QT/wj/MyBKG/image/score-1.png",
         "D:/QT/wj/MyBKG/image/score-2.png",
@@ -14,17 +14,17 @@ namespace YOUKY{
         "D:/QT/wj/MyBKG/image/score-7.png",
         "D:/QT/wj/MyBKG/image/score-8.png",
         "D:/QT/wj/MyBKG/image/score-9.png"};
-    static QString RCombo[10]{
-        "D:\\QT\\wj\\MyBKG\\image\\combo-0@2x.png",
-        "D:\\QT\\wj\\MyBKG\\image\\combo-1@2x.png",
-        "D:\\QT\\wj\\MyBKG\\image\\combo-2@2x.png",
-        "D:\\QT\\wj\\MyBKG\\image\\combo-3@2x.png",
-        "D:\\QT\\wj\\MyBKG\\image\\combo-4@2x.png",
-        "D:\\QT\\wj\\MyBKG\\image\\combo-5@2x.png",
-        "D:\\QT\\wj\\MyBKG\\image\\combo-6@2x.png",
-        "D:\\QT\\wj\\MyBKG\\image\\combo-7@2x.png",
-        "D:\\QT\\wj\\MyBKG\\image\\combo-8@2x.png",
-        "D:\\QT\\wj\\MyBKG\\image\\combo-9@2x.png"};
+    static QString FCombo[10]{
+        "D:\\QT\\wj\\MyBKG\\image\\default-0.png",
+        "D:\\QT\\wj\\MyBKG\\image\\default-1.png",
+        "D:\\QT\\wj\\MyBKG\\image\\default-2.png",
+        "D:\\QT\\wj\\MyBKG\\image\\default-3.png",
+        "D:\\QT\\wj\\MyBKG\\image\\default-4.png",
+        "D:\\QT\\wj\\MyBKG\\image\\default-5.png",
+        "D:\\QT\\wj\\MyBKG\\image\\default-6.png",
+        "D:\\QT\\wj\\MyBKG\\image\\default-7.png",
+        "D:\\QT\\wj\\MyBKG\\image\\default-8.png",
+        "D:\\QT\\wj\\MyBKG\\image\\default-9.png"};
 }
 class MyCombo : public MyDraw
 {
