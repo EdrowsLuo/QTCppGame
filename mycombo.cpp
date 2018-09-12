@@ -62,7 +62,7 @@ void MyCombo::draw (QPaintEvent *event, QPainter *painter){
         for (int i=3;i>=0;i--){
             COMBONUM[i]=t-t/10*10;
             t=t/10;
-            qpixcom[i].load(YOUKY::RCombo[i]);
+            qpixcom[i].load(YOUKY::FCombo[i]);
         }
         if (isBig){
             for (int i=0;i<4;i++){
