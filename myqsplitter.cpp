@@ -5,12 +5,13 @@
 #include <QApplication>
 
 
+
 MyQSplitter::MyQSplitter( int nn, const My_Song & jsong, QWidget *parent ) :
     QSplitter( parent )
 {
     numberofwid = nn;
     for( int i = 0 ; i<numberofwid ; i++ ){
-        f[i] = new QPushButton;
+        f[i] = new LeftFrame(jsong.difficultylist[i],i,this);
         f[i]->setMinimumHeight( 200 );
         f[i]->setObjectName("sb");
 

@@ -26,7 +26,6 @@ SOURCES += main.cpp\
     IOUtil.cpp \
     difficultyframe.cpp \
     rightframe.cpp \
-    MainWindow2.cpp \
     songgroup.cpp \
     my_song.cpp \
     my_difficulty.cpp \
