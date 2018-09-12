@@ -35,6 +35,7 @@ SlideBox1::SlideBox1(int NOS , QString *NL ,QWidget *parent) :
     cT=0;
     numberOfSongs = NOS ;
     songName = NL;
+    id=0;
 
     upPageE = new QGraphicsOpacityEffect(ui->upPage);
     upPageE->setOpacity(0);
@@ -77,10 +78,6 @@ void SlideBox1::on_downPage_clicked()
 
     emit downPagePressed();
 
-
- //   QString a;
-  //  a =QString::number(this->width());
-  //  QMessageBox::about(this,"ds",a );
   /*  slide1 = new QPropertyAnimation(ptf[(cT)%7],"geometry");
     slide1->setDuration(400);
     slide1->setStartValue(QRect(xOfFakeButton[0],yOfFakeButton[0],widthOfFakeButton[0],heightOfFakeButton[0]));
@@ -143,7 +140,7 @@ void SlideBox1::on_downPage_clicked()
     if (id>=numberOfSongs)id=0;
     if (id<0)id=numberOfSongs-1;
 
-    ptf[(cT+7)%7]->setText(songName[(id+6)%numberOfSongs]);
+    ptf[(cT+7)%7]->setText(songName[(id)%numberOfSongs]);
 }
 
 
