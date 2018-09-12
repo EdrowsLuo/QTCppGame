@@ -20,7 +20,12 @@ namespace nso{
 
     class BackgroundParser:public PartParser {
     public:
+        BackgroundParser();
+
         virtual void parseLine(const string &line, Beatmap &beatmap);
+
+    private:
+        bool hasParsed;
     };
 
     class TimingPointsParser:public PartParser {

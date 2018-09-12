@@ -36,6 +36,8 @@ namespace edp{
 
         void reset();
 
+        void release();
+
         void postStart(int ms);
         void update();
         void setOffset(int ms) {

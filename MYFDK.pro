@@ -33,7 +33,9 @@ SOURCES += main.cpp\
     myscore.cpp \
     coordinate.cpp \
     squaredown.cpp \
-    squaredownh.cpp
+    squaredownh.cpp \
+    shadow.cpp \
+    progressbar.cpp
 
 HEADERS  += widget.h \
     MyDraw.h \
@@ -66,7 +68,9 @@ HEADERS  += widget.h \
     myscore.h \
     coordinate.h \
     squaredown.h \
-    squaredownh.h
+    squaredownh.h \
+    shadow.h \
+    progressbar.h
 
 
 

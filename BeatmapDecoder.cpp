@@ -150,6 +150,9 @@ void HitObjectParser::parseLine(const string &line, nso::Beatmap &beatmap) {
 }
 
 void BackgroundParser::parseLine(const string &line, Beatmap &beatmap) {
+    if (hasParsed) {
+        return;
+    }
     string copy = line;
     StringUtil::trim(copy);
     if (copy.find("0,0,\"") != string::npos) {
@@ -158,5 +161,8 @@ void BackgroundParser::parseLine(const string &line, Beatmap &beatmap) {
         StringUtil::splitTo(copy, '\"', bg);
         StringUtil::trim(bg);
         beatmap.BackgroundFile = bg;
+        hasParsed = true;
     }
 }
+
+BackgroundParser::BackgroundParser() :hasParsed(false){}

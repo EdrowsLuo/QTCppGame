@@ -246,6 +246,13 @@ namespace nso{
 
         vector<HitObject*> hitobjects;
 
+        ~Beatmap() {
+            ForEachLong(hitobjects, itre, vector<HitObject *>::iterator) {
+                HitObject *object = *itre;
+                delete object;
+            }
+        }
+
         void loadMore() {
             controlPoints.load(timingPoints);
         }

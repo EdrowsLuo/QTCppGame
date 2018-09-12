@@ -36,7 +36,8 @@ private:
     QTKeyPipe *keyPipee;
     int KeyNum;
     bool NorH;
-
+    GameHolder *mGameHolder;
+    int Scorepre,Scorenow;
 
 };
 
