@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     songgroup.cpp \
     my_song.cpp \
     my_difficulty.cpp \
-    Project.cpp
+    Project.cpp \
+    leftframe.cpp
 
 HEADERS  += mainwindow.h \
     slidebox1.h \
@@ -53,7 +54,8 @@ HEADERS  += mainwindow.h \
     songgroup.h \
     my_song.h \
     my_difficulty.h \
-    Project.h
+    Project.h \
+    leftframe.h
 
 FORMS    += mainwindow.ui \
     slidebox1.ui \

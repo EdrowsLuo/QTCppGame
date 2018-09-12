@@ -333,7 +333,7 @@ namespace nso{
             return true;
         }
 
-        bool loadMusic(const string &path) {
+        bool loadMusic(const string &path, int previewTime) {
             if (!checkGame()) {
                 DebugI("you can't change music when game is loaded!")
                 return false;
