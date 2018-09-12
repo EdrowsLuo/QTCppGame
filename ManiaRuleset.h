@@ -305,6 +305,7 @@ namespace nso{
                 Mods(0),
                 BaseVolume(0.5f),
                 Game(NULL),
+                Setting(NULL),
                 KeyPipe(NULL),
                 AutoPlay(NULL){
 
@@ -348,11 +349,9 @@ namespace nso{
                 DebugI("forget to release game ???")
                 releaseGame();
             }
-
             if (Setting == NULL) {
                 Setting = new ManiaSetting();
             }
-
             Game = new ManiaGame(osuFile,Setting);
             Game->prepareGame();
             Game->getSongChannel()->setVolume(BaseVolume);
