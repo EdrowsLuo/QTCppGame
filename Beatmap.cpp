@@ -68,14 +68,14 @@ void nso::ControlPoints::generateBeats(vector<double> &l, double start, double e
     double beat = start;
     if (tp.Time > beat) {
         double ext = tp.Time;
-        while (ext - beat > tp.BeatLength) {
-            ext -= tp.BeatLength;
+        while (ext - beat > tp.BeatLength * tp.Meter) {
+            ext -= tp.BeatLength * tp.Meter;
         }
         beat = ext;
     } else {
         double ext = tp.Time;
-        while (beat - ext > tp.BeatLength) {
-            ext += tp.BeatLength;
+        while (beat - ext > tp.BeatLength * tp.Meter) {
+            ext += tp.BeatLength * tp.Meter;
         }
         beat = ext;
     }
@@ -86,14 +86,14 @@ void nso::ControlPoints::generateBeats(vector<double> &l, double start, double e
         next = Timings[i];
         while (beat < next.Time) {
             l.push_back(beat);
-            beat += tp.BeatLength;
+            beat += tp.BeatLength * tp.Meter;
         }
         beat = next.Time;
     }
     //添加末尾
     while (beat < end) {
         l.push_back(beat);
-        beat += next.BeatLength;
+        beat += tp.BeatLength * tp.Meter;
     }
 }
 
