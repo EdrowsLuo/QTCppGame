@@ -35,7 +35,9 @@ SOURCES += main.cpp\
     squaredown.cpp \
     squaredownh.cpp \
     shadow.cpp \
-    progressbar.cpp
+    progressbar.cpp \
+    rhythmline.cpp\
+    Project.cpp
 
 HEADERS  += widget.h \
     MyDraw.h \
@@ -70,7 +72,9 @@ HEADERS  += widget.h \
     squaredown.h \
     squaredownh.h \
     shadow.h \
-    progressbar.h
+    progressbar.h \
+    rhythmline.h\
+    Project.h
 
 
 
