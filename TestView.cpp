@@ -268,7 +268,6 @@ void TestView::paintEvent(QPaintEvent *event) {
     ss << Game->getPlayingData()->getScore()->TotalHit << " - " ;
     ss << Game->getPlayingData()->getScore()->getScore();
 
-    MakeString(str1,"aaa" << 1 << endl << "ssss"  << 2.2222)
 
 
     QFont font;

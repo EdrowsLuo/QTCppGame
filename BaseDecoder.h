@@ -14,6 +14,7 @@
 #include <map>
 #include <QDebug>
 #include "defext.h"
+#include <sstream>
 
 using namespace std;
 using namespace edp;
@@ -69,9 +70,13 @@ namespace nso{
         void parse(Beatmap &beatmap);
 
         void registerParser(const string &key, PartParser *parser);
+
+        void close();
     protected:
         map<string,PartParser*> parserMap;
-        EdpFileReader reader;
+        //EdpFileReader reader;
+
+        stringstream input;
 
         bool toNextLine();
         virtual bool onBegin(Beatmap &beatmap){ return true; };
@@ -91,7 +96,7 @@ namespace nso{
 
         virtual void parseData(const string &line, Beatmap &beatmap){
             converter(line,beatmap.*target);
-            DebugI(beatmap.*target)
+            //DebugI(beatmap.*target)
         }
     protected:
         _Data Beatmap::* target;

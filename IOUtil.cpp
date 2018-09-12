@@ -6,6 +6,7 @@
 #include <iostream>
 #include "IOUtil.h"
 #include "EdpFileReader.h"
+#include "EdpFileWriter.h"
 
 void IOUtil::readFull(EdpFile &file, string &ptr) {
     stringstream strbuilder;
@@ -15,4 +16,10 @@ void IOUtil::readFull(EdpFile &file, string &ptr) {
         strbuilder << line << endl;
     }
     ptr =  strbuilder.str();
+}
+
+void IOUtil::writeFull(EdpFile &file, const string &data) {
+    EdpFileWriter writer(file);
+    writer.print(data);
+    writer.close();
 }

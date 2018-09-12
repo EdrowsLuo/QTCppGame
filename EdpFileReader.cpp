@@ -3,6 +3,9 @@
 //
 
 #include "EdpFileReader.h"
+#include "defext.h"
+#include <iostream>
+#include <typeinfo>
 
 using namespace edp;
 
@@ -41,10 +44,14 @@ void EdpFileReader::close() {
 bool EdpFileReader::readLine(string &ptr) {
     if (err)
         throw ioexception("bad input stream");
-    if (getline(in, ptr)) {
-        return true;
-    } else {
-        return false;
+    try {
+        if (getline(in, ptr)) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (std::bad_cast& bc) {
+        throw ioexception("bad_cast??");
     }
 }
 
