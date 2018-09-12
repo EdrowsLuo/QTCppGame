@@ -1,7 +1,7 @@
 #ifndef SONGGROUP_H
 #define SONGGROUP_H
 
-#include"Edp.h"
+#include "Project.h"
 #include "EdpFile.h"
 #include "IOUtil.h"
 #include "string.h"

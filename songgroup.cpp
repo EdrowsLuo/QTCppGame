@@ -1,5 +1,6 @@
 #include "songgroup.h"
 using namespace neb;
+using namespace nso;
 
 SongGroup::SongGroup()
 {

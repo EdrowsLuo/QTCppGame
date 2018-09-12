@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "QGraphicsEffect"
+#include <QGraphicsEffect>
 #include "slidebox1.h"
 #include <QHBoxLayout>
 #include "difficultyscrollarea.h"
@@ -12,7 +12,7 @@
 #include "Edp.h"
 #include "EdpFile.h"
 #include "IOUtil.h"
-#include "string.h"
+#include "cstring"
 #include "cJSON.h"
 #include "CJsonObject.hpp"
 

@@ -76,7 +76,27 @@ add_executable(qt_bb
         CJsonObject.hpp
         Project.cpp
         Project.h
+        slidebox1.cpp
+        slidebox1.h
+        slideanim.cpp
+        slideanim.h
+        difficultyscrollarea.cpp
+        difficultyscrollarea.h
+        myqsplitter.cpp
+        myqsplitter.h
+        difficultyframe.cpp
+        difficultyframe.h
+        rightframe.cpp
+        rightframe.h
+        MainWindow2.cpp
+        songgroup.cpp
+        songgroup.h
+        my_song.cpp
+        my_song.h
+        my_difficulty.cpp
+        my_difficulty.h
         )
+
 target_link_libraries(qt_bb ${QT_LIBRARIES} )
 
 target_link_libraries(qt_bb bass)

@@ -1,7 +1,5 @@
 #include <QtGui/QApplication>
 #include "mainwindow.h"
-#include "slidebox1.h"
-#include "difficultyscrollarea.h"
 #include "Project.h"
 
 
