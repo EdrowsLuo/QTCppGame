@@ -8,9 +8,10 @@
 #include <fstream>
 #include <direct.h>
 #include <stack>
-#include <string.h>
+#include <cstring>
 #include "EdpFile.h"
 #include "Edp.h"
+#include "Project.h"
 
 using namespace edp;
 
@@ -176,7 +177,7 @@ bool EdpFile::deleteFile() {
     return -1 != remove(mpath.c_str());
 }
 
-string EdpFile::getAbusolutPathFromRoot(string &rpath) {
+/*string EdpFile::getAbusolutPathFromRoot(string &rpath) {
     while (!rpath.empty()) {
         if (rpath.at(0) == PATH_SEPARATOR) {
             rpath.erase(0);
@@ -184,8 +185,8 @@ string EdpFile::getAbusolutPathFromRoot(string &rpath) {
             break;
         }
     }
-    string path = Project::ProjectRoot->getFullPath();
+    string path = nso::Project::ProjectRoot->getFullPath();
     path += PATH_SEPARATOR;
     path += rpath;
     return path;
-}
+}*/

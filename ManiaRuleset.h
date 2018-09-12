@@ -386,12 +386,15 @@ namespace nso{
         }
 
         void update(){
-            if (Game->updateTime()) {
-                if (modIsEnable(Mania::MOD_AUTO)) {
-                    AutoPlay->update(Game->getFrameTime());
+            if (checkGame()) {
+                if (Game->updateTime()) {
+                    if (modIsEnable(Mania::MOD_AUTO)) {
+                        AutoPlay->update(Game->getFrameTime());
+                    }
+                    Game->update();
                 }
-                Game->update();
             }
+
         }
 
         virtual void mkeyPressEvent(QKeyEvent *event) {

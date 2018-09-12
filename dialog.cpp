@@ -7,8 +7,10 @@
 
 #include <string>
 #include <sstream>
+#include "Project.h"
 
 using namespace std;
+using namespace nso;
 
 Dialog::Dialog(QWidget *parent) :
     QDialog(parent),
@@ -48,10 +50,10 @@ Dialog::~Dialog()
 
 void Dialog::on_pushButton_clicked()
 {
-    if (view->mGameHolder->getGame()->running()){
-        view->mGameHolder->getGame()->pauseGame();
+    if (Project::ProjectGame->getGame()->running()){
+        Project::ProjectGame->getGame()->pauseGame();
     } else {
-        view->mGameHolder->getGame()->runGame();
+        Project::ProjectGame->getGame()->runGame();
     }
     Debug("clicked");
     //view->Game->pauseGame();
@@ -60,8 +62,8 @@ void Dialog::on_pushButton_clicked()
 
 void Dialog::on_pushButton_2_clicked()
 {
-    view->mGameHolder->getGame()->reset();
-    view->mGameHolder->getGame()->runGame();
+    Project::ProjectGame->getGame()->reset();
+    Project::ProjectGame->getGame()->runGame();
 }
 
 void Dialog::animate() {
@@ -70,7 +72,7 @@ void Dialog::animate() {
 
 void Dialog::on_horizontalSlider_valueChanged(int value)
 {
-    view->mGameHolder->getGame()->getSongChannel()->setVolume(value / 100.0f);
+    Project::ProjectGame->getGame()->getSongChannel()->setVolume(value / 100.0f);
 }
 
 void Dialog::on_progressBar_valueChanged(int value)
@@ -99,5 +101,5 @@ void Dialog::on_pushButton_5_clicked()
             //"D:\\Qt\\code\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
             "D:\\Qt\\code\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Starry's 4K Lv.15].osu"
     );
-    view->mGameHolder->loadGame(osuFile);
+    Project::ProjectGame->loadGame(osuFile);
 }
