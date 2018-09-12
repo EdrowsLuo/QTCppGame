@@ -107,6 +107,16 @@ void Widget::paintEvent(QPaintEvent *event){
             draw3.draw(event,&painter);
         }
     }
+    if (Scorenow==Scorepre){
+        MyCombo drawcombo(Game->getPlayingData()->getScore()->Combo,false);//Game->getPlayingData()->getScore()->Combo
+        //
+        drawcombo.draw(event,&painter);
+    }
+    else{
+        MyCombo drawcombo(Game->getPlayingData()->getScore()->Combo,true);
+        //
+        drawcombo.draw(event,&painter);
+    }
     Scorepre=Game->getPlayingData()->getScore()->getScore();
 
     /*MyScore draw3(512,0,36,60,0);
@@ -155,9 +165,12 @@ void Widget::paintEvent(QPaintEvent *event){
     drawshadow.draw(event,&painter);
     ProgressBar drawPB(Game->getFrameTime()/Game->getSongChannel()->length());
     drawPB.draw(event,&painter);
+    //MyCombo drawcombo(Game->getPlayingData()->getScore()->Combo,false);
+    //
+    //drawcombo.draw(event,&painter);
     //当前帧时间Game->getFrameTime();
 
     //分数Game->getPlayingData()->getScore()->getScore();
-
+    //节奏Game->Drawdata->getBeatsAvalibe();
     //Testtest test();
 }
