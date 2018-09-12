@@ -18,7 +18,13 @@ void BackGround::draw (QPaintEvent *event, QPainter *painter){
     pathq.lineTo(0,0);
     painter->setBrush(QColor(100,100,100));
     painter->drawPath(pathq);*/
-
+    QPainterPath pathblack;
+    pathblack.moveTo(0,0);
+    pathblack.lineTo(0,720);
+    pathblack.lineTo(1280,720);
+    pathblack.lineTo(1280,0);
+    painter->setBrush(QColor(0,0,0,50));
+    painter->drawPath(pathblack);
     QLinearGradient linearGradient(640,612,640,84);
     linearGradient.setColorAt(0,QColor(0,162,219,255));
     linearGradient.setColorAt(1,QColor(0,162,219,90));

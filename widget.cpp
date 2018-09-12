@@ -11,6 +11,7 @@
 #include "defext.h"
 #include "shadow.h"
 #include "progressbar.h"
+#include "rhythmline.h"
 //#include "testtest.h"
 #include "keys.h"
 using namespace edp;
@@ -22,8 +23,8 @@ Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent
 {
     ui->setupUi(this);
     EdpFile *osuFile = new EdpFile(
-           "D:\\QT\\wj\\MyBKG\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [4K Lv.4].osu"
-            //"D:\\QT\\wj\\MyBKG\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
+           //"D:\\QT\\wj\\MyBKG\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [4K Lv.4].osu"
+            "D:\\QT\\wj\\MyBKG\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
             //"D:\\QT\\wj\\MyBKG\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Starry's 4K Lv.15].osu"
             );
     //Game = new ManiaGame(osuFile,new ManiaSetting());
@@ -36,7 +37,7 @@ Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent
     //DebugL("")
     QTimer *timer=new QTimer (this);
     connect(timer,SIGNAL(timeout()),this,SLOT(animate()));
-    timer->start(20);
+    timer->start(5);
     //Game->linkKeyInput(keyPipee);
     //Game->runGame();
     mGameHolder = new GameHolder();
@@ -161,8 +162,13 @@ void Widget::paintEvent(QPaintEvent *event){
         drawkey0.draw(event,&painter);
         }
     }
+    ForEachLong(*Game->getDrawdata()->getBeatsAvalibe(),itr,vector<double>::iterator){
+        rhythmLine drawrhy(*itr);
+        drawrhy.draw(event,&painter);
+    }
     Shadow drawshadow;
     drawshadow.draw(event,&painter);
+
     ProgressBar drawPB(Game->getFrameTime()/Game->getSongChannel()->length());
     drawPB.draw(event,&painter);
     //MyCombo drawcombo(Game->getPlayingData()->getScore()->Combo,false);

@@ -14,8 +14,8 @@ void Keys::draw(QPaintEvent *event,QPainter *painter){
    QPainterPath pathway[4];
    QPainterPath pathway1[7];
    QLinearGradient linearGradient1(640,720,640,0);
-   linearGradient1.setColorAt(0,QColor(230,230,230,60));
-   linearGradient1.setColorAt(1,QColor(230,230,230,120));
+   linearGradient1.setColorAt(0,QColor(230,230,230,120));
+   linearGradient1.setColorAt(0.8,QColor(230,230,230,0));
    if (judge==1){
 
            if (Keyjudge){
