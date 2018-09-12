@@ -28,12 +28,12 @@ void MyCombo::draw (QPaintEvent *event, QPainter *painter){
         qpixmap2.load(YOUKY::FCombo[a]);
         qpixmap3.load(YOUKY::FCombo[b]);
         if (isBig){
-            painter->drawPixmap(604,40,36,60,qpixmap2);
-            painter->drawPixmap(640,40,36,60,qpixmap3);
+            painter->drawPixmap(604,45,36,60,qpixmap2);
+            painter->drawPixmap(640,45,36,60,qpixmap3);
         }
         else {
-            painter->drawPixmap(610,40,30,50,qpixmap2);
-            painter->drawPixmap(640,40,30,50,qpixmap3);
+            painter->drawPixmap(610,45,30,50,qpixmap2);
+            painter->drawPixmap(640,45,30,50,qpixmap3);
         }
     }
     if (100<=num&&num<1000){
@@ -45,14 +45,14 @@ void MyCombo::draw (QPaintEvent *event, QPainter *painter){
         qpixmap5.load(YOUKY::FCombo[d]);
         qpixmap6.load(YOUKY::FCombo[f]);
         if (isBig){
-            painter->drawPixmap(586,40,36,60,qpixmap4);
-            painter->drawPixmap(622,40,36,60,qpixmap5);
-            painter->drawPixmap(658,40,36,60,qpixmap6);
+            painter->drawPixmap(586,45,36,60,qpixmap4);
+            painter->drawPixmap(622,45,36,60,qpixmap5);
+            painter->drawPixmap(658,45,36,60,qpixmap6);
         }
         else {
-            painter->drawPixmap(595,40,30,50,qpixmap4);
-            painter->drawPixmap(625,40,30,50,qpixmap5);
-            painter->drawPixmap(655,40,30,50,qpixmap6);
+            painter->drawPixmap(595,45,30,50,qpixmap4);
+            painter->drawPixmap(625,45,30,50,qpixmap5);
+            painter->drawPixmap(655,45,30,50,qpixmap6);
         }
     }
     if (1000<=num&&num<10000){
@@ -62,16 +62,16 @@ void MyCombo::draw (QPaintEvent *event, QPainter *painter){
         for (int i=3;i>=0;i--){
             COMBONUM[i]=t-t/10*10;
             t=t/10;
-            qpixcom[i].load(YOUKY::FCombo[i]);
+            qpixcom[i].load(YOUKY::FCombo[COMBONUM[i]]);
         }
         if (isBig){
             for (int i=0;i<4;i++){
-                painter->drawPixmap(568+36*i,40,36,60,qpixcom[COMBONUM[i]]);
+                painter->drawPixmap(568+36*i,45,36,60,qpixcom[i]);
             }
         }
         else {
             for (int i=0;i<4;i++){
-                painter->drawPixmap(580+30*i,40,30,50,qpixcom[COMBONUM[i]]);
+                painter->drawPixmap(580+30*i,45,30,50,qpixcom[i]);
             }
         }
     }
