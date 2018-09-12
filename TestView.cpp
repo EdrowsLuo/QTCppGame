@@ -7,10 +7,12 @@
 #include "defext.h"
 #include "Util.h"
 #include "BeatmapDecoder.h"
-
+#include "Project.h"
 #include "ManiaRuleset.h"
+#include "Edp.h"
 
 using namespace nso;
+using namespace edp;
 
 
 class MKeyHolder:public KeyHolder{
@@ -56,9 +58,8 @@ TestView::TestView(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers), p
             "D:\\Qt\\code\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
             //"D:\\Qt\\code\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Starry's 4K Lv.15].osu"
             );
-    mGameHolder = new GameHolder();
-    mGameHolder->enableMod(Mania::MOD_AUTO);
-    mGameHolder->loadGame(osuFile);
+    Project::ProjectGame->enableMod(Mania::MOD_AUTO);
+    Project::ProjectGame->loadGame(osuFile);
     /*Game = new ManiaGame(osuFile,new ManiaSetting());
 
     Game->prepareGame();
@@ -87,9 +88,9 @@ void TestView::animate() {
 }
 
 void TestView::paintEvent(QPaintEvent *event) {
-    mGameHolder->update();
+    Project::ProjectGame->update();
     //DebugL("")
-    ManiaGame *Game = mGameHolder->getGame();
+    ManiaGame *Game = Project::ProjectGame->getGame();
     //DebugL("")
 
     QPainter painter;
@@ -287,11 +288,11 @@ void TestView::paintEvent(QPaintEvent *event) {
 
 
 void TestView::mkeyPressEvent(QKeyEvent *event) {
-    mGameHolder->mkeyPressEvent(event);
+    Project::ProjectGame->mkeyPressEvent(event);
 }
 
 void TestView::mkeyReleaseEvent(QKeyEvent *event) {
-    mGameHolder->mkeyReleaseEvent(event);
+    Project::ProjectGame->mkeyReleaseEvent(event);
 }
 
 void TestView::test() {

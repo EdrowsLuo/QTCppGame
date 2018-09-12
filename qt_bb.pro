@@ -31,7 +31,8 @@ SOURCES += main.cpp\
         ManiaObjects.cpp\
         Edp.cpp\
         cJSON.cpp\
-        CJsonObject.cpp
+        CJsonObject.cpp\
+        Project.cpp
 
 HEADERS  += mainwindow.h\
         BaseDecoder.h\
@@ -59,7 +60,8 @@ HEADERS  += mainwindow.h\
         BeatmapBase.h\
         Util.h\
         CJsonObject.hpp\
-        cJSON.h
+        cJSON.h\
+        Project.h
 
 
 FORMS    += mainwindow.ui \

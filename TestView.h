@@ -46,7 +46,7 @@ public:
 
     ManiaDrawdata *drawdata;*/
 
-    GameHolder *mGameHolder;
+    //GameHolder *mGameHolder;
 
 };
 

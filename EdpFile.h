@@ -63,7 +63,7 @@ namespace edp{
 
         bool deleteFile();
 
-        static string getAbusolutPathFromRoot(string &rpath);
+        //static string getAbusolutPathFromRoot(string &rpath);
     private:
         void initial();
         static string getParentPath(string &path);
