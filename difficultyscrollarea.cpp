@@ -1,6 +1,6 @@
 #include "difficultyscrollarea.h"
 #include "ui_difficultyscrollarea.h"
-#include "QMessageBox"
+#include <QMessageBox>
 
 
 
