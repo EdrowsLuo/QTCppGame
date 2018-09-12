@@ -3,6 +3,7 @@
 #include <QGraphicsEffect>
 #include <QMessageBox>
 #include <QPropertyAnimation>
+#include "defext.h"
 
 SlideBox1::SlideBox1(int NOS , QString *NL ,QWidget *parent) :
     QWidget(parent),

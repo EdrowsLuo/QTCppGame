@@ -60,6 +60,7 @@ public slots:
     void SN_ADD();
     void SN_SUB();//
     void SN_SUB_ANIM1();
+    void anim();
 
 signals:
     void CHANGE_TO_AUTO();
