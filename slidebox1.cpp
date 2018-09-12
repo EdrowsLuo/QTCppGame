@@ -4,7 +4,7 @@
 #include "QMessageBox"
 #include"QPropertyAnimation"
 
-SlideBox1::SlideBox1(QWidget *parent) :
+SlideBox1::SlideBox1(int NOS , QString *NL ,QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SlideBox1)
 {
@@ -33,6 +33,9 @@ SlideBox1::SlideBox1(QWidget *parent) :
     ui->chooseButton->raise();
 
     cT=0;
+    numberOfSongs = NOS ;
+    songName = NL;
+    id=0;
 
     upPageE = new QGraphicsOpacityEffect(ui->upPage);
     upPageE->setOpacity(0);
@@ -52,6 +55,8 @@ SlideBox1::SlideBox1(QWidget *parent) :
     ptf[4] = ui->fakeButton5;
     ptf[5] = ui->fakeButton6;
     ptf[6] = ui->fakeButton7;
+    for(int i = 0; i < 7 ; i++)
+    ptf[i]->setText(songName[i%numberOfSongs]);
 
   //  ptf[0]->setGeometry(100,0,100,400);
 
@@ -73,10 +78,6 @@ void SlideBox1::on_downPage_clicked()
 
     emit downPagePressed();
 
-
- //   QString a;
-  //  a =QString::number(this->width());
-  //  QMessageBox::about(this,"ds",a );
   /*  slide1 = new QPropertyAnimation(ptf[(cT)%7],"geometry");
     slide1->setDuration(400);
     slide1->setStartValue(QRect(xOfFakeButton[0],yOfFakeButton[0],widthOfFakeButton[0],heightOfFakeButton[0]));
@@ -134,6 +135,12 @@ void SlideBox1::on_downPage_clicked()
     cT = cT - 1;
     if (cT<0)cT=6;
     if (cT>7)cT=0;
+
+    id--;
+    if (id>=numberOfSongs)id=0;
+    if (id<0)id=numberOfSongs-1;
+
+    ptf[(cT+7)%7]->setText(songName[(id)%numberOfSongs]);
 }
 
 
@@ -245,6 +252,13 @@ void SlideBox1::on_upPage_clicked()
     cT = cT + 1;
     if (cT>=7)cT=0;
     if(cT<0)cT=6;
+
+    id++;
+    if (id>=numberOfSongs)id=0;
+    if (id<0)id=numberOfSongs-1;
+
+    ptf[(cT+6)%7]->setText(songName[(id+6)%numberOfSongs]);
+
 }
 
 void SlideBox1::resizeEvent(QResizeEvent *){

@@ -62,7 +62,7 @@ namespace nso{
 
         explicit BaseDecoder(const string &path);
         explicit BaseDecoder(EdpFile &file);
-        ~BaseDecoder();
+        virtual ~BaseDecoder();
 
         static bool parseTag(string &line, string &tag);
 

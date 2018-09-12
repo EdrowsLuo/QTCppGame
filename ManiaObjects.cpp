@@ -209,7 +209,10 @@ void nso::ManiaHoldEndJudgeObject::onRelease() {
     Hold->release();
 }
 
-ManiaHoldEndJudgeObject::~ManiaHoldEndJudgeObject() { delete TickObjects; }
+ManiaHoldEndJudgeObject::~ManiaHoldEndJudgeObject() {
+    delete TickObjects;
+}
+
 
 void nso::ManiaNoteObject::addPlayingObjects(vector<nso::JudgeableObject<nso::ManiaPlaytimeData> *> *judge,
                                              vector<nso::PlayingHitObject *> *draw) {

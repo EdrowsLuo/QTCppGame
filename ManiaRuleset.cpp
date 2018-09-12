@@ -160,7 +160,6 @@ void ManiaGame::prepareGame() {
 
 
         int keyCount = (int) (OsuBeatmap->CircleSize + 0.001);
-
         //连接键位
         vector<int> *keyBindings = (*(Setting->getKeyBinding()))[keyCount - 1];
         ForI(key, 0, keyCount){
@@ -170,7 +169,6 @@ void ManiaGame::prepareGame() {
         }
 
         Objects = new vector<ManiaObject*>();
-
         ForEachLong(OsuBeatmap->hitobjects,itr,vector<HitObject*>::iterator) {
             HitObject *object = *itr;
             if ((object->type & HitObject::TYPE_MASK) == HitObject::TYPE_MANIA_HOLD) {

@@ -304,7 +304,10 @@ namespace nso{
         GameHolder() :
                 Mods(0),
                 BaseVolume(0.5f),
-                Game(NULL){
+                Game(NULL),
+                Setting(NULL),
+                KeyPipe(NULL),
+                AutoPlay(NULL){
 
         }
 
@@ -313,7 +316,7 @@ namespace nso{
         }
 
         bool enableMod(int mod) {
-            if (!checkGame()) {
+            if (checkGame()) {
                 DebugI("you can't change mod when game is loaded!")
                 return false;
             }
@@ -322,7 +325,7 @@ namespace nso{
         }
 
         bool disableMod(int mod) {
-            if (!checkGame()) {
+            if (checkGame()) {
                 DebugI("you can't change mod when game is loaded!")
                 return false;
             }
@@ -346,11 +349,9 @@ namespace nso{
                 DebugI("forget to release game ???")
                 releaseGame();
             }
-
             if (Setting == NULL) {
                 Setting = new ManiaSetting();
             }
-
             Game = new ManiaGame(osuFile,Setting);
             Game->prepareGame();
             Game->getSongChannel()->setVolume(BaseVolume);
@@ -385,12 +386,15 @@ namespace nso{
         }
 
         void update(){
-            if (Game->updateTime()) {
-                if (modIsEnable(Mania::MOD_AUTO)) {
-                    AutoPlay->update(Game->getFrameTime());
+            if (checkGame()) {
+                if (Game->updateTime()) {
+                    if (modIsEnable(Mania::MOD_AUTO)) {
+                        AutoPlay->update(Game->getFrameTime());
+                    }
+                    Game->update();
                 }
-                Game->update();
             }
+
         }
 
         virtual void mkeyPressEvent(QKeyEvent *event) {

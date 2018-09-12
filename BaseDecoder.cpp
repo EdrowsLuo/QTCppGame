@@ -26,10 +26,7 @@ BaseDecoder::BaseDecoder(const string &path) : parserMap(), parseProperty() {
 }
 
 BaseDecoder::~BaseDecoder() {
-    //reader.close();
-    //delete &reader;
-    delete &parserMap;
-    delete &parseProperty;
+
 }
 
 void BaseDecoder::registerParser(const string &key, nso::PartParser *parser) {
@@ -92,6 +89,7 @@ void BaseDecoder::parse(Beatmap &beatmap) {
             parser->onParseEnd(beatmap, *this);
             parser = NULL;
         }
+        beatmap.decoder = NULL;
     } else {
         throw DecodeException(beatmap.latestErr, this);
     }
