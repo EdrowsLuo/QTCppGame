@@ -73,7 +73,10 @@ add_executable(qt_bb
         cJSON.h
         cJSON.cpp
         CJsonObject.cpp
-        CJsonObject.hpp Project.cpp Project.h)
+        CJsonObject.hpp
+        Project.cpp
+        Project.h
+        )
 target_link_libraries(qt_bb ${QT_LIBRARIES} )
 
 target_link_libraries(qt_bb bass)

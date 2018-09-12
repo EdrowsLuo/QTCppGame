@@ -1,12 +1,165 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "slidebox1.h"
+#include "difficultyscrollarea.h"
+#include "QHBoxLayout"
+#include <QAction>
+#include "ui_slidebox1.h"
+#include "defext.h"
+#include "CJsonObject.hpp"
+#include "songgroup.h"
+
+
+using namespace neb;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    setWindowTitle(tr("2D Painting on Native and OpenGL Widgets"));
+
+    s = SongGroup();
+   /* EdpFile out(*Project::ProjectRoot,"assets\\songs\\songs.json");
+    string str;
+    IOUtil::readFull(out,str);
+    CJsonObject object(str);
+    CJsonObject *basicData;
+
+    numOfSong = object["data"].GetArraySize();
+
+    basicData = new CJsonObject[numOfSong];
+    SongName = new string[numOfSong];
+
+
+    for ( int i = 0 ; i<numOfSong ; i++ ){
+        objcet["data"].Get(i,basicData[i]);
+    }
+
+    SongName = new string[numOfSong];
+
+*/
+
+
+
+
+/*    ss= new QString[9];
+    ss[0]="s0";
+    ss[1]="s1";
+    ss[2]="s2";
+    ss[3]="s3";
+    ss[4]="s4";
+    ss[5]="s5";
+    ss[6]="s6";
+    ss[7]="s7";
+    ss[8]="s8";
+*/
+    ss = new QString[s.Number];
+    for ( int i = 0 ; i<s.Number ; i++ ){
+        ss[i] = s.songlist[i].songsName.c_str();
+    }
+
+    SN = 0;
+    ST = 0;
+    al=1;
+    modeNumber=0;
+
+//    for ( int i = 0 ; i<7 ;i++)
+//    Songinfo[i] = new Songs(i+1);
+
+    RightBox = new SlideBox1(s.Number,ss,this);
+    RightBox->setObjectName("sid");
+
+
+    connect(RightBox,SIGNAL(downPagePressed()),this,SLOT(SN_ADD()));
+    connect(RightBox,SIGNAL(upPagePressed()),this,SLOT(SN_SUB()));
+
+    LeftBox[(SN+100)%2]=new DifficultyScrollArea( s.songlist[0] ,this);
+    LeftBox[(SN+100)%2]->setObjectName("dou");
+
+
+    leftBoxDisappear=new QPropertyAnimation( this );
+    leftBoxDisappear->setPropertyName("geometry");
+    leftBoxAppear = new QPropertyAnimation (this);
+    leftBoxAppear->setPropertyName("geometry");
+    connect(leftBoxDisappear,SIGNAL(finished()),this,SLOT(SN_SUB_ANIM1()));
+
+
+    startButtonDisappear=new QPropertyAnimation(ui->StartButton,"geometry",this);
+    setButtonDisappear=new QPropertyAnimation(ui->SetButton,"geometry",this);
+    exitButtonDisappear=new QPropertyAnimation(ui->ExitButton,"geometry",this);
+    titleDisappear=new QPropertyAnimation(ui->label,"geometry",this);
+    connect(startButtonDisappear,SIGNAL(finished()),this,SLOT(onChooseSurfaceAppear()));
+
+    startButtonAppear=new QPropertyAnimation(ui->StartButton,"geometry",this);
+    setButtonAppear=new QPropertyAnimation(ui->SetButton,"geometry",this);
+    exitButtonAppear=new QPropertyAnimation(ui->ExitButton,"geometry",this);
+    titleAppear=new QPropertyAnimation(ui->label,"geometry",this);
+
+    leftBoxAppear0=new QPropertyAnimation(this);
+    leftBoxDisappear0=new QPropertyAnimation(this);
+    LeftBox[(SN+100)%2]->hide();
+
+    rightBoxAppear0 =new QPropertyAnimation(RightBox,"geometry",this);
+    rightBoxDisappear0 =new QPropertyAnimation(RightBox,"geometry",this);
+    RightBox->hide();
+
+    upButtonAppear=new QPropertyAnimation(ui->upButton,"geometry",this);
+    upButtonDisappear=new QPropertyAnimation(ui->upButton,"geometry",this);
+//    ui->gridLayout->removeWidget(ui->upButton);
+    ui->upButton->close();
+
+    connect(upButtonDisappear,SIGNAL(finished()),this,SLOT(onStartSurfaceAppear()));
+
+    ui->ModeButton1->close();
+    modeButtonAppear=new QPropertyAnimation(ui->ModeButton1,"geometry",this);
+    modeButtonDisappear=new QPropertyAnimation(ui->ModeButton1,"geometry",this);
+}
+
+void MainWindow::SongACopyB( Songs * a , Songs * b ){
+    a->songNumber = b->songNumber;
+}
+
+
+
+void MainWindow::UpDateSize(){
+    int w,h;
+    w = this->width();
+    h = this->height();
+    this->RightBox->setGeometry(QRect(439*w/800,11*h/600,350*w/800,h));
+    this->LeftBox[(SN+100)%2]->setGeometry(QRect(11*w/800,40*h/600,422*w/800,510*h/600));
+    lx = 11*w/800;
+    ly = 40*h/600;
+    lw = 422*w/800;
+    lh = 510*h/600;
+    rx = 439*w/800;
+    ry = 11*h/600;
+    rw = 350*w/800;
+    rh = h;
+    ux = 370*w/800; mx = 370*w/800;
+    uy = 0; my = 540*h/600;
+    uw = 60*w/800; mw = 60*w/800;
+    uh = 25*h/600; mh = 25*h/600;
+    ui->upButton->setGeometry(QRect(ux,uy,uw,uh));
+    ui->ModeButton1->setGeometry(QRect(mx,my,mw,mh));
+    sx = 310*w/800;
+    sy = 200*h/600;
+    sw = 180*w/800;
+    sh = 60*h/600;
+    sd = 100*h/600;
+    ui->StartButton->setGeometry(QRect(sx,sy,sw,sh));
+    ui->SetButton->setGeometry(QRect(sx,sy+sd,sw,sh));
+    ui->ExitButton->setGeometry(QRect(sx,sy+sd+sd,sw,sh));
+    lbx = 300*w/800;
+    lby = 50*h/600;
+    lbw = 200*w/800;
+    lbh = 70*h/600;
+    ui->label->setGeometry(QRect(lbx,lby,lbw,lbh));
+
+}
+void MainWindow::resizeEvent(QResizeEvent *){
+    UpDateSize();
+ //   if(this->height()!=this->width()*6/8)
+ //   this->setGeometry(QRect(this->x(),this->y(),this->width(),this->width()*6/8));
 }
 
 MainWindow::~MainWindow()
@@ -14,7 +167,167 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_StartButton_clicked()
 {
 
+  /*  QMessageBox::about(NULL,"s",QString::number(ui->label->x()));
+    QMessageBox::about(NULL,"s",QString::number(ui->label->y()));
+    QMessageBox::about(NULL,"s",QString::number(ui->label->width()));
+    QMessageBox::about(NULL,"s",QString::number(ui->label->height()));*/
+
+    leftBoxAppear0->setTargetObject(LeftBox[(SN+100)%2]);
+    leftBoxAppear0->setPropertyName("geometry");
+
+    startButtonDisappear->setStartValue(QRect(ui->StartButton->geometry()));
+    startButtonDisappear->setEndValue(QRect(ui->StartButton->x(),0-ui->StartButton->height(),ui->StartButton->width(),ui->StartButton->height()));
+    startButtonDisappear->setDuration(400);
+    startButtonDisappear->setEasingCurve(QEasingCurve::InBack);
+    startButtonDisappear->start();
+
+    setButtonDisappear->setStartValue(QRect(ui->SetButton->geometry()));
+    setButtonDisappear->setEndValue(QRect(ui->SetButton->x(),0-ui->SetButton->height(),ui->SetButton->width(),ui->SetButton->height()));
+    setButtonDisappear->setDuration(400);
+    setButtonDisappear->setEasingCurve(QEasingCurve::InBack);
+    setButtonDisappear->start();
+
+    exitButtonDisappear->setStartValue(QRect(ui->ExitButton->geometry()));
+    exitButtonDisappear->setEndValue(QRect(ui->ExitButton->x(),0-ui->ExitButton->height(),ui->ExitButton->width(),ui->ExitButton->height()));
+    exitButtonDisappear->setDuration(400);
+    exitButtonDisappear->setEasingCurve(QEasingCurve::InBack);
+    exitButtonDisappear->start();
+
+    titleDisappear->setStartValue(QRect(ui->label->geometry()));
+    titleDisappear->setEndValue(QRect(ui->label->x(),0-ui->label->height(),ui->label->width(),ui->label->height()));
+    titleDisappear->setDuration(400);
+    titleDisappear->setEasingCurve(QEasingCurve::InBack);
+    titleDisappear->start();
+
+
+}
+
+
+void MainWindow::onChooseSurfaceAppear(){
+    ui->StartButton->hide();
+    ui->SetButton->hide();
+    ui->ExitButton->hide();
+    ui->label->hide();
+    ui->upButton->setGeometry(QRect(ux,0-uh,uw,uh));
+    ui->upButton->show();
+    ui->ModeButton1->show();
+
+    LeftBox[(SN+100)%2]->show();
+    RightBox->show();
+
+
+
+    upButtonAppear->setStartValue(QRect(ux,0-uh,uw,uh));
+    upButtonAppear->setEndValue(QRect(ux,uy,uw,uh));
+    upButtonAppear->setDuration(1000);
+    upButtonAppear->setEasingCurve(QEasingCurve::OutCirc);
+    upButtonAppear->start();
+
+    modeButtonAppear->setStartValue(QRect(mx,600+mh,mw,mh));
+    modeButtonAppear->setEndValue(QRect(mx,my,mw,mh));
+    modeButtonAppear->setDuration(800);
+    modeButtonAppear->setEasingCurve(QEasingCurve::OutBack);
+    modeButtonAppear->start();
+
+    LeftBox[(SN+100)%2]->show();
+  //  LeftBox[SN%2]->setGeometry(QRect(lx,ly,lw,lh));
+    leftBoxAppear0->setStartValue(QRect(0-lw,ly,lw,lh));
+    leftBoxAppear0->setEndValue(QRect(lx,ly,lw,lh));
+    leftBoxAppear0->setDuration(800);
+    leftBoxAppear0->setEasingCurve(QEasingCurve::OutBack);
+    leftBoxAppear0->start();
+
+    RightBox->show();
+  //  LeftBox[SN%2]->setGeometry(QRect(rx,ry,rw,rh));
+    rightBoxAppear0->setStartValue(QRect(this->width()+rw,ry,rw,rh));
+    rightBoxAppear0->setEndValue(QRect(rx,ry,rw,rh));
+    rightBoxAppear0->setDuration(800);
+    rightBoxAppear0->setEasingCurve(QEasingCurve::OutBack);
+    rightBoxAppear0->start();
+}
+
+void MainWindow::on_upButton_clicked()
+{
+    leftBoxDisappear0->setTargetObject(LeftBox[(SN+100)%2]);
+    leftBoxDisappear0->setPropertyName("geometry");
+
+    upButtonDisappear->setStartValue(QRect(ux,uy,uw,uh));
+    upButtonDisappear->setEndValue(QRect(ux,0-uh,uw,uh));
+    upButtonDisappear->setDuration(800);
+    upButtonDisappear->setEasingCurve(QEasingCurve::InBack);
+    upButtonDisappear->start();
+
+    modeButtonDisappear->setStartValue(QRect(mx,my,mw,mh));
+    modeButtonDisappear->setEndValue(QRect(mx,600+mh,mw,mh));
+    modeButtonDisappear->setDuration(800);
+    modeButtonDisappear->setEasingCurve(QEasingCurve::InBack);
+    modeButtonDisappear->start();
+
+    leftBoxDisappear0->setStartValue(QRect(lx,ly,lw,lh));
+    leftBoxDisappear0->setEndValue(QRect(0-lw,ly,lw,lh));
+    leftBoxDisappear0->setDuration(800);
+    leftBoxDisappear0->setEasingCurve(QEasingCurve::InBack);
+    leftBoxDisappear0->start();
+
+    rightBoxDisappear0->setStartValue(QRect(rx,ry,rw,rh));
+    rightBoxDisappear0->setEndValue(QRect(this->width()+rw,ry,rw,rh));
+    rightBoxDisappear0->setDuration(800);
+    rightBoxDisappear0->setEasingCurve(QEasingCurve::InBack);
+    rightBoxDisappear0->start();
+}
+
+void MainWindow::onStartSurfaceAppear(){
+    ui->upButton->hide();
+    RightBox->hide();
+    LeftBox[(SN+100)%2]->hide();
+    ui->StartButton->show();
+    ui->SetButton->show();
+    ui->ExitButton->show();
+    ui->label->show();
+
+    startButtonAppear->setStartValue(QRect(sx,0-sh,sw,sh));
+    startButtonAppear->setEndValue(QRect(sx,sy,sw,sh));
+    startButtonAppear->setDuration(400);
+    startButtonAppear->setEasingCurve(QEasingCurve::OutBack);
+    startButtonAppear->start();
+
+    setButtonAppear->setStartValue(QRect(sx,0-sh,sw,sh));
+    setButtonAppear->setEndValue(QRect(sx,sy+sd,sw,sh));
+    setButtonAppear->setDuration(400);
+    setButtonAppear->setEasingCurve(QEasingCurve::OutBack);
+    setButtonAppear->start();
+
+    exitButtonAppear->setStartValue(QRect(sx,0-sh,sw,sh));
+    exitButtonAppear->setEndValue(QRect(sx,sy+sd+sd,sw,sh));
+    exitButtonAppear->setDuration(400);
+    exitButtonAppear->setEasingCurve(QEasingCurve::OutBack);
+    exitButtonAppear->start();
+
+    titleAppear->setStartValue(QRect(lbx,0-lbh,lbw,lbh));
+    titleAppear->setEndValue(QRect(lbx,lby,lbw,lbh));
+    titleAppear->setDuration(400);
+    titleAppear->setEasingCurve(QEasingCurve::OutBack);
+    titleAppear->start();
+}
+
+
+void MainWindow::on_ExitButton_clicked()
+{
+    this->close();
+}
+
+void MainWindow::on_ModeButton1_clicked()
+{
+    if ( modeNumber%2 == 0 ){
+        ui->ModeButton1->setText(QApplication::translate("MainWindow", "auto", 0, QApplication::UnicodeUTF8));
+        emit CHANGE_TO_AUTO();
+    }
+    if ( modeNumber%2 == 1 ){
+        ui->ModeButton1->setText(QApplication::translate("MainWindow", "manual", 0, QApplication::UnicodeUTF8));
+        emit CHANGE_TO_MANUAL();
+    }
+    modeNumber++;
 }
