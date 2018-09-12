@@ -2,12 +2,13 @@
 #include "ui_mainwindow.h"
 #include "slidebox1.h"
 #include "difficultyscrollarea.h"
-#include "QHBoxLayout"
+#include <QHBoxLayout>
 #include <QAction>
 #include "ui_slidebox1.h"
 #include "defext.h"
 #include "CJsonObject.hpp"
 #include "songgroup.h"
+#include "QTimer"
 
 
 using namespace neb;
@@ -21,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent) :
     s = SongGroup();
 
     QTimer *timer = new QTimer(this);
+    connect(timer,SIGNAL(timeout()),this,SLOT(anim()));
+    timer->start(5);
 
    /* EdpFile out(*Project::ProjectRoot,"assets\\songs\\songs.json");
     string str;
@@ -412,4 +415,8 @@ void MainWindow::SN_SUB_ANIM1(){
 //        DebugL("l")
     //   LeftBox[(SN+1)%2]->deleteLater();
     //           DebugL("d")
+}
+
+void MainWindow::anim() {
+    repaint();
 }
