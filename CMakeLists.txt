@@ -81,7 +81,7 @@ add_executable(qt_bb
         mywidgetbase.h
         javastyle.h
         EdAbstractViewGroup.cpp
-        EdAbstractViewGroup.h EdLayouts.cpp EdLayouts.h)
+        EdAbstractViewGroup.h EdLayouts.cpp EdLayouts.h jmath.cpp jmath.h)
 target_link_libraries(qt_bb ${QT_LIBRARIES} )
 
 target_link_libraries(qt_bb bass)

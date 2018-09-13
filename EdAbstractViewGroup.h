@@ -5,11 +5,15 @@
 #ifndef QT_BB_EDABSTRACTVIEWGROUP_H
 #define QT_BB_EDABSTRACTVIEWGROUP_H
 
+#define extends(cl) p_ublic cl
 #include "MyGLBaseView.h"
 #include "javastyle.h"
 
+
 namespace mywidget {
-    class EdAbstractViewGroup : EdView{
+#undef public
+    class EdAbstractViewGroup : public EdView{
+#define public public:
     private boolean backwardsDraw;
 
     private float paddingLeft, paddingTop, paddingRight, paddingBottom;
