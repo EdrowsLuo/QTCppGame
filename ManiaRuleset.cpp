@@ -200,7 +200,9 @@ void ManiaGame::prepareGame() {
         Judgementer->prepare();
 
     } catch (DecodeException &e) {
-        throw e;
+        DebugI(e.what())
+    } catch (ioexception &e) {
+        DebugI(e.what())
     }
 }
 
