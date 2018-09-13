@@ -5,6 +5,7 @@ Widgettest::Widgettest(QWidget *parent) :
     QGLWidget(QGLFormat(QGL::SampleBuffers),parent)
 {
     //fullscreen = false;
+    setFixedSize(800,600);
 }
 
 void Widgettest::animate(){
@@ -28,4 +29,5 @@ void Widgettest::paintEvent(QPaintEvent *event){
 
     Shadow drawshadow;
     drawshadow.draw(event,&painter);
+    painter.end();
 }
