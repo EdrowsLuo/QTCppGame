@@ -93,7 +93,7 @@ void ManiaDrawdata::update(double time) {
             t2 = Clamp(0, t2, 1);
             datas.push_back(ManiaDrawdataNode{
                     object,
-                    object->getType(),
+                    ManiaDrawdata::HOLD,
                     ManiaUtil::positionToLine(object->getX(), LineCount),
                     t,
                     t2
@@ -103,7 +103,7 @@ void ManiaDrawdata::update(double time) {
             t = Clamp(0, t, 1);
             datas.push_back(ManiaDrawdataNode{
                     object,
-                    object->getType(),
+                    ManiaDrawdata::NOTE,
                     ManiaUtil::positionToLine(object->getX(), LineCount),
                     t,
                     t
@@ -133,7 +133,7 @@ PlayingHitObject::PlayingHitObject(HitObject &h) :
         X(h.x),
         Y(h.y),
         Time(h.time),
-        Type(h.type),
+        Type(h.type & HitObject::TYPE_MASK),
         HitSound(h.hitSound) {
 
 }
