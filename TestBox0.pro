@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += opengl
 
 TARGET = TestBox0
 TEMPLATE = app
@@ -30,7 +31,17 @@ SOURCES += main.cpp\
     my_song.cpp \
     my_difficulty.cpp \
     Project.cpp \
-    leftframe.cpp
+    leftframe.cpp \
+    widgettest.cpp \
+    ManiaRuleset.cpp \
+    ManiaObjects.cpp \
+    GameJudgement.cpp \
+    BeatmapSetLoader.cpp \
+    BeatmapSetData.cpp \
+    BeatmapDecoder.cpp \
+    Beatmap.cpp \
+    BaseDecoder.cpp \
+    shadow.cpp
 
 HEADERS  += mainwindow.h \
     slidebox1.h \
@@ -54,7 +65,25 @@ HEADERS  += mainwindow.h \
     my_song.h \
     my_difficulty.h \
     Project.h \
-    leftframe.h
+    leftframe.h \
+    widgettest.h \
+    Util.h \
+    StringUtil.h \
+    nsoclass.h \
+    ManiaRuleset.h \
+    ManiaObjects.h \
+    maniaclass.h \
+    KeyIO.h \
+    GameJudgement.h \
+    BeatmapSetLoader.h \
+    BeatmapSetData.h \
+    BeatmapDecoder.h \
+    BeatmapBase.h \
+    Beatmap.h \
+    bassclass.h \
+    BaseDecoder.h \
+    shadow.h \
+    MyDraw.h
 
 FORMS    += mainwindow.ui \
     slidebox1.ui \
@@ -63,3 +92,6 @@ FORMS    += mainwindow.ui \
     rightframe.ui
 
 LIBS += -L F:\qt\QTCppGame -l bass
+
+RESOURCES += \
+    background.qrc

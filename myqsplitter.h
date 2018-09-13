@@ -11,8 +11,10 @@
 #include "CJsonObject.hpp"
 #include "my_song.h"
 #include "leftframe.h"
+#include <QGraphicsOpacityEffect>
+#include <QLayout>
 
-class MyQSplitter : public QSplitter
+class MyQSplitter : public QWidget
 {
     Q_OBJECT
 public:
@@ -21,6 +23,9 @@ public:
 
     int numberofwid;
     LeftFrame *f[12];
+
+    QHBoxLayout *layout;
+    QGraphicsOpacityEffect *op;
 
     int splitterHeight;
 

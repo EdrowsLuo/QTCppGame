@@ -4,17 +4,23 @@
 #include <QPushButton>
 #include "Project.h"
 #include "my_difficulty.h"
+#include "Edp.h"
+#include "EdpFile.h"
+
+using namespace edp;
+using namespace nso;
 
 class LeftFrame : public QPushButton
 {
     Q_OBJECT
 public:
     explicit LeftFrame(QWidget *parent = 0);
-    explicit LeftFrame( const My_Difficulty &, int , QWidget *parent = 0 );
+    explicit LeftFrame( const My_Difficulty &, string , QWidget *parent = 0 );
     My_Difficulty difficultyInfo;
-    int id;
+    string id;
 
 signals:
+    void GameInitial();
 
 public slots:
     void onleftFrameClicked();
