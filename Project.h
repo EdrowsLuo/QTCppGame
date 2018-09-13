@@ -27,7 +27,7 @@ namespace nso{
 
         static GameHolder *ProjectGame;
 
-        string fromRoot(const string &path);
+        static string fromRoot(const string &path);
 
         static void initialProject();
     };
