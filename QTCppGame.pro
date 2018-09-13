@@ -51,6 +51,25 @@ SOURCES += \
     \
     \
     \
+    \
+    widget.cpp \
+        background.cpp \
+        tracke.cpp \
+        mycombo.cpp \
+        keys.cpp\
+        myscore.cpp \
+        coordinate.cpp \
+        squaredown.cpp \
+        squaredownh.cpp \
+        shadow.cpp \
+        progressbar.cpp \
+        rhythmline.cpp\
+        judgescore.cpp \
+        widgettest.cpp \
+        calscore.cpp \
+        pixmapmanager.cpp\
+    \
+    \
     cJSON.cpp\
     CJsonObject.cpp\
 
@@ -102,6 +121,25 @@ HEADERS  += \
     \
     \
     \
+    widget.h \
+    MyDraw.h \
+        background.h \
+        tracke.h \
+        mycombo.h \
+        keys.h\
+        myscore.h \
+        coordinate.h \
+        squaredown.h \
+        squaredownh.h \
+        shadow.h \
+        progressbar.h \
+        rhythmline.h\
+        judgescore.h \
+        widgettest.h \
+        calscore.h \
+        pixmapmanager.h\
+    \
+    \
     \
     CJsonObject.hpp \
     cJSON.h \
@@ -113,5 +151,7 @@ FORMS    += mainwindow.ui \
     difficultyscrollarea.ui \
     difficultyframe.ui \
     rightframe.ui
+
+FORMS    += widget.ui
 
 LIBS += -L D:/Qt/code/qt_bb -l bass

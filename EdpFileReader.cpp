@@ -24,7 +24,7 @@ EdpFileReader::~EdpFileReader() {
 void EdpFileReader::initial(const string &path) {
     in.open(path.c_str());
     if (!in) {
-        err = true;
+        //err = true;
     }
 }
 

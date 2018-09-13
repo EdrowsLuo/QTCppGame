@@ -17,6 +17,7 @@
 #include "CJsonObject.hpp"
 #include "Project.h"
 #include "widgettest.h"
+#include "widget.h"
 
 namespace Ui {
     class MainWindow;
@@ -37,8 +38,10 @@ public:
 //    string *SongName;
     SongGroup s;
 
-    int SN,ST;
+    Widget *gameview;
 
+    int SN,ST;
+    QHBoxLayout *port;
     QGraphicsOpacityEffect *testeffect,*testeffect1;
 //    int numOfSong;
 
@@ -96,6 +99,9 @@ private:
 //    QPushButton * upButton;
 
     void SongACopyB( Songs * a , Songs * b );
+
+    int gw;
+    int gh;
 };
 
 #endif // MAINWINDOW_H

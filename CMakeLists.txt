@@ -23,77 +23,116 @@ link_directories(D:/Qt/code/qt_bb/lib)
 link_libraries(bass)
 
 add_executable(qt_bb
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
+        background.cpp
+        background.h
         BaseDecoder.cpp
         BaseDecoder.h
-        EdpFile.h
+        bassclass.h
+        Beatmap.cpp
+        Beatmap.h
+        BeatmapBase.h
+        BeatmapDecoder.cpp
+        BeatmapDecoder.h
+        BeatmapSetData.cpp
+        BeatmapSetData.h
+        BeatmapSetLoader.cpp
+        BeatmapSetLoader.h
+        calscore.cpp
+        calscore.h
+        cJSON.h
+        cJSON.cpp
+        CJsonObject.hpp
+        CJsonObject.cpp
+        coordinate.cpp
+        coordinate.h
+        defext.h
+        difficultyframe.h
+        difficultyframe.cpp
+        difficultyscrollarea.cpp
+        difficultyscrollarea.h
+        drawtext.cpp
+        drawtext.h
+        Edp.cpp
+        Edp.h
+        EdpBass.cpp
+        EdpBass.h
         EdpFile.cpp
+        EdpFile.h
         EdpFileReader.cpp
         EdpFileReader.h
         EdpFileWriter.cpp
         EdpFileWriter.h
-        IOUtil.cpp
-        IOUtil.h
-        Beatmap.cpp
-        Beatmap.h
-        StringUtil.h
-        parsers.cpp
-        parsers.h
-        BeatmapDecoder.cpp
-        BeatmapDecoder.h
-        nsoclass.h
-        EdpBass.cpp
-        EdpBass.h
-        bassclass.h
-        dialog.cpp
-        dialog.h
-        dialog.ui
-        KeyIO.h
-        defext.h
         EdpTimer.h
         GameJudgement.cpp
         GameJudgement.h
-        Edp.h
-        ManiaRuleset.cpp
-        ManiaRuleset.h
-        TestView.cpp
-        TestView.h
+        IOUtil.h
+        IOUtil.cpp
+        judgescore.cpp
+        judgescore.h
+        KeyIO.h
+        keys.cpp
+        keys.h
+        leftframe.h
+        leftframe.cpp
+        main.cpp
+        mainwindow.h
+        mainwindow.cpp
         maniaclass.h
         ManiaObjects.cpp
         ManiaObjects.h
-        BeatmapBase.h
-        Util.h
-        Edp.cpp
-        BeatmapSetLoader.cpp
-        BeatmapSetLoader.h
-        BeatmapSetData.cpp
-        BeatmapSetData.h
-        cJSON.h
-        cJSON.cpp
-        CJsonObject.cpp
-        CJsonObject.hpp
-        Project.cpp
-        Project.h
-        slidebox1.cpp
-        slidebox1.h
-        slideanim.cpp
-        slideanim.h
-        difficultyscrollarea.cpp
-        difficultyscrollarea.h
-        myqsplitter.cpp
-        myqsplitter.h
-        difficultyframe.cpp
-        difficultyframe.h
-        rightframe.cpp
-        rightframe.h
-        songgroup.cpp
-        songgroup.h
-        my_song.cpp
-        my_song.h
+        ManiaRuleset.cpp
+        ManiaRuleset.h
         my_difficulty.cpp
         my_difficulty.h
+        my_song.cpp
+        my_song.h
+        mycombo.cpp
+        mycombo.h
+        MyDraw.h
+        myqsplitter.cpp
+        myqsplitter.h
+        myscore.cpp
+        myscore.h
+        nsoclass.h
+        parsers.cpp
+        parsers.h
+        pixmapmanager.cpp
+        pixmapmanager.h
+        progressbar.cpp
+        progressbar.h
+        Project.cpp
+        Project.h
+        rankingbg.cpp
+        rankingbg.h
+        rhythmline.cpp
+        rhythmline.h
+        rightframe.cpp
+        rightframe.cpp
+        shadow.cpp
+        shadow.h
+        slideanim.h
+        slideanim.cpp
+        slidebox1.cpp
+        slidebox1.h
+        songgroup.h
+        songgroup.cpp
+        songs.cpp
+        songs.h
+        squaredown.cpp
+        squaredown.h
+        squaredownh.cpp
+        squaredownh.h
+        StringUtil.h
+        tracke.cpp
+        tracke.h
+        types.h
+        Util.h
+        widget.cpp
+        widget.h
+        widget1.cpp
+        widget1.h
+        widgettest.cpp
+        widgettest.h
         )
 
 target_link_libraries(qt_bb ${QT_LIBRARIES} )

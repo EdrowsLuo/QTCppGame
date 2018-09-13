@@ -1,5 +1,6 @@
 #include "leftframe.h"
 #include "defext.h"
+#include "widget.h"
 
 
 

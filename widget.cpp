@@ -17,6 +17,9 @@
 #include "rankingbg.h"
 //#include "testtest.h"
 #include "keys.h"
+#include "Project.h"
+
+
 using namespace edp;
 using namespace nso;
 
@@ -26,12 +29,12 @@ Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent
 {
     //BG1 = new RankingBG(&manager);
     ui->setupUi(this);
-    this->setFixedSize(720*16/9,720);
-    EdpFile *osuFile = new EdpFile(
+    //this->setFixedSize(720*16/9,720);
+   /* EdpFile *osuFile = new EdpFile(
            "D:\\QT\\wj\\MyBKG\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [4K Lv.4].osu"
             //"D:\\QT\\wj\\MyBKG\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
             //"D:\\QT\\wj\\MyBKG\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Starry's 4K Lv.15].osu"
-            );
+            );*/
     //Game = new ManiaGame(osuFile,new ManiaSetting());
     //DebugL("")
     //Game->prepareGame();
@@ -45,12 +48,12 @@ Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent
     timer->start(0.1);
     //Game->linkKeyInput(keyPipee);
     //Game->runGame();
-    mGameHolder = new GameHolder();
+    mGameHolder = Project::ProjectGame;
 
     //mGameHolder->enableMod(Mania::MOD_AUTO);
-    mGameHolder ->loadGame(osuFile);
+    //mGameHolder ->loadGame(osuFile);
 
-    mGameHolder->getGame()->runGame();
+    //mGameHolder->getGame()->runGame();
     //mGameHolder->getGame()->getSongChannel()->seekTo(102000);
 }
 
@@ -65,6 +68,7 @@ Widget::~Widget()
 
 
 void Widget::keyPressEvent(QKeyEvent *event){
+    DebugL("")
    mGameHolder->mkeyPressEvent(event);
 }
 

@@ -391,6 +391,7 @@ namespace nso{
             Channel = new EdpBassChannel(path);
             Channel->setVolume(BaseVolume);
             Channel->seekTo(previewTime);
+            DebugI(previewTime)
             Channel->play();
         }
 
