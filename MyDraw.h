@@ -5,7 +5,8 @@
 #include <QWidget>
 #include <QPaintEvent>
 #include <QString>
-
+#include "Project.h"
+using namespace nso;
 class MyDraw{
 public:
     virtual void draw(QPaintEvent *event,QPainter *painter)=0;

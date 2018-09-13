@@ -15,6 +15,7 @@
 #include "judgescore.h"
 #include "calscore.h"
 #include "rankingbg.h"
+#include "judgescore2.h"
 //#include "testtest.h"
 #include "keys.h"
 using namespace edp;
@@ -231,15 +232,20 @@ void Widget::paintEvent(QPaintEvent *event){
             painter.setBrush(QColor(40,44,53,255));
         }
         painter.drawPath(pathbb);
-        QPixmap pixmapjs[6];
+        //judgeScore2 pixmapjs[6];
         for (int i=0;i<=5;i++){
-            pixmapjs[i].load(picpic::scorej[5-i]);
+            //pixmapjs[i].load(scorej[5-i]);
             if (timesub>=(3050+500*i)){
                 if (timesub<=3550+500*i){
-                    painter.drawPixmap(100,120+60*i-25*(1-(3550+500*i-timesub)/500),90,50*(1-(3550+500*i-timesub)/500),pixmapjs[i]);
+                    judgeScore2 pixmapgh(100.0,120+60*i-25*(1-(3550+500*i-timesub)/500),90.0,50*(1-(3550+500*i-timesub)/500),5-i);
+                    //pixmapgh.get();
+                    pixmapgh.draw(event,&painter);
                 }
                 else {
-                    painter.drawPixmap(100,95+60*i,90,50,pixmapjs[i]);
+                    //painter.drawPixmap(,pixmapjs[i]);
+                    judgeScore2 pixmapgh(100.0,95.0+60.0*i,90.0,50.0,5-i);
+                    //pixmapgh.get();
+                    pixmapgh.draw(event,&painter);
                 }
             }
         }
