@@ -123,6 +123,8 @@ MainWindow::MainWindow(QWidget *parent) :
     leftBoxDisappear0=new QPropertyAnimation(this);
     LeftBox[(SN+100)%2]->hide();
 
+
+
     rightBoxAppear0 =new QPropertyAnimation(RightBox,"geometry",this);
     rightBoxDisappear0 =new QPropertyAnimation(RightBox,"geometry",this);
     RightBox->hide();
@@ -137,6 +139,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->ModeButton1->close();
     modeButtonAppear=new QPropertyAnimation(ui->ModeButton1,"geometry",this);
     modeButtonDisappear=new QPropertyAnimation(ui->ModeButton1,"geometry",this);
+
+    leftBoxDisappear01 = new QPropertyAnimation(this);
+    leftBoxDisappear01->setPropertyName("geometry");
+    modeButtonDisappear01=new QPropertyAnimation(ui->ModeButton1,"geometry",this);
+    upButtonDisappear01=new QPropertyAnimation(ui->upButton,"geometry",this);
+    rightBoxDisappear01 =new QPropertyAnimation(RightBox,"geometry",this);
+
 
 }
 
@@ -357,13 +366,11 @@ void MainWindow::on_ModeButton1_clicked()
     modeNumber++;
 }
 
-#include "mainwindow.h"
-
-using namespace nso;
 
 void MainWindow::SN_ADD(){
     if(al==0){
         leftBoxDisappear->stop();
+//        disconnect(LeftBox[((SN+100)+1)%2]->my_splitter,SIGNAL(StartGame()),this,SLOT(InitialGame()));
         LeftBox[((SN+100)+1)%2]->deleteLater();
 //            LeftBox[(SN+1)%2]=NULL;
         LeftBox[(SN+100)%2]->show();
@@ -385,6 +392,7 @@ void MainWindow::SN_ADD(){
     if (ST<0) ST = s.Number-1;
  //   DebugL("y")
     LeftBox[(SN+100)%2] = new DifficultyScrollArea(s.songlist[(ST+s.Number)%s.Number],this);
+    connect(LeftBox[((SN+100))%2]->my_splitter,SIGNAL(StartGame()),this,SLOT(InitialGame()));
     DebugL("y1")
     string place = "assets\\songs\\" + s.songlist[(ST+s.Number)%s.Number].fileName;
     EdpFile f(*Project::ProjectRoot,place);
@@ -396,6 +404,7 @@ void MainWindow::SN_ADD(){
 void MainWindow::SN_SUB(){
     if(al==0){
         leftBoxDisappear->stop();
+ //       disconnect(LeftBox[((SN+100)+1)%2]->my_splitter,SIGNAL(StartGame()),this,SLOT(InitialGame()));
         LeftBox[((SN+100)+1)%2]->deleteLater();
 //            LeftBox[(SN+1)%2]=NULL;
         LeftBox[(SN+100)%2]->show();
@@ -416,8 +425,11 @@ void MainWindow::SN_SUB(){
     if (ST>=s.Number) ST = 0;
     if (ST<0) ST = s.Number-1;
     LeftBox[(SN+100)%2] = new DifficultyScrollArea(s.songlist[(ST+s.Number)%s.Number],this);
+    connect(LeftBox[((SN+100))%2]->my_splitter,SIGNAL(StartGame()),this,SLOT(InitialGame()));
 
     string place = "assets\\songs\\" + s.songlist[(ST+s.Number)%s.Number].fileName;
+    place = place + "\\";
+    place = place + s.songlist[(ST+s.Number)%s.Number].difficultylist[0].audiofilename;
     EdpFile f(*Project::ProjectRoot,place);
     string fullpath = f.getFullPath();
     DebugL(fullpath.c_str())
@@ -443,6 +455,38 @@ void MainWindow::SN_SUB_ANIM1(){
     leftBoxAppear->setEasingCurve(QEasingCurve::OutBack);
     leftBoxAppear->start();
 //        DebugL("l")
- //   LeftBox[(SN+1)%2]->deleteLater();
+    disconnect(LeftBox[((SN+100)+1)%2]->my_splitter,SIGNAL(StartGame()),this,SLOT(InitialGame()));
+    LeftBox[(SN+101)%2]->deleteLater();
  //           DebugL("d")
+}
+
+void MainWindow::InitialGame(){
+
+    leftBoxDisappear01->setTargetObject(LeftBox[(SN+100)%2]);
+    leftBoxDisappear01->setPropertyName("geometry");
+
+    upButtonDisappear01->setStartValue(QRect(ux,uy,uw,uh));
+    upButtonDisappear01->setEndValue(QRect(ux,0-uh,uw,uh));
+    upButtonDisappear01->setDuration(800);
+    upButtonDisappear01->setEasingCurve(QEasingCurve::InBack);
+    upButtonDisappear01->start();
+
+    modeButtonDisappear01->setStartValue(QRect(mx,my,mw,mh));
+    modeButtonDisappear01->setEndValue(QRect(mx,600+mh,mw,mh));
+    modeButtonDisappear01->setDuration(800);
+    modeButtonDisappear01->setEasingCurve(QEasingCurve::InBack);
+    modeButtonDisappear01->start();
+
+    leftBoxDisappear01->setStartValue(QRect(lx,ly,lw,lh));
+    leftBoxDisappear01->setEndValue(QRect(0-lw,ly,lw,lh));
+    leftBoxDisappear01->setDuration(800);
+    leftBoxDisappear01->setEasingCurve(QEasingCurve::InBack);
+    leftBoxDisappear01->start();
+
+    rightBoxDisappear01->setStartValue(QRect(rx,ry,rw,rh));
+    rightBoxDisappear01->setEndValue(QRect(this->width()+rw,ry,rw,rh));
+    rightBoxDisappear01->setDuration(800);
+    rightBoxDisappear01->setEasingCurve(QEasingCurve::InBack);
+    rightBoxDisappear01->start();
+
 }

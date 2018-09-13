@@ -50,7 +50,7 @@ public:
 
     QPropertyAnimation *leftBoxAppear0,*rightBoxAppear0;
     QPropertyAnimation *leftBoxDisappear0,*rightBoxDisappear0;
-    QPropertyAnimation *leftBoxDisappear01,*rightBoxDisappear01;
+    QPropertyAnimation *leftBoxDisappear01,*rightBoxDisappear01,*upButtonDisappear01,*modeButtonDisappear01;
     QPropertyAnimation *upButtonAppear , *upButtonDisappear;
     QPropertyAnimation *modeButtonAppear , *modeButtonDisappear;
 //    QPushButton *l;
@@ -65,7 +65,7 @@ public slots:
     void SN_ADD();
     void SN_SUB();//
     void SN_SUB_ANIM1();
-//    void InitialGame();
+    void InitialGame();
 
 signals:
     void CHANGE_TO_AUTO();
