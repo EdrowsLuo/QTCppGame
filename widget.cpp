@@ -47,11 +47,11 @@ Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent
     //Game->runGame();
     mGameHolder = new GameHolder();
 
-    //mGameHolder->enableMod(Mania::MOD_AUTO);
+    mGameHolder->enableMod(Mania::MOD_AUTO);
     mGameHolder ->loadGame(osuFile);
 
     mGameHolder->getGame()->runGame();
-    //mGameHolder->getGame()->getSongChannel()->seekTo(102000);
+    mGameHolder->getGame()->getSongChannel()->seekTo(102000);
 }
 
 void Widget::animate(){
