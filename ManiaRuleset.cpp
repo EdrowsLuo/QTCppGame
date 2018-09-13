@@ -210,11 +210,17 @@ void ManiaGame::linkKeyInput(KeyInput *in) {
 
 void ManiaGame::runGame() {
     //SongChannel->play();
-    SongChannel->postStart(2500);
+    if (paused) {
+        SongChannel->postStart(1000);
+        paused = false;
+    } else {
+        SongChannel->postStart(2500);
+    }
 }
 
 void ManiaGame::pauseGame() {
     SongChannel->pause();
+    paused = true;
 }
 
 void ManiaGame::stopGame() {
@@ -276,7 +282,7 @@ bool ManiaGame::running() {
 }
 
 ManiaGame::ManiaGame(EdpFile *f, ManiaSetting *setting) : FrameTime(0), OsuFile(f), SetDirectory(
-        new EdpFile(f->getParentPath())), Setting(setting) {
+        new EdpFile(f->getParentPath())), Setting(setting), paused(false) {
 
 }
 
@@ -496,5 +502,40 @@ ManiaScore::ManiaScore(Beatmap *beatmap) :
     ForEachLong(beatmap->hitobjects, itr, vector<HitObject *>::iterator) {
         HitObject *object = *itr;
         TotalHit += (object->type & HitObject::TYPE_MASK) == HitObject::TYPE_MANIA_HOLD ? 2 : 1;
+    }
+}
+
+void GameHolder::loadGame(string &path) {
+    EdpFile f(path);
+    loadGame(&f);
+}
+
+void GameHolder::loadGame(EdpFile *osuFile) {
+    if (checkGame()) {
+        DebugI("forget to release game ???")
+        releaseGame();
+    }
+    if (Setting == NULL) {
+        Setting = new ManiaSetting();
+    }
+    Game = new ManiaGame(osuFile,Setting);
+    Game->prepareGame();
+    savedPath = osuFile->getFullPath();
+    Game->getSongChannel()->setVolume(BaseVolume);
+    if (modIsEnable(Mania::MOD_AUTO)) {
+        AutoPlay = new AutoKeyPipe();
+        AutoPlay->load(Game->getOsuBeatmap(), Game->getSetting());
+        Game->linkKeyInput(AutoPlay);
+    } else {
+        KeyPipe = new QTKeyPipe();
+        KeyPipe->setTimer(Game->getSongChannel());
+        Game->linkKeyInput(KeyPipe);
+    }
+}
+
+void GameHolder::reloadGame() {
+    if (checkGame()) {
+        releaseGame();
+        loadGame(savedPath);
     }
 }

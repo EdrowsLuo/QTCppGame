@@ -16,18 +16,16 @@ Dialog::Dialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Dialog)
 {
+    view = new TestView(this);
     ui->setupUi(this);
 
-    view = new TestView(this);
-
-
-    QGridLayout *layout = new QGridLayout;
-    layout->addWidget(view, 0, 0);
-    layout->addWidget(ui->pushButton, 1, 0);
-    layout->addWidget(ui->pushButton_2, 2, 0);
-    layout->addWidget(ui->horizontalSlider, 3, 0);
-    layout->addWidget(ui->pushButton_5, 4, 0);
-    setLayout(layout);
+    //QGridLayout *layout = new QGridLayout;
+    //layout->addWidget(view, 0, 0);
+    //layout->addWidget(ui->pushButton, 1, 0);
+    //layout->addWidget(ui->pushButton_2, 2, 0);
+    //layout->addWidget(ui->horizontalSlider, 3, 0);
+    //layout->addWidget(ui->pushButton_5, 4, 0);
+    //setLayout(layout);
 
     //QMetaObject::connectSlotsByName(this);
 
@@ -62,8 +60,8 @@ void Dialog::on_pushButton_clicked()
 
 void Dialog::on_pushButton_2_clicked()
 {
-    Project::ProjectGame->getGame()->reset();
-    Project::ProjectGame->getGame()->runGame();
+    Project::ProjectGame->reloadGame();
+    Project::ProjectGame->startGame();
 }
 
 void Dialog::animate() {
