@@ -264,6 +264,8 @@ namespace nso{
         EdpBassChannel *SongChannel;
         KeyFrame *GameKeyFrame;
 
+        bool paused;
+
         double FrameTime;
 
         ManiaPlaytimeData *PlayingData;
@@ -334,9 +336,24 @@ namespace nso{
         }
 
         bool loadMusic(const string &path, int previewTime) {
-            if (!checkGame()) {
+            if (checkGame()) {
                 DebugI("you can't change music when game is loaded!")
                 return false;
+            }
+            if (Channel != NULL) {
+                Channel->release();
+                delete Channel;
+                Channel = NULL;
+            }
+            Channel = new EdpBassChannel(path);
+            Channel->setVolume(BaseVolume);
+            Channel->seekTo(previewTime);
+            Channel->play();
+        }
+
+        void pauseNormalMusic() {
+            if (Channel != NULL) {
+                Channel->pause();
             }
         }
 
@@ -344,32 +361,23 @@ namespace nso{
             return Game != NULL;
         }
 
-        void loadGame(EdpFile *osuFile) {
+        void startGame() {
             if (checkGame()) {
-                DebugI("forget to release game ???")
-                releaseGame();
-            }
-            if (Setting == NULL) {
-                Setting = new ManiaSetting();
-            }
-            Game = new ManiaGame(osuFile,Setting);
-            Game->prepareGame();
-            Game->getSongChannel()->setVolume(BaseVolume);
-            if (modIsEnable(Mania::MOD_AUTO)) {
-                AutoPlay = new AutoKeyPipe();
-                AutoPlay->load(Game->getOsuBeatmap(), Game->getSetting());
-                Game->linkKeyInput(AutoPlay);
-            } else {
-                KeyPipe = new QTKeyPipe();
-                KeyPipe->setTimer(Game->getSongChannel());
-                Game->linkKeyInput(KeyPipe);
+                if (!Game->getSongChannel()->isPlaying()) {
+                    Game->runGame();
+                    if (Channel != NULL) {
+                        Channel->pause();
+                    }
+                }
             }
         }
+
+        void loadGame(string &path);
+
+        void loadGame(EdpFile *osuFile);
 
         //重载游戏，在retry时使用
-        void reloadGame() {
-
-        }
+        void reloadGame();
 
         //游戏结束释放游戏资源
         void releaseGame(){
@@ -382,6 +390,7 @@ namespace nso{
                     KeyPipe = NULL;
                 }
                 delete Game;
+                Game = NULL;
             }
         }
 
@@ -428,6 +437,7 @@ namespace nso{
         ManiaSetting *Setting;
 
         ManiaGame *Game;
+        string savedPath;
 
         int Mods;
     };

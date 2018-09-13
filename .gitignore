@@ -3,6 +3,7 @@
 /cmake-build-release
 /data
 /.idea
+QTCppGame.pro
 *.pro.user
 main.cpp
 mainwindow.h

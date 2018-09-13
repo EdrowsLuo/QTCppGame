@@ -32,7 +32,8 @@ SOURCES += main.cpp\
         Edp.cpp\
         cJSON.cpp\
         CJsonObject.cpp\
-        Project.cpp
+        Project.cpp\
+        MyGLBaseView.cpp
 
 HEADERS  += mainwindow.h\
         BaseDecoder.h\
@@ -61,7 +62,10 @@ HEADERS  += mainwindow.h\
         Util.h\
         CJsonObject.hpp\
         cJSON.h\
-        Project.h
+        Project.h\
+        javastyle.h\
+        MyGLBaseView.h\
+        mywidgetbase.h
 
 
 FORMS    += mainwindow.ui \
