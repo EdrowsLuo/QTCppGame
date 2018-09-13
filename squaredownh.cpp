@@ -34,4 +34,5 @@ void SquareDownH::draw (QPaintEvent *event, QPainter *painter){
     painter->setPen(QColor(255,215,000));
     painter->setBrush(linearGradient1);
     painter->drawPath(path1);
+    painter->restore();
 }

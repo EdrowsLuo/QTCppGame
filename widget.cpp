@@ -46,7 +46,7 @@ Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent
     timer->start(0.1);
     //Game->linkKeyInput(keyPipee);
     //Game->runGame();
-    mGameHolder = new GameHolder();
+    mGameHolder = Project::ProjectGame;
 
     mGameHolder->enableMod(Mania::MOD_AUTO);
     mGameHolder ->loadGame(osuFile);
