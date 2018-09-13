@@ -68,6 +68,7 @@ SOURCES += \
         widgettest.cpp \
         calscore.cpp \
         pixmapmanager.cpp\
+        judgescore2.cpp\
     \
     \
     cJSON.cpp\
@@ -138,6 +139,7 @@ HEADERS  += \
         widgettest.h \
         calscore.h \
         pixmapmanager.h\
+        judgescore2.h\
     \
     \
     \
