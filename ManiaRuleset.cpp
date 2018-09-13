@@ -515,6 +515,7 @@ void GameHolder::loadGame(EdpFile *osuFile) {
         DebugI("forget to release game ???")
         releaseGame();
     }
+    DebugI("load game : " << osuFile->getFullPath())
     if (Setting == NULL) {
         Setting = new ManiaSetting();
     }

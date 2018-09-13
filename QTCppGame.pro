@@ -114,6 +114,4 @@ FORMS    += mainwindow.ui \
     difficultyframe.ui \
     rightframe.ui
 
-CONFIG +=console
-
 LIBS += -L D:/Qt/code/qt_bb -l bass
