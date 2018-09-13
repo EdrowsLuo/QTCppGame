@@ -14,3 +14,8 @@ GameHolder *Project::ProjectGame = new GameHolder();
 void nso::Project::initialProject() {
     EdpBass::initial();
 }
+
+string Project::fromRoot(const string &path) {
+    EdpFile f(*ProjectRoot,path);
+    return f.getFullPath();
+}
