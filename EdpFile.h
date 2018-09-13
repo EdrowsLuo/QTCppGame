@@ -9,6 +9,7 @@
 #include <io.h>
 #include <vector>
 #include "types.h"
+#include "defext.h"
 
 using namespace std;
 
@@ -27,6 +28,7 @@ namespace edp{
 
         explicit ioexception(const string& msg){
             mmsg = msg;
+            DebugI(msg)
         }
 
         ~ioexception() throw(){
