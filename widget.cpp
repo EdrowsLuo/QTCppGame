@@ -13,6 +13,8 @@
 #include "progressbar.h"
 #include "rhythmline.h"
 #include "judgescore.h"
+#include "calscore.h"
+#include "rankingbg.h"
 //#include "testtest.h"
 #include "keys.h"
 using namespace edp;
@@ -22,11 +24,12 @@ Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent
     ,
     ui(new Ui::Widget)
 {
+    //BG1 = new RankingBG(&manager);
     ui->setupUi(this);
     this->setFixedSize(720*16/9,720);
     EdpFile *osuFile = new EdpFile(
-           //"D:\\QT\\wj\\MyBKG\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [4K Lv.4].osu"
-            "D:\\QT\\wj\\MyBKG\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
+           "D:\\QT\\wj\\MyBKG\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [4K Lv.4].osu"
+            //"D:\\QT\\wj\\MyBKG\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
             //"D:\\QT\\wj\\MyBKG\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Starry's 4K Lv.15].osu"
             );
     //Game = new ManiaGame(osuFile,new ManiaSetting());
@@ -39,15 +42,16 @@ Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent
     //DebugL("")
     QTimer *timer=new QTimer (this);
     connect(timer,SIGNAL(timeout()),this,SLOT(animate()));
-    timer->start(1);
+    timer->start(0.1);
     //Game->linkKeyInput(keyPipee);
     //Game->runGame();
     mGameHolder = new GameHolder();
 
-    mGameHolder->enableMod(Mania::MOD_AUTO);
+    //mGameHolder->enableMod(Mania::MOD_AUTO);
     mGameHolder ->loadGame(osuFile);
 
     mGameHolder->getGame()->runGame();
+    //mGameHolder->getGame()->getSongChannel()->seekTo(102000);
 }
 
 void Widget::animate(){
@@ -85,6 +89,7 @@ void Widget::paintEvent(QPaintEvent *event){
     double hei = rect().height();
     painter.scale(wid/1280,hei/720);
 
+    //背景轨道绘制
     BackGround draw1;
     trackE draw2(KeyNum);
     draw1.draw(event,&painter);
@@ -92,6 +97,7 @@ void Widget::paintEvent(QPaintEvent *event){
     Keys drawkey0(KeyNum);
     int t=Game->getPlayingData()->getScore()->getScore();
     Scorenow=Game->getPlayingData()->getScore()->getScore();
+    //Note 与 HOLDER
     ForEachLong(Game->getDrawdata()->getDatas(),itr,vector<ManiaDrawdataNode>::iterator){
         if (itr->type != ManiaDrawdata::HOLD){
             SquareDownH draw11(itr->line,itr->position,itr->endposition,KeyNum);
@@ -103,6 +109,7 @@ void Widget::paintEvent(QPaintEvent *event){
         }
     }
 
+    //Combo与分数统计与动画变化
     if (Scorenow==Scorepre){
         for (int j=6;j>=0;j--){
             Score[j]=t-t/10*10;
@@ -147,7 +154,7 @@ void Widget::paintEvent(QPaintEvent *event){
     draw9.draw(event,&painter);*/
 
 
-
+    //按压效果与Combo动态
     if (KeyNum==1){
         //drawkey0.setjudge(KeyNum);;
     for (int i=0;i<4;i++){
@@ -193,17 +200,53 @@ void Widget::paintEvent(QPaintEvent *event){
     }
 
 
-
+    //节奏线
     ForEachLong(*Game->getDrawdata()->getBeatsAvalibe(),itr,vector<double>::iterator){
         rhythmLine drawrhy(*itr);
         drawrhy.draw(event,&painter);
     }
+
+    //阴影
     Shadow drawshadow;
     drawshadow.draw(event,&painter);
 
+    //进度条
     ProgressBar drawPB(Game->getFrameTime()/Game->getSongChannel()->length());
     drawPB.draw(event,&painter);
 
+    //结算界面绘制
+    double timelong = Game->getSongChannel()->length();
+    if ((Game->getFrameTime())>timelong){
+        double timepre = Game->getFrameTime();
+        double timesub = timepre-timelong;
+        QPainterPath pathbb;
+        pathbb.moveTo(0,0);
+        pathbb.lineTo(1280,0);
+        pathbb.lineTo(1280,720);
+        pathbb.lineTo(0,720);
+        if (timesub<=2550){
+            painter.setBrush(QColor(40,44,53,timesub/10));
+        }
+        else {
+            painter.setBrush(QColor(40,44,53,255));
+        }
+        painter.drawPath(pathbb);
+        QPixmap pixmapjs[6];
+        for (int i=0;i<=5;i++){
+            pixmapjs[i].load(picpic::scorej[5-i]);
+            if (timesub>=(3050+500*i)){
+                if (timesub<=3550+500*i){
+                    painter.drawPixmap(100,120+60*i-25*(1-(3550+500*i-timesub)/500),90,50*(1-(3550+500*i-timesub)/500),pixmapjs[i]);
+                }
+                else {
+                    painter.drawPixmap(100,95+60*i,90,50,pixmapjs[i]);
+                }
+            }
+        }
+
+    }
+
+ //   if()
     //Game->getPlayingData()->getScore()->RecentScore
     //MyCombo drawcombo(Game->getPlayingData()->getScore()->Combo,false);
     //

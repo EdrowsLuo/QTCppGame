@@ -28,11 +28,11 @@ DifficultyScrollArea::DifficultyScrollArea(const My_Song &jsong ,QWidget *parent
    // this->repaint(0,0,500,600);
 
     this->setObjectName("doubi");
-//    this->viewport()->setObjectName("doubi2");
+    this->viewport()->setObjectName("doubi2");
  //   this->setStyleSheet("DifficultyScrollArea, QWidget#viewPort{background-color:transparent;}");
 
     this->setStyleSheet("DifficultyScrollArea {background-color:transparent;}");
-//    this->viewport()->setStyleSheet("QPushButton[isFlat=1]{background-color:transparent;}");
+    this->viewport()->setStyleSheet("QWidget#doubi2{background-color:transparent;}");
 
 
 //    this->setStyleSheet("DifficultyScrollArea {background-color:transparent;}");

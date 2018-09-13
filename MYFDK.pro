@@ -39,7 +39,9 @@ SOURCES += main.cpp\
     rhythmline.cpp\
     Project.cpp \
     judgescore.cpp \
-    widgettest.cpp
+    widgettest.cpp \
+    calscore.cpp \
+    pixmapmanager.cpp
 
 HEADERS  += widget.h \
     MyDraw.h \
@@ -78,7 +80,9 @@ HEADERS  += widget.h \
     rhythmline.h\
     Project.h \
     judgescore.h \
-    widgettest.h
+    widgettest.h \
+    calscore.h \
+    pixmapmanager.h
 
 
 

@@ -2,8 +2,13 @@
 #include "defext.h"
 
 
+
 using namespace nso;
 using namespace edp;
+
+
+
+
 LeftFrame::LeftFrame(QWidget *parent) :
     QPushButton(parent)
 {
@@ -16,6 +21,9 @@ LeftFrame::LeftFrame( const My_Difficulty & mydifficulty, string itplace , QWidg
     id = itplace;
     difficultyInfo = mydifficulty;
     connect(this,SIGNAL(clicked()),this,SLOT(onleftFrameClicked()));
+    trans = new QGraphicsOpacityEffect(this);
+    trans->setOpacity(0.6);
+    this->setGraphicsEffect(trans);
 
 }
 
@@ -29,5 +37,6 @@ void LeftFrame::onleftFrameClicked(){
     string abroot = f.getFullPath();
     Project::ProjectGame->loadGame(&f);
     DebugI(abroot.c_str())
-  //  emit GameInitial;
+    emit passtosplitter();
+
 }
