@@ -66,6 +66,8 @@ namespace nso{
         static const double HitWindowScale[6] = {2.5, 2.1, 1.8, 1.3, 1, 1};
 
         static const int MOD_AUTO = 1, MODE_NONE = 0;
+
+        static const string Ranking_D = "D", Ranking_C = "C", Ranking_B = "B", Ranking_A = "A", Ranking_S = "S",Ranking_SS = "SS";
     };
 
 
@@ -120,6 +122,25 @@ namespace nso{
                 return 1;
             } else {
                 return AccScore / (HitCount * 300.0);
+            }
+        }
+
+        string getRanking() {
+            if (AccScore == HitCount * 300) {
+                return Mania::Ranking_SS;
+            } else {
+                double acc = getAccuracy();
+                if (acc >= 95) {
+                    return Mania::Ranking_S;
+                } else if (acc >= 90) {
+                    return Mania::Ranking_A;
+                } else if (acc >= 80) {
+                    return Mania::Ranking_B;
+                } else if (acc >= 70) {
+                    return Mania::Ranking_C;
+                } else {
+                    return Mania::Ranking_D;
+                }
             }
         }
 
