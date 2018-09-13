@@ -97,6 +97,8 @@ void TestView::paintEvent(QPaintEvent *event) {
     painter.begin(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
+    //painter.setClipRect(0, 0, 500, 500);
+
     painter.fillRect(event->rect(), QBrush(QColor(83, 158, 215)));
 
     int wheight = 800;
