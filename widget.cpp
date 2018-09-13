@@ -16,6 +16,7 @@
 #include "calscore.h"
 #include "rankingbg.h"
 #include "judgescore2.h"
+#include "addcas.h"
 //#include "testtest.h"
 #include "keys.h"
 using namespace edp;
@@ -53,7 +54,7 @@ Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent
     mGameHolder ->loadGame(osuFile);
 
     mGameHolder->getGame()->runGame();
-    mGameHolder->getGame()->getSongChannel()->seekTo(102000);
+    mGameHolder->getGame()->getSongChannel()->seekTo(110000);
 }
 
 void Widget::animate(){
@@ -143,7 +144,6 @@ void Widget::paintEvent(QPaintEvent *event){
         //
         drawcombo.draw(event,&painter);
     }
-    Scorepre=Game->getPlayingData()->getScore()->getScore();
 
     /*MyScore draw3(512,0,36,60,0);
     draw3.draw(event,&painter);
@@ -192,7 +192,8 @@ void Widget::paintEvent(QPaintEvent *event){
         drawkey0.setnum(j);
         drawkey0.draw(event,&painter);
         if(Game->getPlayingData()->getKeys()[j]->isPressed()){
-            if (Combopre==Combonow){
+            if (Scorenow!=Scorepre){
+            //if (Combopre==Combonow){
                 judgeScore drawjudge(Game->getPlayingData()->getScore()->RecentScore,false);
                 drawjudge.draw(event,&painter);
             }
@@ -200,12 +201,13 @@ void Widget::paintEvent(QPaintEvent *event){
                 judgeScore drawjudge(Game->getPlayingData()->getScore()->RecentScore,true);
                 drawjudge.draw(event,&painter);
             }
-
+            //}
         }
         }
         Combopre=Game->getPlayingData()->getScore()->Combo;
     }
 
+    Scorepre=Game->getPlayingData()->getScore()->getScore();
 
     //节奏线
     ForEachLong(*Game->getDrawdata()->getBeatsAvalibe(),itr,vector<double>::iterator){
@@ -241,9 +243,9 @@ void Widget::paintEvent(QPaintEvent *event){
         //judgeScore2 pixmapjs[6];
         for (int i=0;i<=5;i++){
             //pixmapjs[i].load(scorej[5-i]);
-            if (timesub>=(3050+500*i)){
-                if (timesub<=3550+500*i){
-                    judgeScore2 pixmapgh(100.0,120+60*i-25*(1-(3550+500*i-timesub)/500),90.0,50*(1-(3550+500*i-timesub)/500),5-i);
+            if (timesub>=(3050+300*i)){
+                if (timesub<=3350+300*i){
+                    judgeScore2 pixmapgh(100.0,120+60*i-25*(1-(3350+300*i-timesub)/300),90.0,50*(1-(3350+300*i-timesub)/300),5-i);
                     //pixmapgh.get();
                     pixmapgh.draw(event,&painter);
                 }
@@ -255,7 +257,30 @@ void Widget::paintEvent(QPaintEvent *event){
                 }
             }
         }
-
+        if(timesub>4850&&timesub<=5150){
+            AddCAS pixcas(100,480-36*(1-(5150-timesub)/300),230,72*(1-(5150-timesub)/300),1);
+            pixcas.draw(event,&painter);
+        }
+        else if (timesub>5150){
+            AddCAS pixcas(100,444,230,72,1);
+            pixcas.draw(event,&painter);
+        }
+        if(timesub>5150&&timesub<=5450){
+            AddCAS pixcas(600,480-32*(1-(5450-timesub)/300),351,64*(1-(5450-timesub)/300),2);
+            pixcas.draw(event,&painter);
+        }
+        else if (timesub>5450){
+            AddCAS pixcas(600,448,351,64,2);
+            pixcas.draw(event,&painter);
+        }
+        if(timesub>5450&&timesub<=5750){
+            AddCAS pixcas(100,550-36*(1-(5750-timesub)/300),230,72*(1-(5750-timesub)/300),3);
+            pixcas.draw(event,&painter);
+        }
+        else if (timesub>5750){
+            AddCAS pixcas(100,514,230,72,3);
+            pixcas.draw(event,&painter);
+        }
     }
 
  //   if()

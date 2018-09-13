@@ -43,7 +43,9 @@ private:
     int Combopre,Combonow;
     //RankingBG *BG1;
     Pixmapmanager manager;
-
+    int Comborecord;
+    double timerecord;
+    int t;
 };
 
 #endif // WIDGET_H
