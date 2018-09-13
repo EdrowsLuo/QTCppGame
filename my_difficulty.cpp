@@ -11,4 +11,5 @@ My_Difficulty::My_Difficulty( CJsonObject jdifficulty )
     jdifficulty.Get("AudioLeadIn",audioleadin);
     jdifficulty.Get("file",file);
     jdifficulty.Get("PreviewTime",previewtime);
+    jdifficulty.Get("AudioFilename",audiofilename);
 }

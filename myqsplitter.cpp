@@ -16,7 +16,7 @@ MyQSplitter::MyQSplitter( int nn, const My_Song & jsong, QWidget *parent ) :
         f[i] = new LeftFrame(jsong.difficultylist[i],songplace,this);
         f[i]->setMinimumHeight( 200 );
         f[i]->setObjectName("sb");
-
+        connect(f[i],SIGNAL(passtosplitter()),this,SLOT(passedtosplitter()));
 
         string content = jsong.difficultylist[i].version;
 
@@ -38,7 +38,7 @@ MyQSplitter::MyQSplitter( int nn, const My_Song & jsong, QWidget *parent ) :
     this->setChildrenCollapsible(false);
 //    QMessageBox::about(NULL,"ds","fuck" );
     this->setParent(parent);
-    this->setStyleSheet("MyQSplitter::handle{background-color:red};");
+    this->setStyleSheet("MyQSplitter{background-color:transparent}MyQSplitter::handle{background-color:transparent}");
   //  this->setWindowOpacity(0.3);
 //    op = new QGraphicsOpacityEffect(this);
 //    op->setOpacity(0.5);
@@ -49,4 +49,9 @@ MyQSplitter::~MyQSplitter(){
     for( int i = 0 ; i<numberofwid ; i++ ){
         delete f[i];
     }
+}
+
+void MyQSplitter::passedtosplitter(){
+    DebugI("doubi")
+    emit StartGame();
 }
