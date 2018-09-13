@@ -2,19 +2,21 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QGraphicsEffect>
-#include "slidebox1.h"
-#include <QHBoxLayout>
-#include "difficultyscrollarea.h"
-#include "songgroup.h"
-#include <QMessageBox>
-#include <QAction>
+#include<QGraphicsEffect>
+#include"slidebox1.h"
+#include<QHBoxLayout>
+#include"difficultyscrollarea.h"
+#include"songgroup.h"
+#include<QMessageBox>
+#include<QAction>
 #include "Edp.h"
 #include "EdpFile.h"
 #include "IOUtil.h"
-#include "cstring"
+#include "string.h"
 #include "cJSON.h"
 #include "CJsonObject.hpp"
+#include "Project.h"
+#include "widgettest.h"
 
 namespace Ui {
     class MainWindow;
@@ -27,6 +29,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    Widgettest * testwidget;
     SlideBox1 * RightBox;
     DifficultyScrollArea *LeftBox[2];
     void UpDateSize();
@@ -36,6 +39,7 @@ public:
 
     int SN,ST;
 
+    QGraphicsOpacityEffect *testeffect,*testeffect1;
 //    int numOfSong;
 
     int modeNumber;
@@ -46,6 +50,7 @@ public:
 
     QPropertyAnimation *leftBoxAppear0,*rightBoxAppear0;
     QPropertyAnimation *leftBoxDisappear0,*rightBoxDisappear0;
+    QPropertyAnimation *leftBoxDisappear01,*rightBoxDisappear01;
     QPropertyAnimation *upButtonAppear , *upButtonDisappear;
     QPropertyAnimation *modeButtonAppear , *modeButtonDisappear;
 //    QPushButton *l;
@@ -60,7 +65,7 @@ public slots:
     void SN_ADD();
     void SN_SUB();//
     void SN_SUB_ANIM1();
-    void anim();
+//    void InitialGame();
 
 signals:
     void CHANGE_TO_AUTO();

@@ -2,29 +2,35 @@
 #include "ui_mainwindow.h"
 #include "slidebox1.h"
 #include "difficultyscrollarea.h"
-#include <QHBoxLayout>
+#include "QHBoxLayout"
 #include <QAction>
 #include "ui_slidebox1.h"
 #include "defext.h"
 #include "CJsonObject.hpp"
 #include "songgroup.h"
-#include "QTimer"
 
-
+using namespace nso;
 using namespace neb;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+
+  //  testwidget = new Widgettest(this);
+ //   testwidget->show();
     ui->setupUi(this);
 
+
+
+//    testeffect = new QGraphicsOpacityEffect(testwidget);
+//    testeffect->setOpacity(0.2);
+//    testwidget->setGraphicsEffect(testeffect);
+   // testwidget->show();
+   // testwidget->setGeometry(QRect(this->x(),this->y(),this->width(),this->height()));
+   // testwidget->lower();
+
     s = SongGroup();
-
-    QTimer *timer = new QTimer(this);
-    connect(timer,SIGNAL(timeout()),this,SLOT(anim()));
-    timer->start(5);
-
    /* EdpFile out(*Project::ProjectRoot,"assets\\songs\\songs.json");
     string str;
     IOUtil::readFull(out,str);
@@ -69,18 +75,30 @@ MainWindow::MainWindow(QWidget *parent) :
     al=1;
     modeNumber=0;
 
+    ui->StartButton->raise();
+    ui->SetButton->raise();
+    ui->label->raise();
+    ui->ExitButton->raise();
 //    for ( int i = 0 ; i<7 ;i++)
 //    Songinfo[i] = new Songs(i+1);
 
     RightBox = new SlideBox1(s.Number,ss,this);
     RightBox->setObjectName("sid");
 
+    testeffect = new QGraphicsOpacityEffect(this);
+    testeffect->setOpacity(0.5);
+    RightBox->setGraphicsEffect(testeffect);
+//    testwidget->updateGL();
 
     connect(RightBox,SIGNAL(downPagePressed()),this,SLOT(SN_ADD()));
     connect(RightBox,SIGNAL(upPagePressed()),this,SLOT(SN_SUB()));
 
     LeftBox[(SN+100)%2]=new DifficultyScrollArea( s.songlist[0] ,this);
     LeftBox[(SN+100)%2]->setObjectName("dou");
+
+ //   testeffect1 = new QGraphicsOpacityEffect(this);
+ //   testeffect1->setOpacity(0.5);
+ //   LeftBox[(SN+100)%2]->setGraphicsEffect(testeffect1);
 
 
     leftBoxDisappear=new QPropertyAnimation( this );
@@ -119,6 +137,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->ModeButton1->close();
     modeButtonAppear=new QPropertyAnimation(ui->ModeButton1,"geometry",this);
     modeButtonDisappear=new QPropertyAnimation(ui->ModeButton1,"geometry",this);
+
 }
 
 void MainWindow::SongACopyB( Songs * a , Songs * b ){
@@ -329,16 +348,18 @@ void MainWindow::on_ModeButton1_clicked()
 {
     if ( modeNumber%2 == 0 ){
         ui->ModeButton1->setText(QApplication::translate("MainWindow", "auto", 0, QApplication::UnicodeUTF8));
-        emit CHANGE_TO_AUTO();
+        Project::ProjectGame->enableMod(Mania::MOD_AUTO);
     }
     if ( modeNumber%2 == 1 ){
         ui->ModeButton1->setText(QApplication::translate("MainWindow", "manual", 0, QApplication::UnicodeUTF8));
-        emit CHANGE_TO_MANUAL();
+        Project::ProjectGame->disableMod(Mania::MOD_AUTO);
     }
     modeNumber++;
 }
 
+#include "mainwindow.h"
 
+using namespace nso;
 
 void MainWindow::SN_ADD(){
     if(al==0){
@@ -348,7 +369,7 @@ void MainWindow::SN_ADD(){
         LeftBox[(SN+100)%2]->show();
         LeftBox[(SN+100)%2]->setGeometry(QRect(lx,ly,lw,lh));
     }
-    //   DebugL("");
+ //   DebugL("");
     al=0;
     //a2=1;
     leftBoxDisappear->setTargetObject(LeftBox[(SN+100)%2]);
@@ -362,10 +383,13 @@ void MainWindow::SN_ADD(){
     ST++;
     if (ST>=s.Number) ST = 0;
     if (ST<0) ST = s.Number-1;
-    //   DebugL("y")
+ //   DebugL("y")
     LeftBox[(SN+100)%2] = new DifficultyScrollArea(s.songlist[(ST+s.Number)%s.Number],this);
-    //   DebugL("y1")
-
+    DebugL("y1")
+    string place = "assets\\songs\\" + s.songlist[(ST+s.Number)%s.Number].fileName;
+    EdpFile f(*Project::ProjectRoot,place);
+    string fullpath = f.getFullPath();
+    Project::ProjectGame->loadMusic(fullpath,s.songlist[0].difficultylist[0].previewtime);
 }
 
 
@@ -376,8 +400,8 @@ void MainWindow::SN_SUB(){
 //            LeftBox[(SN+1)%2]=NULL;
         LeftBox[(SN+100)%2]->show();
         LeftBox[(SN+100)%2]->setGeometry(QRect(lx,ly,lw,lh));
-        //      LeftBox[(SN+1)%2] = new DifficultyScrollArea
-        //       a2 = 0;
+  //      LeftBox[(SN+1)%2] = new DifficultyScrollArea
+ //       a2 = 0;
     }
 //        DebugL("")
     al=0;
@@ -393,16 +417,22 @@ void MainWindow::SN_SUB(){
     if (ST<0) ST = s.Number-1;
     LeftBox[(SN+100)%2] = new DifficultyScrollArea(s.songlist[(ST+s.Number)%s.Number],this);
 
+    string place = "assets\\songs\\" + s.songlist[(ST+s.Number)%s.Number].fileName;
+    EdpFile f(*Project::ProjectRoot,place);
+    string fullpath = f.getFullPath();
+    DebugL(fullpath.c_str())
+    Project::ProjectGame->loadMusic(fullpath,s.songlist[0].difficultylist[0].previewtime);
+
 }
 
 void MainWindow::SN_SUB_ANIM1(){
 //        DebugL("z")
     al = 1;
-    //   if ( a2 == 1 )
+ //   if ( a2 == 1 )
 
-    //   LeftBox[(SN+1)%2]=NULL;
+ //   LeftBox[(SN+1)%2]=NULL;
 //    DebugL("l")
-    //   a2 = 1;
+ //   a2 = 1;
     LeftBox[(SN+100)%2]->show();
     LeftBox[(SN+100)%2]->setGeometry(0-lw,ly,lw,lh);
     leftBoxAppear->setTargetObject(LeftBox[(SN+100)%2]);
@@ -413,10 +443,6 @@ void MainWindow::SN_SUB_ANIM1(){
     leftBoxAppear->setEasingCurve(QEasingCurve::OutBack);
     leftBoxAppear->start();
 //        DebugL("l")
-    //   LeftBox[(SN+1)%2]->deleteLater();
-    //           DebugL("d")
-}
-
-void MainWindow::anim() {
-    repaint();
+ //   LeftBox[(SN+1)%2]->deleteLater();
+ //           DebugL("d")
 }
