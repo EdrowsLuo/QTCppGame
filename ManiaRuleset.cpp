@@ -451,34 +451,6 @@ int ManiaUtil::hitWindowFor(double od, double offset) {
     }
 }
 
-void ManiaScore::applyScore(ManiaHitResult &result) { //apply 一个成绩
-    RecentScore = result.score;
-
-    switch (result.type) {
-        case Mania::ScoreType_Note:{
-            TotalScore += Mania::BaseScore[result.score];
-            CurrentBonusRate += Mania::BonusMul[result.score];
-            CurrentBonusRate = Clamp(0, CurrentBonusRate, 100);
-            TotalBonus += (int)(Mania::BaseBonus[result.score] * sqrt(CurrentBonusRate)+0.0001);
-        }break;
-
-        case Mania::ScoreType_Tick:
-        default:{
-            //tick不影响分数
-        }break;
-    }
-
-
-    if (result.score != Mania::S_MISS) {
-        Combo++;
-    } else {
-        if (MaxCombo < Combo) {
-            MaxCombo = Combo;
-        }
-        Combo = 0;
-    }
-}
-
 int ManiaScore::getScore() {
     int value = TotalBonus + TotalScore;
     //return value;
@@ -497,7 +469,13 @@ ManiaScore::ManiaScore(Beatmap *beatmap) :
         TotalBonus(0),
         CurrentBonusRate(100),
         MaxCombo(0),
-        Combo(0) {
+        Combo(0), HitCount(0),AccScore(0),HitCounter(new int[6]){
+    HitCounter[0] = 0;
+    HitCounter[1] = 0;
+    HitCounter[2] = 0;
+    HitCounter[3] = 0;
+    HitCounter[4] = 0;
+    HitCounter[5] = 0;
     TotalHit = 0;
     ForEachLong(beatmap->hitobjects, itr, vector<HitObject *>::iterator) {
         HitObject *object = *itr;

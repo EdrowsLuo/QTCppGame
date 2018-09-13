@@ -6,6 +6,7 @@
 #include "my_difficulty.h"
 #include "Edp.h"
 #include "EdpFile.h"
+#include <QGraphicsOpacityEffect>
 
 using namespace edp;
 using namespace nso;
@@ -18,9 +19,10 @@ public:
     explicit LeftFrame( const My_Difficulty &, string , QWidget *parent = 0 );
     My_Difficulty difficultyInfo;
     string id;
+    QGraphicsOpacityEffect * trans;
 
 signals:
-    void GameInitial();
+    void passtosplitter();
 
 public slots:
     void onleftFrameClicked();

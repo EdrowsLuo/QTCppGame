@@ -9,6 +9,8 @@
 #include "BeatmapDecoder.h"
 #include "EdpFile.h"
 #include <QTimer>
+#include "pixmapmanager.h"
+#include "rankingbg.h"
 using namespace edp;
 using namespace nso;
 namespace Ui {
@@ -39,6 +41,9 @@ private:
     GameHolder *mGameHolder;
     int Scorepre,Scorenow;
     int Combopre,Combonow;
+    //RankingBG *BG1;
+    Pixmapmanager manager;
+
 };
 
 #endif // WIDGET_H

@@ -26,7 +26,9 @@ public:
 
 signals:
 
+    void StartGame();
 public slots:
+    void passedtosplitter();
 
 };
 

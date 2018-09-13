@@ -14,8 +14,8 @@ class My_Difficulty
 public:
     My_Difficulty( CJsonObject );
     My_Difficulty(){};
-    string file,backgroundfile,version;
-    int previewtime,circlesize,overalldifficulty,audioleadin;
+    string file,backgroundfile,version,audiofilename;
+    int previewtime,circlesize,overalldifficulty,audioleadin,;
     double star;
 
 };
