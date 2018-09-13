@@ -29,9 +29,10 @@ Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent
     ui->setupUi(this);
     this->setFixedSize(720*16/9,720);
     EdpFile *osuFile = new EdpFile(
-           "D:\\QT\\wj\\MyBKG\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [4K Lv.4].osu"
+           //"D:\\QT\\wj\\MyBKG\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [4K Lv.4].osu"
             //"D:\\QT\\wj\\MyBKG\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
             //"D:\\QT\\wj\\MyBKG\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Starry's 4K Lv.15].osu"
+            "D:\\QT\\wj\\QTCppGame\\assets\\songs\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Ryosaka's 7K Lv.19].osu"
             );
     //Game = new ManiaGame(osuFile,new ManiaSetting());
     //DebugL("")
@@ -105,7 +106,7 @@ void Widget::paintEvent(QPaintEvent *event){
     Scorenow=Game->getPlayingData()->getScore()->getScore();
     //Note 与 HOLDER
     ForEachLong(Game->getDrawdata()->getDatas(),itr,vector<ManiaDrawdataNode>::iterator){
-        if (itr->type != ManiaDrawdata::HOLD){
+        if (itr->type == ManiaDrawdata::HOLD){
             SquareDownH draw11(itr->line,itr->position,itr->endposition,KeyNum);
             draw11.draw(event,&painter);
         }
@@ -168,7 +169,7 @@ void Widget::paintEvent(QPaintEvent *event){
         drawkey0.setKeyjudge(Game->getPlayingData()->getKeys()[i]->isPressed());//
         drawkey0.setnum(i);
         drawkey0.draw(event,&painter);
-        if(Game->getPlayingData()->getKeys()[i]->isPressed()){
+        /*if(Game->getPlayingData()->getKeys()[i]->isPressed()){
             if (Combopre==Combonow){
                 judgeScore draw12(Game->getPlayingData()->getScore()->RecentScore,false);
                 draw12.draw(event,&painter);
@@ -178,7 +179,7 @@ void Widget::paintEvent(QPaintEvent *event){
                 draw12.draw(event,&painter);
             }
 
-        }
+        }*/
 
         }
         Combopre=Game->getPlayingData()->getScore()->Combo;
@@ -267,4 +268,5 @@ void Widget::paintEvent(QPaintEvent *event){
     //分数Game->getPlayingData()->getScore()->getScore();
     //节奏Game->Drawdata->getBeatsAvalibe();
     //Testtest test();
+    painter.end();
 }
