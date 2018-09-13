@@ -40,4 +40,5 @@ void ProgressBar::draw(QPaintEvent *event, QPainter *painter){
     linearGradient2.setColorAt(1,QColor(255,255,255,125));
     painter->setBrush(linearGradient2);
     painter->drawPath(path1);
+    painter->restore();
 }
