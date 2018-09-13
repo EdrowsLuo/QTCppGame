@@ -2,7 +2,7 @@
 #define MYCOMBO_H
 #include "MyDraw.h"
 #include <QString>
-namespace YOUKY{
+/*namespace YOUKY{
     static QString RCombo[10]{
         "D:/QT/wj/MyBKG/image/score-0.png",
         "D:/QT/wj/MyBKG/image/score-1.png",
@@ -25,7 +25,7 @@ namespace YOUKY{
         "D:\\QT\\wj\\MyBKG\\image\\default-7.png",
         "D:\\QT\\wj\\MyBKG\\image\\default-8.png",
         "D:\\QT\\wj\\MyBKG\\image\\default-9.png"};
-}
+}*/
 class MyCombo : public MyDraw
 {
 public:
@@ -35,6 +35,8 @@ private:
     int num;
     QString mark1;
     bool isBig;
+    //QString *RCombo;
+    QString *FCombo;
 };
 
 #endif // MYCOMBO_H

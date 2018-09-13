@@ -55,6 +55,7 @@ namespace nso{
         //基础分数比例以及enum
         static const int S300k = 5, S300 = 4, S200 = 3, S100 = 2, S50 = 1, S_MISS = 0;
         static const int BaseScore[6] = {0, 50, 100, 200, 300, 320};
+        static const int BaseAcc[6] = {0, 50, 100, 200, 300, 300};
         //额外基础分
         static const int BaseBonus[6] = {0, 4, 8, 16, 32, 32};
         //倍率分，负值为惩罚
@@ -65,6 +66,8 @@ namespace nso{
         static const double HitWindowScale[6] = {2.5, 2.1, 1.8, 1.3, 1, 1};
 
         static const int MOD_AUTO = 1, MODE_NONE = 0;
+
+        static const string Ranking_D = "D", Ranking_C = "C", Ranking_B = "B", Ranking_A = "A", Ranking_S = "S",Ranking_SS = "SS";
     };
 
 
@@ -81,18 +84,79 @@ namespace nso{
         ManiaScore(Beatmap *beatmap);
 
         int getScore();
-        void applyScore(ManiaHitResult &result);
+        void applyScore(ManiaHitResult &result){ //apply 一个成绩
+            RecentScore = result.score;
+
+            switch (result.type) {
+                case Mania::ScoreType_Note:{
+                    TotalScore += Mania::BaseScore[result.score];
+                    CurrentBonusRate += Mania::BonusMul[result.score];
+                    CurrentBonusRate = Clamp(0, CurrentBonusRate, 100);
+                    TotalBonus += (int)(Mania::BaseBonus[result.score] * sqrt(CurrentBonusRate)+0.0001);
+
+                    AccScore += Mania::BaseAcc[result.score];
+                    HitCount++;
+
+                    HitCounter[result.score]++;
+                }break;
+
+                case Mania::ScoreType_Tick:
+                default:{
+                    //tick不影响分数
+                }break;
+            }
+
+
+            if (result.score != Mania::S_MISS) {
+                Combo++;
+            } else {
+                if (MaxCombo < Combo) {
+                    MaxCombo = Combo;
+                }
+                Combo = 0;
+            }
+        }
+
+        double getAccuracy() {
+            if (HitCount == 0) {
+                return 1;
+            } else {
+                return AccScore / (HitCount * 300.0);
+            }
+        }
+
+        string getRanking() {
+            if (AccScore == HitCount * 300) {
+                return Mania::Ranking_SS;
+            } else {
+                double acc = getAccuracy();
+                if (acc >= 95) {
+                    return Mania::Ranking_S;
+                } else if (acc >= 90) {
+                    return Mania::Ranking_A;
+                } else if (acc >= 80) {
+                    return Mania::Ranking_B;
+                } else if (acc >= 70) {
+                    return Mania::Ranking_C;
+                } else {
+                    return Mania::Ranking_D;
+                }
+            }
+        }
 
     public:
         Beatmap *RawBeatmap;
         int Offset;
         int RecentScore;
         int TotalScore;
+        int AccScore;
+        int HitCount;
         int TotalBonus;
         int CurrentBonusRate;
         int TotalHit;
         int MaxCombo;
         int Combo;
+        int *HitCounter;
     };
 
     class PlayingHitObject{

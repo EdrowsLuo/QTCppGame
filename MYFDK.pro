@@ -41,7 +41,8 @@ SOURCES += main.cpp\
     judgescore.cpp \
     widgettest.cpp \
     calscore.cpp \
-    pixmapmanager.cpp
+    pixmapmanager.cpp \
+    judgescore2.cpp
 
 HEADERS  += widget.h \
     MyDraw.h \
@@ -82,7 +83,8 @@ HEADERS  += widget.h \
     judgescore.h \
     widgettest.h \
     calscore.h \
-    pixmapmanager.h
+    pixmapmanager.h \
+    judgescore2.h
 
 
 

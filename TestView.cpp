@@ -53,9 +53,10 @@ TestView::TestView(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers), p
     setAutoFillBackground(false);
 
     EdpFile *osuFile = new EdpFile(
+            "D:\\Qt\\code\\QTCppGame-build-desktop\\debug\\assets\\songs\\309176 Yukinoshita Yukino (CV.Hayami Saori) & Yuigahama Yui (CV.Touyama Nao) - Everyday World\\Yukinoshita Yukino (CV.Hayami Saori) & Yuigahama Yui (CV.Touyama Nao) - Everyday World ([ S a k u r a ]) [Lv.7].osu"
             //"D:\\My\\osu!droid\\Songs\\375548 Hashimoto Yukari - Hakanaki Yume\\Hashimoto Yukari - Hakanaki Yume (Bearizm) [Timing].osu"
             //"D:\\Qt\\code\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [4K Lv.4].osu"
-            "D:\\Qt\\code\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
+            //"D:\\Qt\\code\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
             //"D:\\Qt\\code\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Starry's 4K Lv.15].osu"
             );
     Project::ProjectGame->enableMod(Mania::MOD_AUTO);
@@ -268,16 +269,20 @@ void TestView::paintEvent(QPaintEvent *event) {
 
     stringstream ss;
     ss << Game->getPlayingData()->getScore()->RecentScore << " - " ;
-    ss << Game->getPlayingData()->getScore()->TotalHit << " - " ;
-    ss << Game->getPlayingData()->getScore()->getScore();
-
+    ss << Game->getPlayingData()->getScore()->getAccuracy() << " - " ;
+    ss << Game->getPlayingData()->getScore()->HitCounter[0] << ",";
+    ss << Game->getPlayingData()->getScore()->HitCounter[1] << ",";
+    ss << Game->getPlayingData()->getScore()->HitCounter[2] << ",";
+    ss << Game->getPlayingData()->getScore()->HitCounter[3] << ",";
+    ss << Game->getPlayingData()->getScore()->HitCounter[4] << ",";
+    ss << Game->getPlayingData()->getScore()->HitCounter[5];
 
 
     QFont font;
     font.setFamily("Microsoft YaHei");
     font.setPointSize(50);
     painter.setFont(font);
-    painter.drawText(200,55,ss.str().c_str());
+    painter.drawText(150,55,ss.str().c_str());
 
     painter.restore();
 

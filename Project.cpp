@@ -14,3 +14,13 @@ GameHolder *Project::ProjectGame = new GameHolder();
 void nso::Project::initialProject() {
     EdpBass::initial();
 }
+
+string Project::fromRoot(const string &path) {
+    EdpFile f(*ProjectRoot,path);
+    return f.getFullPath();
+}
+
+QString Project::fromRootQ(const string &path) {
+    QString s(fromRoot(path).c_str());
+    return s;
+}
