@@ -2,13 +2,15 @@
 
 BackGround::BackGround()
 {
+    //address = new QString;
+    address = Project::fromRoot("assets\\image\\a021f3383448084929d0878cb1d4fc50.jpg").c_str();
 }
 void BackGround::draw (QPaintEvent *event, QPainter *painter){
     painter->save();
 
     painter->setRenderHint(QPainter::Antialiasing, true);
     QPixmap Pixmap0;
-    Pixmap0.load("C:\\Users\\dhh\\Pictures\\Saved Pictures\\aa9bdf46c0b4038563af4ade72aec70a.jpg");
+    Pixmap0.load(address);
     painter->drawPixmap(0,0,1280,720,Pixmap0);
     /*QPainterPath pathq;
     pathq.moveTo(0,0);

@@ -11,7 +11,7 @@ void calScore::draw(QPaintEvent *event, QPainter *painter){
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing, true);
     QPixmap pixmapnum;
-    pixmapnum.load(funning::address[num]);
+    //pixmapnum.load(address[num]);
     painter->drawPixmap(514+36*t,612-32*Pos,36,64*Pos,pixmapnum);
     painter->restore();
 }
