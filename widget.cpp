@@ -82,7 +82,12 @@ void Widget::paintEvent(QPaintEvent *event){
     mGameHolder->update();
     ManiaGame *Game = mGameHolder->getGame();
 
-    KeyNum=1;
+    if (Game->getOsuBeatmap()->getKeys()==4){
+        KeyNum=1;
+    }
+    else {
+        KeyNum=0;
+    }
     NorH=false;
    // static
     double wid = rect().width();
