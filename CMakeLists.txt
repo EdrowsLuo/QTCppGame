@@ -102,8 +102,6 @@ add_executable(qt_bb
         progressbar.h
         Project.cpp
         Project.h
-        rankingbg.cpp
-        rankingbg.h
         rhythmline.cpp
         rhythmline.h
         rightframe.cpp
