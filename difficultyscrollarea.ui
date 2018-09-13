@@ -1,10 +1,7 @@
-<?xml version='1.0'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>DifficultyScrollArea</class>
  <widget class="QScrollArea" name="DifficultyScrollArea">
-  <property name="widgetResizable">
-   <bool>true</bool>
-  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -16,6 +13,26 @@
   <property name="windowTitle">
    <string>ScrollArea</string>
   </property>
-  <widget class="QWidget" name="scrollAreaWidgetContents"/>
+  <property name="widgetResizable">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="scrollAreaWidgetContents">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>396</width>
+     <height>296</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QWidget#scrollAreaWidgetContents{
+ background-color:transparent;
+}
+</string>
+   </property>
+  </widget>
  </widget>
+ <resources/>
+ <connections/>
 </ui>
