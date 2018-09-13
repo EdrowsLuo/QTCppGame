@@ -506,3 +506,13 @@ void MainWindow::InitialGame(){
        rightBoxDisappear01->start();*/
 
 }
+
+void MainWindow::keyPressEvent(QKeyEvent *event) {
+    QWidget::keyPressEvent(event);
+    Project::ProjectGame->mkeyPressEvent(event);
+}
+
+void MainWindow::keyReleaseEvent(QKeyEvent *event) {
+    QWidget::keyReleaseEvent(event);
+    Project::ProjectGame->mkeyReleaseEvent(event);
+}

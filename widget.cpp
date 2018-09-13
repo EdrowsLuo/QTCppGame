@@ -51,7 +51,7 @@ Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent
     //Game->runGame();
     mGameHolder = Project::ProjectGame;
 
-    mGameHolder->enableMod(Mania::MOD_AUTO);
+    //mGameHolder->enableMod(Mania::MOD_AUTO);
     //mGameHolder ->loadGame(osuFile);
 
     //mGameHolder->getGame()->runGame();

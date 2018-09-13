@@ -74,6 +74,10 @@ signals:
     void CHANGE_TO_AUTO();
     void CHANGE_TO_MANUAL();
 
+protected:
+    virtual void keyPressEvent(QKeyEvent *event);
+    virtual void keyReleaseEvent(QKeyEvent *event);
+
 private slots:
     void on_StartButton_clicked();
     void onChooseSurfaceAppear();
