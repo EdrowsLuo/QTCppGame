@@ -166,12 +166,14 @@ void Widget::paintEvent(QPaintEvent *event){
             }
 
         }
-        Combopre=Game->getPlayingData()->getScore()->Combo;
+
         }
+        Combopre=Game->getPlayingData()->getScore()->Combo;
     }
     if (KeyNum==0){
         //drawkey0.setjudge(KeyNum);
         for (int j=0;j<7;j++){
+        Combonow=Game->getPlayingData()->getScore()->Combo;
         drawkey0.setKeyjudge(Game->getPlayingData()->getKeys()[j]->isPressed());//
         drawkey0.setnum(j);
         drawkey0.draw(event,&painter);
@@ -187,6 +189,7 @@ void Widget::paintEvent(QPaintEvent *event){
 
         }
         }
+        Combopre=Game->getPlayingData()->getScore()->Combo;
     }
 
 
