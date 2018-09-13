@@ -132,7 +132,7 @@ void nso::ManiaHoldEndJudgeObject::onJudge(nso::ManiaPlaytimeData *data) {
 
     if (key->parseMainState() == KeyState::Up) {
         int score = ManiaUtil::hitWindowFor(RawBeatmap->OverallDifficulty,
-                                            Hold->getTime() - key->getTime());
+                                            Hold->getEndTime() - key->getTime());
         key->consumeEvent();
 
         //查询是否在中间断过滑条
@@ -145,10 +145,10 @@ void nso::ManiaHoldEndJudgeObject::onJudge(nso::ManiaPlaytimeData *data) {
             }
         }
 
-        applyScore(data, Mania::ScoreType_Note, Mania::S300k, 0);
-        release();
+        //applyScore(data, Mania::ScoreType_Note, score, 0);
+        //release();
 
-        /*if (score > Mania::S_MISS) {
+        if (score > Mania::S_MISS) {
             if (StartObject->getJudgeResult() > Mania::S_MISS) {
                 //滑条头摁下了
                 if (hasBadTick) {
@@ -170,7 +170,7 @@ void nso::ManiaHoldEndJudgeObject::onJudge(nso::ManiaPlaytimeData *data) {
         } else {
             //提前放开了滑条头，不做判定，跳到timeout
             return;
-        }*/
+        }
     }
 }
 
@@ -179,9 +179,9 @@ void nso::ManiaHoldEndJudgeObject::onTimeout(nso::ManiaPlaytimeData *data) {
     if (pressed) {
         //不做尾判
 
-        applyScore(data, Mania::ScoreType_Note, Mania::S300k, 0);
+        //applyScore(data, Mania::ScoreType_Note, Mania::S300k, 0);
 
-        /*//没有松开滑条尾或者早松开了滑条尾，最多判定50
+        //没有松开滑条尾或者早松开了滑条尾，最多判定50
 
         //查询是否在中间断过滑条
         bool hasBadTick = false;
@@ -198,7 +198,7 @@ void nso::ManiaHoldEndJudgeObject::onTimeout(nso::ManiaPlaytimeData *data) {
             applyScore(data, Mania::ScoreType_Note, Mania::S_MISS, 0);
         } else {
             applyScore(data, Mania::ScoreType_Note, Mania::S50, 0);
-        }*/
+        }
     } else {
         //如果根本没有摁滑条尾
         applyScore(data, Mania::ScoreType_Note, Mania::S_MISS, 0);

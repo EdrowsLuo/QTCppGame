@@ -268,16 +268,20 @@ void TestView::paintEvent(QPaintEvent *event) {
 
     stringstream ss;
     ss << Game->getPlayingData()->getScore()->RecentScore << " - " ;
-    ss << Game->getPlayingData()->getScore()->TotalHit << " - " ;
-    ss << Game->getPlayingData()->getScore()->getScore();
-
+    ss << Game->getPlayingData()->getScore()->getAccuracy() << " - " ;
+    ss << Game->getPlayingData()->getScore()->HitCounter[0] << ",";
+    ss << Game->getPlayingData()->getScore()->HitCounter[1] << ",";
+    ss << Game->getPlayingData()->getScore()->HitCounter[2] << ",";
+    ss << Game->getPlayingData()->getScore()->HitCounter[3] << ",";
+    ss << Game->getPlayingData()->getScore()->HitCounter[4] << ",";
+    ss << Game->getPlayingData()->getScore()->HitCounter[5];
 
 
     QFont font;
     font.setFamily("Microsoft YaHei");
     font.setPointSize(50);
     painter.setFont(font);
-    painter.drawText(200,55,ss.str().c_str());
+    painter.drawText(150,55,ss.str().c_str());
 
     painter.restore();
 
