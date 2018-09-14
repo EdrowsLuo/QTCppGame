@@ -110,7 +110,7 @@ namespace nso{
             }
 
             PassedCombo++;
-            if (result.score != Mania::S_MISS) {
+            if (result.score > Mania::S_MISS) {
                 Combo++;
             } else {
                 if (MaxCombo < Combo) {

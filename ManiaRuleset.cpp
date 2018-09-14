@@ -471,7 +471,11 @@ ManiaScore::ManiaScore(Beatmap *beatmap) :
         TotalBonus(0),
         CurrentBonusRate(100),
         MaxCombo(0),
-        Combo(0), HitCount(0),AccScore(0),PassedCombo(0),HitCounter(new int[6]){
+        Combo(0),
+        HitCount(0),
+        AccScore(0),
+        PassedCombo(0),
+        HitCounter(new int[6]){
     HitCounter[0] = 0;
     HitCounter[1] = 0;
     HitCounter[2] = 0;
