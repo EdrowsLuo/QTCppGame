@@ -70,6 +70,7 @@ SOURCES += \
         pixmapmanager.cpp\
         judgescore2.cpp\
         addcas.cpp\
+        rankingpic.cpp\
     \
     \
     cJSON.cpp\
@@ -120,6 +121,7 @@ HEADERS  += \
     Util.h \
     Project.h \
     addcas.h\
+    rankingpic.h\
     \
     \
     \

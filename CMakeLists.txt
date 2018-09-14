@@ -106,6 +106,8 @@ add_executable(qt_bb
         rhythmline.h
         rightframe.cpp
         rightframe.cpp
+        rankingpic.cpp
+        rankingpic.h
         shadow.cpp
         shadow.h
         slideanim.h
