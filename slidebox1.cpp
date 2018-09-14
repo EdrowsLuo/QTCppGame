@@ -38,16 +38,16 @@ SlideBox1::SlideBox1(int NOS , QString *NL ,QWidget *parent) :
     songName = NL;
     id=0;
 
-    upPageE = new QGraphicsOpacityEffect(ui->upPage);
-    upPageE->setOpacity(0);
-    ui->upPage->setGraphicsEffect(upPageE);
-    downPageE = new QGraphicsOpacityEffect(ui->downPage);
-    downPageE->setOpacity(0);
-    ui->downPage->setGraphicsEffect(downPageE);
+ //   upPageE = new QGraphicsOpacityEffect(ui->upPage);
+  //  upPageE->setOpacity(0);
+    ui->upPage->setStyleSheet("background-color:transparent");
+ //   downPageE = new QGraphicsOpacityEffect(ui->downPage);
+  //  downPageE->setOpacity(0);
+    ui->downPage->setStyleSheet("background-color:transparent");
 
-    sb = new QGraphicsOpacityEffect(ui->chooseButton);
-    sb->setOpacity(0);
-    ui->chooseButton->setGraphicsEffect(sb);
+ //   sb = new QGraphicsOpacityEffect(ui->chooseButton);
+ //   sb->setOpacity(0);
+    ui->chooseButton->setStyleSheet("background-color:transparent");
 
     ptf[0] = ui->fakeButton1;
     ptf[1] = ui->fakeButton2;
