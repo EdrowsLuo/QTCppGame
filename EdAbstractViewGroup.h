@@ -10,6 +10,9 @@
 #include "javastyle.h"
 
 
+
+
+
 namespace mywidget {
 #undef public
     class EdAbstractViewGroup : public EdView{

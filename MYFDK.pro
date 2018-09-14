@@ -43,7 +43,8 @@ SOURCES += main.cpp\
     calscore.cpp \
     pixmapmanager.cpp \
     judgescore2.cpp \
-    addcas.cpp
+    addcas.cpp \
+    rankingpic.cpp
 
 HEADERS  += widget.h \
     MyDraw.h \
@@ -86,7 +87,8 @@ HEADERS  += widget.h \
     calscore.h \
     pixmapmanager.h \
     judgescore2.h \
-    addcas.h
+    addcas.h \
+    rankingpic.h
 
 
 
