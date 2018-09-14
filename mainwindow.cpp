@@ -82,14 +82,13 @@ MainWindow::MainWindow(QWidget *parent) :
 //    for ( int i = 0 ; i<7 ;i++)
 //    Songinfo[i] = new Songs(i+1);
     gameview = new Widget(this);
- //   gameview->setFixedSize(1280, 720);
+    gameview->setFixedSize(1280, 720);
     gameview->close();
     RightBox = new SlideBox1(s.Number,ss,this);
     RightBox->setObjectName("sid");
-
-    testeffect = new QGraphicsOpacityEffect(this);
-    testeffect->setOpacity(0.5);
-    RightBox->setGraphicsEffect(testeffect);
+    RightBox->setStyleSheet("QWidget#RightBox{background-color:transparent}");
+//    testeffect->setOpacity(0.5);
+ //   RightBox->setGraphicsEffect(testeffect);
 //    testwidget->updateGL();
 
     connect(RightBox,SIGNAL(downPagePressed()),this,SLOT(SN_ADD()));
