@@ -284,6 +284,8 @@ void Widget::paintEvent(QPaintEvent *event){
             AddCAS pixcas(100,514,230,72,3);
             pixcas.draw(event,&painter);
         }
+        //翻动数字效果
+        //if (timesub > 5750)
     }
 
  //   if()
