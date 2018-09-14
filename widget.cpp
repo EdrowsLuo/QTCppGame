@@ -19,6 +19,7 @@
 #include "addcas.h"
 #include "rankingpic.h"
 //#include "testtest.h"
+#include "Util.h"
 #include "keys.h"
 using namespace edp;
 using namespace nso;
@@ -82,6 +83,12 @@ void Widget::paintEvent(QPaintEvent *event){
         Game->update();
     }*/
     mGameHolder->update();
+
+    if(mGameHolder->EscPressed){
+        esc=true;
+        timesup=util::currentTimeMS();
+    }
+
     ManiaGame *Game = mGameHolder->getGame();
 
     if (Game->getOsuBeatmap()->getKeys()==4){
@@ -340,7 +347,7 @@ void Widget::paintEvent(QPaintEvent *event){
             }
         }
         int s=Game->getPlayingData()->getScore()->MaxCombo;
-        DebugI(s)
+        //DebugI(s)
         /*if (timesub>6550&&timesub<6850){
             for (int i=0;i<4;i++){
 
@@ -415,15 +422,31 @@ void Widget::paintEvent(QPaintEvent *event){
         }
         }
         if (timesub>8400&&timesub<9000){
-            Rankingpic drawR(1-(9000-timesub)/600,Game->getPlayingData()->getScore()->getRanking());
+            Rankingpic drawR(1-(9000-timesub)/600,sqrt(1+(9000-timesub)/600),Game->getPlayingData()->getScore()->getRanking());
             drawR.draw(event,&painter);
         }
         else if (timesub >9000){
-            Rankingpic drawR(1,Game->getPlayingData()->getScore()->getRanking());
+            Rankingpic drawR(1,1,Game->getPlayingData()->getScore()->getRanking());
             drawR.draw(event,&painter);
         }
     }
+    if (esc){
+        QPainterPath pathend;
+        pathend.moveTo(0,0);
+        pathend.lineTo(1280,0);
+        pathend.lineTo(1280,720);
+        pathend.lineTo(0,720);
+        long long int sub = util::currentTimeMS()- timesup;
+        if (sub<=600){
+            painter.setBrush(QColor(40,44,53,sub*255/600));
+            painter.drawPath(pathend);
+        }
+        else if (sub>600){
+            painter.setBrush(QColor(40,44,53,255));
+            painter.drawPath(pathend);
+        }
 
+    }
  //   if()
     //Game->getPlayingData()->getScore()->RecentScore
     //MyCombo drawcombo(Game->getPlayingData()->getScore()->Combo,false);
@@ -436,4 +459,6 @@ void Widget::paintEvent(QPaintEvent *event){
     //Testtest test();
     //Game->getPlayingData()->getScore()->getRanking();
     painter.end();
+
+    mGameHolder->endUpdate();
 }
