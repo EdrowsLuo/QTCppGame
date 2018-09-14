@@ -54,7 +54,7 @@ Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent
     mGameHolder ->loadGame(osuFile);
 
     mGameHolder->getGame()->runGame();
-    mGameHolder->getGame()->getSongChannel()->seekTo(108000);
+    //mGameHolder->getGame()->getSongChannel()->seekTo(108000);
 }
 
 void Widget::animate(){
