@@ -283,7 +283,7 @@ bool ManiaGame::running() {
     return SongChannel->isPlaying();
 }
 
-ManiaGame::ManiaGame(EdpFile *f, ManiaSetting *setting) : FrameTime(0), OsuFile(f), SetDirectory(
+ManiaGame::ManiaGame(EdpFile *f, ManiaSetting *setting) : FrameTime(0), OsuFile(new EdpFile(f->getFullPath())), SetDirectory(
         new EdpFile(f->getParentPath())), Setting(setting), paused(false) {
 
 }
