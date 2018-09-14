@@ -168,18 +168,18 @@ void Widget::paintEvent(QPaintEvent *event){
         drawkey0.setKeyjudge(Game->getPlayingData()->getKeys()[i]->isPressed());//
         drawkey0.setnum(i);
         drawkey0.draw(event,&painter);
-        /*if(Game->getPlayingData()->getKeys()[i]->isPressed()){
-            if (Combopre==Combonow){
-                judgeScore draw12(Game->getPlayingData()->getScore()->RecentScore,false);
-                draw12.draw(event,&painter);
+        if(Game->getPlayingData()->getKeys()[i]->isPressed()){
+            if (Scorenow!=Scorepre){
+            //if (Combopre==Combonow){
+                judgeScore drawjudge(Game->getPlayingData()->getScore()->RecentScore,false);
+                drawjudge.draw(event,&painter);
             }
             else {
-                judgeScore draw12(Game->getPlayingData()->getScore()->RecentScore,true);
-                draw12.draw(event,&painter);
+                judgeScore drawjudge(Game->getPlayingData()->getScore()->RecentScore,true);
+                drawjudge.draw(event,&painter);
             }
-
-        }*/
-
+            //}
+        }
         }
         Combopre=Game->getPlayingData()->getScore()->Combo;
     }
@@ -224,6 +224,7 @@ void Widget::paintEvent(QPaintEvent *event){
 
     //结算界面绘制
     double timelong = Game->getSongChannel()->length();
+    //MyScore draw11()
     if ((Game->getFrameTime())>timelong){
         double timepre = Game->getFrameTime();
         double timesub = timepre-timelong;
