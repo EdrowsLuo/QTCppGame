@@ -322,6 +322,7 @@ namespace nso{
         Getter(Beatmap *,OsuBeatmap)
         Getter(ManiaSetting *,Setting)
         Getter(double,FrameTime)
+        Getter(EdpFile *,SetDirectory)
 
     protected:
         EdpFile *OsuFile;

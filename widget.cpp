@@ -79,7 +79,7 @@ void Widget::keyReleaseEvent(QKeyEvent *event){
 
 void Widget::paintEvent(QPaintEvent *event){
     Q_UNUSED(event);
-    DebugL("")
+    //DebugL("")
     QPainter painter(this);
     /*if(Game->updateTime()){
         Game->update();
@@ -87,7 +87,7 @@ void Widget::paintEvent(QPaintEvent *event){
     mGameHolder->update();
 
     if(mGameHolder->EscPressed){
-        DebugL("")
+        //DebugL("")
         esc=true;
         timesup=util::currentTimeMS();
     }
@@ -109,6 +109,8 @@ void Widget::paintEvent(QPaintEvent *event){
     if (Game->getFrameTime() < Game->getSongChannel()->length() + 2550) {
         //背景轨道绘制
         draw2.judge = KeyNum;
+        EdpFile f(*Game->getSetDirectory(),Game->getOsuBeatmap()->BackgroundFile);
+        draw1.set(f.getFullPath());
         draw1.draw(event, &painter);
         draw2.draw(event, &painter);
         drawkey0.judge = KeyNum;
