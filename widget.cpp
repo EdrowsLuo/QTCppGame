@@ -30,10 +30,10 @@ Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent
     ui->setupUi(this);
     this->setFixedSize(720*16/9,720);
     EdpFile *osuFile = new EdpFile(
-           //"D:\\QT\\wj\\MyBKG\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [4K Lv.4].osu"
+           "D:\\QT\\wj\\MyBKG\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [4K Lv.4].osu"
             //"D:\\QT\\wj\\MyBKG\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
             //"D:\\QT\\wj\\MyBKG\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Starry's 4K Lv.15].osu"
-            "D:\\QT\\wj\\QTCppGame\\assets\\songs\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Ryosaka's 7K Lv.19].osu"
+            //"D:\\QT\\wj\\QTCppGame\\assets\\songs\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Ryosaka's 7K Lv.19].osu"
             );
     //Game = new ManiaGame(osuFile,new ManiaSetting());
     //DebugL("")
@@ -169,18 +169,18 @@ void Widget::paintEvent(QPaintEvent *event){
         drawkey0.setKeyjudge(Game->getPlayingData()->getKeys()[i]->isPressed());//
         drawkey0.setnum(i);
         drawkey0.draw(event,&painter);
-        /*if(Game->getPlayingData()->getKeys()[i]->isPressed()){
-            if (Combopre==Combonow){
-                judgeScore draw12(Game->getPlayingData()->getScore()->RecentScore,false);
-                draw12.draw(event,&painter);
+        if(Game->getPlayingData()->getKeys()[i]->isPressed()){
+            if (Scorenow!=Scorepre){
+            //if (Combopre==Combonow){
+                judgeScore drawjudge(Game->getPlayingData()->getScore()->RecentScore,false);
+                drawjudge.draw(event,&painter);
             }
             else {
-                judgeScore draw12(Game->getPlayingData()->getScore()->RecentScore,true);
-                draw12.draw(event,&painter);
+                judgeScore drawjudge(Game->getPlayingData()->getScore()->RecentScore,true);
+                drawjudge.draw(event,&painter);
             }
-
-        }*/
-
+            //}
+        }
         }
         Combopre=Game->getPlayingData()->getScore()->Combo;
     }
@@ -225,6 +225,7 @@ void Widget::paintEvent(QPaintEvent *event){
 
     //结算界面绘制
     double timelong = Game->getSongChannel()->length();
+    //MyScore draw11()
     if ((Game->getFrameTime())>timelong){
         double timepre = Game->getFrameTime();
         double timesub = timepre-timelong;
