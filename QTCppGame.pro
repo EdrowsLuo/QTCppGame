@@ -69,6 +69,7 @@ SOURCES += \
         calscore.cpp \
         pixmapmanager.cpp\
         judgescore2.cpp\
+        addcas.cpp\
     \
     \
     cJSON.cpp\
@@ -118,6 +119,7 @@ HEADERS  += \
     BeatmapBase.h \
     Util.h \
     Project.h \
+    addcas.h\
     \
     \
     \
