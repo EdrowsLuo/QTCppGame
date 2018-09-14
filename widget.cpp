@@ -341,7 +341,7 @@ void Widget::paintEvent(QPaintEvent *event){
             }
         }
         int s=Game->getPlayingData()->getScore()->MaxCombo;
-        DebugI(s)
+        //DebugI(s)
         /*if (timesub>6550&&timesub<6850){
             for (int i=0;i<4;i++){
 
