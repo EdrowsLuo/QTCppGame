@@ -341,7 +341,7 @@ void Widget::paintEvent(QPaintEvent *event){
             }
         }
         int s=Game->getPlayingData()->getScore()->MaxCombo;
-        DebugI(s)
+        //DebugI(s)
         /*if (timesub>6550&&timesub<6850){
             for (int i=0;i<4;i++){
 
@@ -416,11 +416,11 @@ void Widget::paintEvent(QPaintEvent *event){
         }
         }
         if (timesub>8400&&timesub<9000){
-            Rankingpic drawR(1-(9000-timesub)/600,Game->getPlayingData()->getScore()->getRanking());
+            Rankingpic drawR(1-(9000-timesub)/600,sqrt(1+(9000-timesub)/600),Game->getPlayingData()->getScore()->getRanking());
             drawR.draw(event,&painter);
         }
         else if (timesub >9000){
-            Rankingpic drawR(1,Game->getPlayingData()->getScore()->getRanking());
+            Rankingpic drawR(1,1,Game->getPlayingData()->getScore()->getRanking());
             drawR.draw(event,&painter);
         }
     }

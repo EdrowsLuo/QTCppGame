@@ -1,10 +1,10 @@
 #include "rankingpic.h"
 #include <sstream>
-Rankingpic::Rankingpic(double a,string c)
+Rankingpic::Rankingpic(double a,double b,string c)
 {
     rank =c;
     Pos = a;
-    //k = b;
+    Pos2 = b;
     Aaddress = new QString[6];
     ForI(i,0,6){
         MakeString(s,"assets\\image\\ranking-" << i << ".png")
@@ -35,6 +35,6 @@ void Rankingpic::draw (QPaintEvent *event, QPainter *painter){
         if (rank == Mania::Ranking_SS){
             pixmap1.load(Aaddress[5]);
         }
-        painter->drawPixmap(700,320-250*Pos,400,500*Pos,pixmap1);
+        painter->drawPixmap(500+200*(2-Pos2),320-250*Pos,400*Pos2,500*Pos,pixmap1);
         painter->restore();
 }
