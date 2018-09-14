@@ -17,7 +17,11 @@ MyQSplitter::MyQSplitter( int nn, const My_Song & jsong, QWidget *parent ) :
         f[i]->setMinimumHeight( 200 );
         f[i]->setObjectName("sb");
         connect(f[i],SIGNAL(passtosplitter()),this,SLOT(passedtosplitter()));
-
+        f[i]->setStyleSheet("QPushButton{background-color:transparent;border-image:url(:/C:/Users/HJ/Pictures/QT/Infographic-with-crystal-banners/081-01.png)}"
+                           "QPushButton::hover{background-color:transparent;border-image:url(:/C:/Users/HJ/Pictures/QT/Infographic-with-crystal-banners/031.png)}"
+                            "QPushButton::pressed{background-color:transparent;border-image:url(:/C:/Users/HJ/Pictures/QT/Infographic-with-crystal-banners/032.png)}" );
+   //     f[i]->setStyleSheet("border-image:url(:/C:/Users/HJ/Pictures/QT/fakeButton4.png);"
+   //                        "background-color:transparent;");
         string content = jsong.difficultylist[i].version;
 
         //content = content + "\n";
