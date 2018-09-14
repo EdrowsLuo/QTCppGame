@@ -160,4 +160,4 @@ FORMS    += mainwindow.ui \
 
 FORMS    += widget.ui
 
-LIBS += -L D:/Qt/code/qt_bb -l bass
+LIBS += -L .\ -l bass
