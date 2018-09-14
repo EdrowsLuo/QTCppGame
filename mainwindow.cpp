@@ -81,9 +81,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->ExitButton->raise();
 //    for ( int i = 0 ; i<7 ;i++)
 //    Songinfo[i] = new Songs(i+1);
-    //gameview = new Widget(this);
+    gameview = new Widget(this);
  //   gameview->setFixedSize(1280, 720);
-    //gameview->close();
+    gameview->close();
     RightBox = new SlideBox1(s.Number,ss,this);
     RightBox->setObjectName("sid");
 
@@ -192,7 +192,7 @@ void MainWindow::UpDateSize(){
     ui->label->setGeometry(QRect(lbx,lby,lbw,lbh));
     gw=this->width();
     gh=this->height();
-    //gameview->setGeometry(QRect(0,0,gw,gh));
+    gameview->setGeometry(QRect(0,0,gw,gh));
 
 }
 void MainWindow::resizeEvent(QResizeEvent *){
@@ -477,7 +477,7 @@ void MainWindow::InitialGame(){
     ui->upButton->hide();
     ui->ModeButton1->hide();
 
-    //gameview->show();
+    gameview->show();
   //  port = new QHBoxLayout(this) ;
   //  port->addWidget(gameview);
     Project::ProjectGame->startGame();
