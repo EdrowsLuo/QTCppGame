@@ -437,4 +437,5 @@ void Widget::paintEvent(QPaintEvent *event){
     //Testtest test();
     //Game->getPlayingData()->getScore()->getRanking();
     painter.end();
+
 }
