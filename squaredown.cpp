@@ -23,6 +23,7 @@ void SquareDown::draw (QPaintEvent *event, QPainter *painter){
     xq4=coord2.setoutx2();
     yq3=coord2.setouty1();
     yq4=coord2.setouty2();
+    //painter->drawLine(xq2,yq3,xq4,yq4);
     path1.moveTo(xq1,yq1);
     path1.lineTo(xq2,yq2);
     path1.lineTo(xq4,yq4);
@@ -34,4 +35,6 @@ void SquareDown::draw (QPaintEvent *event, QPainter *painter){
     painter->setPen(QColor(255,215,000));
     painter->setBrush(linearGradient1);
     painter->drawPath(path1);
+
+    painter->restore();
 }

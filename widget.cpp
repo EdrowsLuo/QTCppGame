@@ -16,7 +16,10 @@
 #include "calscore.h"
 #include "rankingbg.h"
 #include "judgescore2.h"
+#include "addcas.h"
+#include "rankingpic.h"
 //#include "testtest.h"
+#include "Util.h"
 #include "keys.h"
 using namespace edp;
 using namespace nso;
@@ -29,9 +32,10 @@ Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent
     ui->setupUi(this);
     this->setFixedSize(720*16/9,720);
     EdpFile *osuFile = new EdpFile(
-           "D:\\QT\\wj\\MyBKG\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [4K Lv.4].osu"
-            //"D:\\QT\\wj\\MyBKG\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
+           //"D:\\QT\\wj\\MyBKG\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [4K Lv.4].osu"
+            "D:\\QT\\wj\\MyBKG\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
             //"D:\\QT\\wj\\MyBKG\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Starry's 4K Lv.15].osu"
+            //"D:\\QT\\wj\\QTCppGame\\assets\\songs\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Ryosaka's 7K Lv.19].osu"
             );
     //Game = new ManiaGame(osuFile,new ManiaSetting());
     //DebugL("")
@@ -46,13 +50,14 @@ Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent
     timer->start(0.1);
     //Game->linkKeyInput(keyPipee);
     //Game->runGame();
-    mGameHolder = new GameHolder();
+    mGameHolder = Project::ProjectGame;
 
     mGameHolder->enableMod(Mania::MOD_AUTO);
     mGameHolder ->loadGame(osuFile);
 
     mGameHolder->getGame()->runGame();
-    mGameHolder->getGame()->getSongChannel()->seekTo(102000);
+    mGameHolder->getGame()->getSongChannel()->seekTo(116000);
+    esc=false;
 }
 
 void Widget::animate(){
@@ -80,16 +85,27 @@ void Widget::paintEvent(QPaintEvent *event){
         Game->update();
     }*/
     mGameHolder->update();
+
+    if(mGameHolder->EscPressed){
+        esc=true;
+        timesup=util::currentTimeMS();
+    }
+
     ManiaGame *Game = mGameHolder->getGame();
 
-    KeyNum=1;
+    if (Game->getOsuBeatmap()->getKeys()==4){
+        KeyNum=1;
+    }
+    else {
+        KeyNum=0;
+    }
     NorH=false;
    // static
     double wid = rect().width();
     //static
     double hei = rect().height();
     painter.scale(wid/1280,hei/720);
-
+    if (Game->getFrameTime()<Game->getSongChannel()->length()+2550){
     //背景轨道绘制
     BackGround draw1;
     trackE draw2(KeyNum);
@@ -100,7 +116,7 @@ void Widget::paintEvent(QPaintEvent *event){
     Scorenow=Game->getPlayingData()->getScore()->getScore();
     //Note 与 HOLDER
     ForEachLong(Game->getDrawdata()->getDatas(),itr,vector<ManiaDrawdataNode>::iterator){
-        if (itr->type != ManiaDrawdata::HOLD){
+        if (itr->type == ManiaDrawdata::HOLD){
             SquareDownH draw11(itr->line,itr->position,itr->endposition,KeyNum);
             draw11.draw(event,&painter);
         }
@@ -137,7 +153,6 @@ void Widget::paintEvent(QPaintEvent *event){
         //
         drawcombo.draw(event,&painter);
     }
-    Scorepre=Game->getPlayingData()->getScore()->getScore();
 
     /*MyScore draw3(512,0,36,60,0);
     draw3.draw(event,&painter);
@@ -164,17 +179,17 @@ void Widget::paintEvent(QPaintEvent *event){
         drawkey0.setnum(i);
         drawkey0.draw(event,&painter);
         if(Game->getPlayingData()->getKeys()[i]->isPressed()){
-            if (Combopre==Combonow){
-                judgeScore draw12(Game->getPlayingData()->getScore()->RecentScore,false);
-                draw12.draw(event,&painter);
+            if (Scorenow!=Scorepre){
+            //if (Combopre==Combonow){
+                judgeScore drawjudge(Game->getPlayingData()->getScore()->RecentScore,false);
+                drawjudge.draw(event,&painter);
             }
             else {
-                judgeScore draw12(Game->getPlayingData()->getScore()->RecentScore,true);
-                draw12.draw(event,&painter);
+                judgeScore drawjudge(Game->getPlayingData()->getScore()->RecentScore,true);
+                drawjudge.draw(event,&painter);
             }
-
+            //}
         }
-
         }
         Combopre=Game->getPlayingData()->getScore()->Combo;
     }
@@ -186,7 +201,8 @@ void Widget::paintEvent(QPaintEvent *event){
         drawkey0.setnum(j);
         drawkey0.draw(event,&painter);
         if(Game->getPlayingData()->getKeys()[j]->isPressed()){
-            if (Combopre==Combonow){
+            if (Scorenow!=Scorepre){
+            //if (Combopre==Combonow){
                 judgeScore drawjudge(Game->getPlayingData()->getScore()->RecentScore,false);
                 drawjudge.draw(event,&painter);
             }
@@ -194,12 +210,13 @@ void Widget::paintEvent(QPaintEvent *event){
                 judgeScore drawjudge(Game->getPlayingData()->getScore()->RecentScore,true);
                 drawjudge.draw(event,&painter);
             }
-
+            //}
         }
         }
         Combopre=Game->getPlayingData()->getScore()->Combo;
     }
 
+    Scorepre=Game->getPlayingData()->getScore()->getScore();
 
     //节奏线
     ForEachLong(*Game->getDrawdata()->getBeatsAvalibe(),itr,vector<double>::iterator){
@@ -214,9 +231,10 @@ void Widget::paintEvent(QPaintEvent *event){
     //进度条
     ProgressBar drawPB(Game->getFrameTime()/Game->getSongChannel()->length());
     drawPB.draw(event,&painter);
-
+    }//im
     //结算界面绘制
     double timelong = Game->getSongChannel()->length();
+    //MyScore draw11(270,90,36,60,0);
     if ((Game->getFrameTime())>timelong){
         double timepre = Game->getFrameTime();
         double timesub = timepre-timelong;
@@ -235,23 +253,202 @@ void Widget::paintEvent(QPaintEvent *event){
         //judgeScore2 pixmapjs[6];
         for (int i=0;i<=5;i++){
             //pixmapjs[i].load(scorej[5-i]);
-            if (timesub>=(3050+500*i)){
-                if (timesub<=3550+500*i){
-                    judgeScore2 pixmapgh(100.0,120+60*i-25*(1-(3550+500*i-timesub)/500),90.0,50*(1-(3550+500*i-timesub)/500),5-i);
+            if (timesub>=(3050+300*i)){
+                if (timesub<=3350+300*i){
+                    judgeScore2 pixmapgh(100.0,120+66*i-33*(1-(3350+300*i-timesub)/300),144,66*(1-(3350+300*i-timesub)/300),5-i);
                     //pixmapgh.get();
                     pixmapgh.draw(event,&painter);
                 }
                 else {
                     //painter.drawPixmap(,pixmapjs[i]);
-                    judgeScore2 pixmapgh(100.0,95.0+60.0*i,90.0,50.0,5-i);
+                    judgeScore2 pixmapgh(100.0,87+66.0*i,144,66,5-i);
                     //pixmapgh.get();
                     pixmapgh.draw(event,&painter);
                 }
             }
         }
+        if(timesub>4850&&timesub<=5150){
+            AddCAS pixcas(100,530-36*(1-(5150-timesub)/300),230,72*(1-(5150-timesub)/300),1);
+            pixcas.draw(event,&painter);
+        }
+        else if (timesub>5150){
+            AddCAS pixcas(100,494,230,72,1);
+            pixcas.draw(event,&painter);
+        }
+        if(timesub>5150&&timesub<=5450){
+            AddCAS pixcas(630,537-32*(1-(5450-timesub)/300),351,64*(1-(5450-timesub)/300),2);
+            pixcas.draw(event,&painter);
+        }
+        else if (timesub>5450){
+            AddCAS pixcas(630,505,351,64,2);
+            pixcas.draw(event,&painter);
+        }
+        if(timesub>5450&&timesub<=5750){
+            AddCAS pixcas(100,610-36*(1-(5750-timesub)/300),230,72*(1-(5750-timesub)/300),3);
+            pixcas.draw(event,&painter);
+        }
+        else if (timesub>5750){
+            AddCAS pixcas(100,574,230,72,3);
+            pixcas.draw(event,&painter);
+        }
+        //翻动数字效果
+        if (timesub>5750&&timesub<5950){
+            for (int i=0;i<6;i++){
+                int t=Game->getPlayingData()->getScore()->HitCounter[5-i];
+                MyScore drawfirst(414,120+66*i-30*(1-(5950-timesub)/200),36,60*(1-(5950-timesub)/200),t-t/10*10);
+                drawfirst.draw(event,&painter);
+            }
+        }
+        else if (timesub>5950){
+            for (int i=0;i<6;i++){
+                int t=Game->getPlayingData()->getScore()->HitCounter[5-i];
+                MyScore drawfirst(414,90+66*i,36,60,t-t/10*10);
+                drawfirst.draw(event,&painter);
+            }
+        }
+        if (timesub>5950&&timesub<6150){
+            for (int i=0;i<6;i++){
+                int t=Game->getPlayingData()->getScore()->HitCounter[5-i];
+                MyScore drawfirst(378,120+66*i-30*(1-(6150-timesub)/200),36,60*(1-(6150-timesub)/200),t/10-t/100*10);
+                drawfirst.draw(event,&painter);
+            }
+        }
+        else if (timesub>6150){
+            for (int i=0;i<6;i++){
+                int t=Game->getPlayingData()->getScore()->HitCounter[5-i];
+                MyScore drawfirst(378,90+66*i,36,60,t/10-t/100*10);
+                drawfirst.draw(event,&painter);
+            }
+        }
+        if (timesub>6150&&timesub<6350){
+            for (int i=0;i<6;i++){
+                int t=Game->getPlayingData()->getScore()->HitCounter[5-i];
+                MyScore drawfirst(342,120+66*i-30*(1-(6350-timesub)/200),36,60*(1-(6350-timesub)/200),t/100-t/1000*10);
+                drawfirst.draw(event,&painter);
+            }
+        }
+        else if (timesub>6350){
+            for (int i=0;i<6;i++){
+                int t=Game->getPlayingData()->getScore()->HitCounter[5-i];
+                MyScore drawfirst(342,90+66*i,36,60,t/100-t/1000*10);
+                drawfirst.draw(event,&painter);
+            }
+        }
+        if (timesub>6350&&timesub<6550){
+            for (int i=0;i<6;i++){
+                int t=Game->getPlayingData()->getScore()->HitCounter[5-i];
+                MyScore drawfirst(306,120+66*i-30*(1-(6550-timesub)/200),36,60*(1-(6550-timesub)/200),t/1000);
+                drawfirst.draw(event,&painter);
+            }
+        }
+        else if (timesub>6550){
+            for (int i=0;i<6;i++){
+                int t=Game->getPlayingData()->getScore()->HitCounter[5-i];
+                MyScore drawfirst(306,90+66*i,36,60,t/1000);
+                drawfirst.draw(event,&painter);
+            }
+        }
+        int s=Game->getPlayingData()->getScore()->MaxCombo;
+        //DebugI(s)
+        /*if (timesub>6550&&timesub<6850){
+            for (int i=0;i<4;i++){
+
+                MaxCombo[i]=s-s/10*10;
+                MyScore drawfirst(494-36*i,530-30*(1-(6850-timesub)/300),36,60*(1-(6850-timesub)/300),MaxCombo[i]);
+                drawfirst.draw(event,&painter);
+                s=s/10;
+            }
+        }
+        else if (timesub>6850){
+            for (int i=0;i<4;i++){
+
+                MaxCombo[i]=s-s/10*10;
+                MyScore drawfirst(494-36*i,500,36,60,MaxCombo[i]);
+                drawfirst.draw(event,&painter);
+                s=s/10;
+            }
+        }*/
+        for (int i=0;i<4;i++){
+        if (Game->getFrameTime()-6550>100*i){
+            MaxCombo[i]=s%10;
+            if (timesub>6550+i*100&&timesub<6650+i*100){
+                MyScore drawfirst(494-36*i,535-30*(1-(6650+i*100-timesub)/100),36,60*(1-(6650+i*100-timesub)/100),MaxCombo[i]);
+                drawfirst.draw(event,&painter);
+            }
+            else if(timesub>6650+100*i){
+                MyScore drawfirst(494-36*i,505,36,60,MaxCombo[i]);
+                drawfirst.draw(event,&painter);
+            }
+            s=s/10;
+        }
+        }
+        double f = Game->getPlayingData()->getScore()->getAccuracy() * 10000;
+        int accuracy = (int)f;
+        if (timesub > 6850){
+            QPixmap pixmapp;
+            pixmapp.load(nso::Project::fromRootQ("assets\\image\\default-percent.png"));
+            painter.drawPixmap(1200,530,22.5,22.5,pixmapp);
+        }
+        if (timesub>7050){
+            QPixmap pixmappp;
+            pixmappp.load(nso::Project::fromRootQ("assets\\image\\point.png"));
+            painter.drawPixmap(1114,545,4,4,pixmappp);
+        }
+        for (int i=0;i<4;i++){
+        if (Game->getFrameTime()-6850>100*i){
+            MaxCombo[i]=accuracy-accuracy/10*10;
+            if (timesub>6850+i*100&&timesub<6950+i*100){
+                MyScore drawfirst(1160-40*i,535-30*(1-(6950+i*100-timesub)/100),36,60*(1-(6950+i*100-timesub)/100),MaxCombo[i]);
+                drawfirst.draw(event,&painter);
+            }
+            else if(timesub>6950+100*i){
+                MyScore drawfirst(1160-40*i,505,36,60,MaxCombo[i]);
+                drawfirst.draw(event,&painter);
+            }
+            accuracy=accuracy/10;
+        }
+        }
+        int o=Game->getPlayingData()->getScore()->getScore();
+        for (int i=0;i<7;i++){
+        if (Game->getFrameTime()-7350>150*i){
+            Totalscore[i]=o-o/10*10;
+            if (timesub>7350+i*150&&timesub<7500+i*150){
+                MyScore drawfirst(600-36*i,620-30*(1-(7500+i*150-timesub)/150),36,60*(1-(7500+i*150-timesub)/150),Totalscore[i]);
+                drawfirst.draw(event,&painter);
+            }
+            else if(timesub>7500+150*i){
+                MyScore drawfirst(600-36*i,590,36,60,Totalscore[i]);
+                drawfirst.draw(event,&painter);
+            }
+            o=o/10;
+        }
+        }
+        if (timesub>8400&&timesub<9000){
+            Rankingpic drawR(1-(9000-timesub)/600,sqrt(1+(9000-timesub)/600),Game->getPlayingData()->getScore()->getRanking());
+            drawR.draw(event,&painter);
+        }
+        else if (timesub >9000){
+            Rankingpic drawR(1,1,Game->getPlayingData()->getScore()->getRanking());
+            drawR.draw(event,&painter);
+        }
+    }
+    if (esc){
+        QPainterPath pathend;
+        pathend.moveTo(0,0);
+        pathend.lineTo(1280,0);
+        pathend.lineTo(1280,720);
+        pathend.lineTo(0,720);
+        long long int sub = util::currentTimeMS()- timesup;
+        if (sub<=600){
+            painter.setBrush(QColor(40,44,53,sub*255/600));
+            painter.drawPath(pathend);
+        }
+        else if (sub>600){
+            painter.setBrush(QColor(40,44,53,255));
+            painter.drawPath(pathend);
+        }
 
     }
-
  //   if()
     //Game->getPlayingData()->getScore()->RecentScore
     //MyCombo drawcombo(Game->getPlayingData()->getScore()->Combo,false);
@@ -262,4 +459,8 @@ void Widget::paintEvent(QPaintEvent *event){
     //分数Game->getPlayingData()->getScore()->getScore();
     //节奏Game->Drawdata->getBeatsAvalibe();
     //Testtest test();
+    //Game->getPlayingData()->getScore()->getRanking();
+    painter.end();
+
+    mGameHolder->endUpdate();
 }

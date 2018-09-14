@@ -93,7 +93,7 @@ void ManiaDrawdata::update(double time) {
             t2 = Clamp(0, t2, 1);
             datas.push_back(ManiaDrawdataNode{
                     object,
-                    object->getType(),
+                    ManiaDrawdata::HOLD,
                     ManiaUtil::positionToLine(object->getX(), LineCount),
                     t,
                     t2
@@ -103,7 +103,7 @@ void ManiaDrawdata::update(double time) {
             t = Clamp(0, t, 1);
             datas.push_back(ManiaDrawdataNode{
                     object,
-                    object->getType(),
+                    ManiaDrawdata::NOTE,
                     ManiaUtil::positionToLine(object->getX(), LineCount),
                     t,
                     t
@@ -133,7 +133,7 @@ PlayingHitObject::PlayingHitObject(HitObject &h) :
         X(h.x),
         Y(h.y),
         Time(h.time),
-        Type(h.type),
+        Type(h.type & HitObject::TYPE_MASK),
         HitSound(h.hitSound) {
 
 }
@@ -283,7 +283,7 @@ bool ManiaGame::running() {
     return SongChannel->isPlaying();
 }
 
-ManiaGame::ManiaGame(EdpFile *f, ManiaSetting *setting) : FrameTime(0), OsuFile(f), SetDirectory(
+ManiaGame::ManiaGame(EdpFile *f, ManiaSetting *setting) : FrameTime(0), OsuFile(new EdpFile(f->getFullPath())), SetDirectory(
         new EdpFile(f->getParentPath())), Setting(setting), paused(false) {
 
 }
@@ -471,7 +471,7 @@ ManiaScore::ManiaScore(Beatmap *beatmap) :
         TotalBonus(0),
         CurrentBonusRate(100),
         MaxCombo(0),
-        Combo(0), HitCount(0),AccScore(0),HitCounter(new int[6]){
+        Combo(0), HitCount(0),AccScore(0),PassedCombo(0),HitCounter(new int[6]){
     HitCounter[0] = 0;
     HitCounter[1] = 0;
     HitCounter[2] = 0;

@@ -103,10 +103,13 @@ namespace nso{
                 case Mania::ScoreType_Tick:
                 default:{
                     //tick不影响分数
+                    if (result.score == Mania::S_MISS) {
+                        CurrentBonusRate = 0;
+                    }
                 }break;
             }
 
-
+            PassedCombo++;
             if (result.score != Mania::S_MISS) {
                 Combo++;
             } else {
@@ -156,6 +159,7 @@ namespace nso{
         int TotalHit;
         int MaxCombo;
         int Combo;
+        int PassedCombo;
         int *HitCounter;
     };
 
@@ -373,7 +377,8 @@ namespace nso{
                 Game(NULL),
                 Setting(NULL),
                 KeyPipe(NULL),
-                AutoPlay(NULL){
+                AutoPlay(NULL),
+                EscPressed(false){
 
         }
 
@@ -470,9 +475,17 @@ namespace nso{
 
         }
 
+        void endUpdate() {
+            EscPressed = false;
+        }
+
         virtual void mkeyPressEvent(QKeyEvent *event) {
             if (event->isAutoRepeat()) {
                 return;
+            }
+
+            if (event->key() == Qt::Key_Escape) {
+                EscPressed = true;
             }
 
             if (KeyPipe != NULL) {
@@ -490,6 +503,8 @@ namespace nso{
         }
 
         Getter(ManiaGame *,Game)
+
+        bool EscPressed;
 
     private:
         EdpBassChannel *Channel;

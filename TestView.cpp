@@ -53,10 +53,10 @@ TestView::TestView(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers), p
     setAutoFillBackground(false);
 
     EdpFile *osuFile = new EdpFile(
-            "D:\\Qt\\code\\QTCppGame-build-desktop\\debug\\assets\\songs\\309176 Yukinoshita Yukino (CV.Hayami Saori) & Yuigahama Yui (CV.Touyama Nao) - Everyday World\\Yukinoshita Yukino (CV.Hayami Saori) & Yuigahama Yui (CV.Touyama Nao) - Everyday World ([ S a k u r a ]) [Lv.7].osu"
+            //"D:\\Qt\\code\\QTCppGame-build-desktop\\debug\\assets\\songs\\309176 Yukinoshita Yukino (CV.Hayami Saori) & Yuigahama Yui (CV.Touyama Nao) - Everyday World\\Yukinoshita Yukino (CV.Hayami Saori) & Yuigahama Yui (CV.Touyama Nao) - Everyday World ([ S a k u r a ]) [Lv.7].osu"
             //"D:\\My\\osu!droid\\Songs\\375548 Hashimoto Yukari - Hakanaki Yume\\Hashimoto Yukari - Hakanaki Yume (Bearizm) [Timing].osu"
             //"D:\\Qt\\code\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [4K Lv.4].osu"
-            //"D:\\Qt\\code\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
+            "D:\\Qt\\code\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
             //"D:\\Qt\\code\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Starry's 4K Lv.15].osu"
             );
     Project::ProjectGame->enableMod(Mania::MOD_AUTO);
@@ -90,6 +90,15 @@ void TestView::animate() {
 
 void TestView::paintEvent(QPaintEvent *event) {
     Project::ProjectGame->update();
+
+    if (Project::ProjectGame->EscPressed) {
+        Project::ProjectGame->reloadGame();
+        Project::ProjectGame->startGame();
+    }
+
+
+
+
     //DebugL("")
     ManiaGame *Game = Project::ProjectGame->getGame();
     //DebugL("")
@@ -171,7 +180,7 @@ void TestView::paintEvent(QPaintEvent *event) {
             linearGradient2.setColorAt(1, QColor(83, 158, 215, 255));
             painter.setBrush(linearGradient2);
         }
-        if (it->type == HitObject::TYPE_MANIA_HOLD) {
+        if (it->type == ManiaDrawdata::HOLD) {
 
             painter.drawRect(QRectF(
                     offset + width * it->line + holdPadding,
@@ -288,6 +297,8 @@ void TestView::paintEvent(QPaintEvent *event) {
 
 
     painter.end();
+
+    Project::ProjectGame->endUpdate();
 
     //DebugL("")
 }

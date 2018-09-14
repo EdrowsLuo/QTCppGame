@@ -31,6 +31,9 @@ protected:
     virtual void keyPressEvent(QKeyEvent *event);
     virtual void keyReleaseEvent(QKeyEvent *event);
 
+signals:
+    void GameEnd();
+
 private:
     Ui::Widget *ui;
     int Score[7];
@@ -43,7 +46,13 @@ private:
     int Combopre,Combonow;
     //RankingBG *BG1;
     Pixmapmanager manager;
-
+    int Comborecord;
+    double timerecord;
+    int t;
+    int MaxCombo[4];
+    int Totalscore[7];
+    bool esc;
+    long long int timesup;
 };
 
 #endif // WIDGET_H
