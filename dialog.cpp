@@ -61,7 +61,6 @@ void Dialog::on_pushButton_clicked()
 void Dialog::on_pushButton_2_clicked()
 {
     Project::ProjectGame->reloadGame();
-    Project::ProjectGame->startGame();
 }
 
 void Dialog::animate() {

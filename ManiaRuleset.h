@@ -377,7 +377,8 @@ namespace nso{
                 Game(NULL),
                 Setting(NULL),
                 KeyPipe(NULL),
-                AutoPlay(NULL){
+                AutoPlay(NULL),
+                EscPressed(false){
 
         }
 
@@ -475,9 +476,17 @@ namespace nso{
 
         }
 
+        void endUpdate() {
+            EscPressed = false;
+        }
+
         virtual void mkeyPressEvent(QKeyEvent *event) {
             if (event->isAutoRepeat()) {
                 return;
+            }
+
+            if (event->key() == Qt::Key_Escape) {
+                EscPressed = true;
             }
 
             if (KeyPipe != NULL) {
@@ -495,6 +504,8 @@ namespace nso{
         }
 
         Getter(ManiaGame *,Game)
+
+        bool EscPressed;
 
     private:
         EdpBassChannel *Channel;

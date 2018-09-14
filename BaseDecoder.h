@@ -35,6 +35,7 @@ namespace nso{
         ~DecodeException() throw();
         const char *what();
     private:
+        string m;
         string where;
         int line;
         string content;
