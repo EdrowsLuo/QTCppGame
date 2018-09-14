@@ -31,6 +31,9 @@ protected:
     virtual void keyPressEvent(QKeyEvent *event);
     virtual void keyReleaseEvent(QKeyEvent *event);
 
+signals:
+    void GameEnd();
+
 private:
     Ui::Widget *ui;
     int Score[7];
