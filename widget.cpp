@@ -19,6 +19,7 @@
 #include "addcas.h"
 #include "rankingpic.h"
 //#include "testtest.h"
+#include "Util.h"
 #include "keys.h"
 using namespace edp;
 using namespace nso;
@@ -56,6 +57,7 @@ Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent
 
     mGameHolder->getGame()->runGame();
     mGameHolder->getGame()->getSongChannel()->seekTo(116000);
+    esc=false;
 }
 
 void Widget::animate(){
@@ -83,6 +85,12 @@ void Widget::paintEvent(QPaintEvent *event){
         Game->update();
     }*/
     mGameHolder->update();
+
+    if(mGameHolder->EscPressed){
+        esc=true;
+        timesup=util::currentTimeMS();
+    }
+
     ManiaGame *Game = mGameHolder->getGame();
 
     if (Game->getOsuBeatmap()->getKeys()==4){
@@ -424,7 +432,23 @@ void Widget::paintEvent(QPaintEvent *event){
             drawR.draw(event,&painter);
         }
     }
+    if (esc){
+        QPainterPath pathend;
+        pathend.moveTo(0,0);
+        pathend.lineTo(1280,0);
+        pathend.lineTo(1280,720);
+        pathend.lineTo(0,720);
+        long long int sub = util::currentTimeMS()- timesup;
+        if (sub<=600){
+            painter.setBrush(QColor(40,44,53,sub*255/600));
+            painter.drawPath(pathend);
+        }
+        else if (sub>600){
+            painter.setBrush(QColor(40,44,53,255));
+            painter.drawPath(pathend);
+        }
 
+    }
  //   if()
     //Game->getPlayingData()->getScore()->RecentScore
     //MyCombo drawcombo(Game->getPlayingData()->getScore()->Combo,false);
@@ -438,4 +462,5 @@ void Widget::paintEvent(QPaintEvent *event){
     //Game->getPlayingData()->getScore()->getRanking();
     painter.end();
 
+    mGameHolder->endUpdate();
 }

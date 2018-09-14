@@ -51,6 +51,8 @@ private:
     int t;
     int MaxCombo[4];
     int Totalscore[7];
+    bool esc;
+    long long int timesup;
 };
 
 #endif // WIDGET_H
