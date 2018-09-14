@@ -19,9 +19,6 @@
 #include "addcas.h"
 //#include "testtest.h"
 #include "keys.h"
-#include "Project.h"
-
-
 using namespace edp;
 using namespace nso;
 
@@ -70,7 +67,6 @@ Widget::~Widget()
 
 
 void Widget::keyPressEvent(QKeyEvent *event){
-    DebugL("")
    mGameHolder->mkeyPressEvent(event);
 }
 
@@ -248,44 +244,46 @@ void Widget::paintEvent(QPaintEvent *event){
             //pixmapjs[i].load(scorej[5-i]);
             if (timesub>=(3050+300*i)){
                 if (timesub<=3350+300*i){
-                    judgeScore2 pixmapgh(100.0,120+60*i-25*(1-(3350+300*i-timesub)/300),90.0,50*(1-(3350+300*i-timesub)/300),5-i);
+                    judgeScore2 pixmapgh(100.0,120+66*i-33*(1-(3350+300*i-timesub)/300),144,66*(1-(3350+300*i-timesub)/300),5-i);
                     //pixmapgh.get();
                     pixmapgh.draw(event,&painter);
                 }
                 else {
                     //painter.drawPixmap(,pixmapjs[i]);
-                    judgeScore2 pixmapgh(100.0,95.0+60.0*i,90.0,50.0,5-i);
+                    judgeScore2 pixmapgh(100.0,87+66.0*i,144,66,5-i);
                     //pixmapgh.get();
                     pixmapgh.draw(event,&painter);
                 }
             }
         }
         if(timesub>4850&&timesub<=5150){
-            AddCAS pixcas(100,480-36*(1-(5150-timesub)/300),230,72*(1-(5150-timesub)/300),1);
+            AddCAS pixcas(100,530-36*(1-(5150-timesub)/300),230,72*(1-(5150-timesub)/300),1);
             pixcas.draw(event,&painter);
         }
         else if (timesub>5150){
-            AddCAS pixcas(100,444,230,72,1);
+            AddCAS pixcas(100,494,230,72,1);
             pixcas.draw(event,&painter);
         }
         if(timesub>5150&&timesub<=5450){
-            AddCAS pixcas(600,480-32*(1-(5450-timesub)/300),351,64*(1-(5450-timesub)/300),2);
+            AddCAS pixcas(630,530-32*(1-(5450-timesub)/300),351,64*(1-(5450-timesub)/300),2);
             pixcas.draw(event,&painter);
         }
         else if (timesub>5450){
-            AddCAS pixcas(600,448,351,64,2);
+            AddCAS pixcas(630,498,351,64,2);
             pixcas.draw(event,&painter);
         }
         if(timesub>5450&&timesub<=5750){
-            AddCAS pixcas(100,550-36*(1-(5750-timesub)/300),230,72*(1-(5750-timesub)/300),3);
+            AddCAS pixcas(100,610-36*(1-(5750-timesub)/300),230,72*(1-(5750-timesub)/300),3);
             pixcas.draw(event,&painter);
         }
         else if (timesub>5750){
-            AddCAS pixcas(100,514,230,72,3);
+            AddCAS pixcas(100,574,230,72,3);
             pixcas.draw(event,&painter);
         }
         //翻动数字效果
-        //if (timesub > 5750)
+        if (timesub>5750&&timesub<5790){
+
+        }
     }
 
  //   if()
