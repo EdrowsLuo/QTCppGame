@@ -224,7 +224,7 @@ void Widget::paintEvent(QPaintEvent *event){
 
     //结算界面绘制
     double timelong = Game->getSongChannel()->length();
-    //MyScore draw11()
+    //MyScore draw11(270,90,36,60,0);
     if ((Game->getFrameTime())>timelong){
         double timepre = Game->getFrameTime();
         double timesub = timepre-timelong;
@@ -282,8 +282,33 @@ void Widget::paintEvent(QPaintEvent *event){
             pixcas.draw(event,&painter);
         }
         //翻动数字效果
-        if (timesub>5750&&timesub<5790){
-
+        if (timesub>5750&&timesub<5950){
+            for (int i=0;i<6;i++){
+                int t=Game->getPlayingData()->getScore()->HitCounter[5-i];
+                MyScore drawfirst(414,120+66*i-30*(1-(5950-timesub)/200),36,60*(1-(5950-timesub)/200),t-t/10*10);
+                drawfirst.draw(event,&painter);
+            }
+        }
+        else if (timesub>5950){
+            for (int i=0;i<6;i++){
+                int t=Game->getPlayingData()->getScore()->HitCounter[5-i];
+                MyScore drawfirst(414,90+66*i,36,60,t-t/10*10);
+                drawfirst.draw(event,&painter);
+            }
+        }
+        if (timesub>5950&&timesub<6150){
+            for (int i=0;i<6;i++){
+                int t=Game->getPlayingData()->getScore()->HitCounter[5-i];
+                MyScore drawfirst(378,120+66*i-30*(1-(5950-timesub)/200),36,60*(1-(5950-timesub)/200),t/10-t/100*10);
+                drawfirst.draw(event,&painter);
+            }
+        }
+        else if (timesub>5950){
+            for (int i=0;i<6;i++){
+                int t=Game->getPlayingData()->getScore()->HitCounter[5-i];
+                MyScore drawfirst(378,90+66*i,36,60,t/10-t/100*10);
+                drawfirst.draw(event,&painter);
+            }
         }
     }
 
