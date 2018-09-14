@@ -133,13 +133,13 @@ namespace nso{
                 return Mania::Ranking_SS;
             } else {
                 double acc = getAccuracy();
-                if (acc >= 95) {
+                if (acc >= 0.95) {
                     return Mania::Ranking_S;
-                } else if (acc >= 90) {
+                } else if (acc >= 0.90) {
                     return Mania::Ranking_A;
-                } else if (acc >= 80) {
+                } else if (acc >= 0.80) {
                     return Mania::Ranking_B;
-                } else if (acc >= 70) {
+                } else if (acc >= 0.70) {
                     return Mania::Ranking_C;
                 } else {
                     return Mania::Ranking_D;
