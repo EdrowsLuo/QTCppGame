@@ -7,12 +7,13 @@ using namespace std;
 class Rankingpic : MyDraw
 {
 public:
-    Rankingpic(double,string);
+    Rankingpic(double,double,string);
     void draw(QPaintEvent *event, QPainter *painter);
 private:
     QString *Aaddress;
     string rank;
     double Pos;
+    double Pos2;
     //int k;
 };
 
