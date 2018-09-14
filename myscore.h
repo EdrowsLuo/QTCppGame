@@ -6,8 +6,24 @@ class MyScore :public MyDraw
 {
 public:
     MyScore(int,int,int,int,int);
-    void draw(QPaintEvent *event,QPainter *painter);
 
+    MyScore() {
+        Paddress = new QString[10];
+        ForI(i, 0, 10) {
+            MakeString(s, "assets\\image\\score-" << i << ".png")
+            Paddress[i] = Project::fromRoot(s).c_str();
+        }
+    }
+
+    void draw(QPaintEvent *event,QPainter *painter);
+    void set(int a,int b,int c,int d,int f)
+    {
+        x=a;
+        y=b;
+        w=c;
+        h=d;
+        num=f;
+    }
 private:
     QString *Paddress;
     int num;

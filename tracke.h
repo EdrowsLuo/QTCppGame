@@ -6,9 +6,9 @@ class trackE : public MyDraw
 {
 public:
     trackE(int);
+    trackE(){}
     void draw(QPaintEvent *event,QPainter *painter);
     //GetSet(int,judge)
-private:
     int judge;
 };
 

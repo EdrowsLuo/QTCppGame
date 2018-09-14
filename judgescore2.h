@@ -7,8 +7,23 @@ class judgeScore2 : public MyDraw
 {
 public:
     judgeScore2(double,double,double,double,int);
+    judgeScore2(){
+        scorej = new QString[6];
+        ForI(i,0,6){
+            MakeString(s,"assets\\image\\mania-hit" << i << ".png")
+            scorej[i]= Project::fromRoot(s).c_str();
+        }
+    }
     void draw(QPaintEvent *event, QPainter *painter);
     //void get(double,double,double,double,int);
+    void set(double a,double b,double c,double d,int e)
+    {
+        x=a;
+        y=b;
+        w=c;
+        h=d;
+        judge=e;
+    }
 
 private:
     int judge;

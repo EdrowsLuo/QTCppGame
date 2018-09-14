@@ -30,7 +30,19 @@ class MyCombo : public MyDraw
 {
 public:
     MyCombo(int,bool);
+    MyCombo(){
+        FCombo = new QString[10];
+        ForI(i,0,10){
+            MakeString(s,"assets\\image\\default-" << i << ".png")
+            FCombo[i]= Project::fromRoot(s).c_str();
+        }
+    }
     void draw(QPaintEvent *event,QPainter *painter);
+    void set(int a,bool b)
+    {
+        num=a;
+        isBig=b;     //\\image\\default-0.png
+    }
 private:
     int num;
     QString mark1;

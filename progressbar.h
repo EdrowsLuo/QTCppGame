@@ -5,7 +5,11 @@ class ProgressBar : public MyDraw
 {
 public:
     ProgressBar(double);
+    ProgressBar(){}
     void draw(QPaintEvent *event,QPainter *painter);
+    void set(double v) {
+        timeSet = v;
+    }
 private:
     double timeSet;
 };

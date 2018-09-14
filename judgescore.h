@@ -17,7 +17,19 @@ class judgeScore : public MyDraw
 {
 public:
     judgeScore(int,bool);
+    judgeScore(){
+        scorej = new QString[6];
+        ForI(i,0,6){
+            MakeString(s,"assets\\image\\mania-hit" << i << ".png")
+            scorej[i]= Project::fromRoot(s).c_str();
+        }
+    }
     void draw(QPaintEvent *event, QPainter *painter);
+    void set(int a,bool b)
+    {
+        judge=a;
+        isBig=b;
+    }
 
 private:
     int judge;

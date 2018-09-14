@@ -52,6 +52,7 @@ void Dialog::on_pushButton_clicked()
         Project::ProjectGame->getGame()->pauseGame();
     } else {
         Project::ProjectGame->getGame()->runGame();
+        Project::ProjectGame->getGame()->getSongChannel()->seekTo(108000);
     }
     Debug("clicked");
     //view->Game->pauseGame();

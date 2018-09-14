@@ -36,3 +36,10 @@ void SquareDownH::draw (QPaintEvent *event, QPainter *painter){
     painter->drawPath(path1);
     painter->restore();
 }
+
+void SquareDownH::set(int a, double b, double c, int d) {
+    trackeNum=a;
+    Pos1=b;
+    Pos2=c;
+    judge1=d;
+}

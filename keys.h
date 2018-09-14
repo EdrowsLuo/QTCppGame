@@ -7,11 +7,12 @@ class Keys : public MyDraw
 {
 public:
     Keys(int);
+    Keys(){}
     void draw(QPaintEvent *event,QPainter *painter);
     GetSet(bool,Keyjudge)
     GetSet(int,num)
     //GetSet(int,judge)
-private:
+public:
     int judge,num;
     bool Keyjudge;
 };

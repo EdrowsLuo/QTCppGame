@@ -11,6 +11,21 @@
 #include <QTimer>
 #include "pixmapmanager.h"
 #include "rankingbg.h"
+#include "background.h"
+#include "tracke.h"
+#include "keys.h"
+#include "squaredownh.h"
+#include "squaredown.h"
+#include "myscore.h"
+#include "mycombo.h"
+#include "judgescore.h"
+#include "rhythmline.h"
+#include "shadow.h"
+#include "progressbar.h"
+#include "judgescore2.h"
+#include "addcas.h"
+#include "rankingpic.h"
+
 using namespace edp;
 using namespace nso;
 namespace Ui {
@@ -53,6 +68,23 @@ private:
     int Totalscore[7];
     bool esc;
     long long int timesup;
+
+
+    BackGround draw1;
+    trackE draw2;
+    Keys drawkey0;
+    SquareDownH draw11;
+    SquareDown draw10;
+    MyScore draw3;
+    MyCombo drawcombo;
+    judgeScore drawjudge;
+    rhythmLine drawrhy;
+    Shadow drawshadow;
+    ProgressBar drawPB;
+    judgeScore2 pixmapgh;
+    AddCAS pixcas;
+    MyScore drawfirst;
+    Rankingpic drawR;
 };
 
 #endif // WIDGET_H
