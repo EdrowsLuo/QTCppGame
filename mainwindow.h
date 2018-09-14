@@ -69,6 +69,7 @@ public slots:
     void SN_SUB();//
     void SN_SUB_ANIM1();
     void InitialGame();
+    void GAMESTART();
 
 signals:
     void CHANGE_TO_AUTO();

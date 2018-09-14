@@ -82,8 +82,10 @@ MainWindow::MainWindow(QWidget *parent) :
 //    for ( int i = 0 ; i<7 ;i++)
 //    Songinfo[i] = new Songs(i+1);
     gameview = new Widget(this);
-    gameview->setFixedSize(1280, 720);
+//    gameview->setFixedSize(1280, 720);
     gameview->close();
+
+
     RightBox = new SlideBox1(s.Number,ss,this);
     RightBox->setObjectName("sid");
     RightBox->setStyleSheet("QWidget#RightBox{background-color:transparent}");
@@ -146,7 +148,7 @@ MainWindow::MainWindow(QWidget *parent) :
     modeButtonDisappear01=new QPropertyAnimation(ui->ModeButton1,"geometry",this);
     upButtonDisappear01=new QPropertyAnimation(ui->upButton,"geometry",this);
     rightBoxDisappear01 =new QPropertyAnimation(RightBox,"geometry",this);
-
+    connect(modeButtonDisappear01,SIGNAL(finished()),this,SLOT(GAMESTART()));
 
 }
 
@@ -471,16 +473,13 @@ void MainWindow::InitialGame(){
     leftBoxDisappear01->setTargetObject(LeftBox[(SN+100)%2]);
     leftBoxDisappear01->setPropertyName("geometry");
 
-    LeftBox[(SN+100)%2]->hide();
-    RightBox->hide();
-    ui->upButton->hide();
-    ui->ModeButton1->hide();
 
-    gameview->show();
+
+
   //  port = new QHBoxLayout(this) ;
   //  port->addWidget(gameview);
-    Project::ProjectGame->startGame();
-    /*   upButtonDisappear01->setStartValue(QRect(ux,uy,uw,uh));
+
+       upButtonDisappear01->setStartValue(QRect(ux,uy,uw,uh));
        upButtonDisappear01->setEndValue(QRect(ux,0-uh,uw,uh));
        upButtonDisappear01->setDuration(800);
        upButtonDisappear01->setEasingCurve(QEasingCurve::InBack);
@@ -502,7 +501,7 @@ void MainWindow::InitialGame(){
        rightBoxDisappear01->setEndValue(QRect(this->width()+rw,ry,rw,rh));
        rightBoxDisappear01->setDuration(800);
        rightBoxDisappear01->setEasingCurve(QEasingCurve::InBack);
-       rightBoxDisappear01->start();*/
+       rightBoxDisappear01->start();
 
 }
 
@@ -515,3 +514,15 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event) {
     QWidget::keyReleaseEvent(event);
     Project::ProjectGame->mkeyReleaseEvent(event);
 }
+
+
+void MainWindow::GAMESTART(){
+    LeftBox[(SN+100)%2]->hide();
+    RightBox->hide();
+    ui->upButton->hide();
+    ui->ModeButton1->hide();
+    gameview->show();
+    Project::ProjectGame->startGame();
+}
+
+
