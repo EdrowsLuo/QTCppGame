@@ -46,6 +46,8 @@ private:
     int Comborecord;
     double timerecord;
     int t;
+    int MaxCombo[4];
+    int Totalscore[7];
 };
 
 #endif // WIDGET_H
