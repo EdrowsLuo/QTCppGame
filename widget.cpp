@@ -56,6 +56,7 @@ Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent
 
     //mGameHolder->getGame()->runGame();
     //mGameHolder->getGame()->getSongChannel()->seekTo(102000);
+    esc= false;
 }
 
 void Widget::animate(){
@@ -78,6 +79,7 @@ void Widget::keyReleaseEvent(QKeyEvent *event){
 
 void Widget::paintEvent(QPaintEvent *event){
     Q_UNUSED(event);
+    DebugL("")
     QPainter painter(this);
     /*if(Game->updateTime()){
         Game->update();
@@ -85,6 +87,7 @@ void Widget::paintEvent(QPaintEvent *event){
     mGameHolder->update();
 
     if(mGameHolder->EscPressed){
+        DebugL("")
         esc=true;
         timesup=util::currentTimeMS();
     }
@@ -436,7 +439,7 @@ void Widget::paintEvent(QPaintEvent *event){
         pathend.lineTo(1280,0);
         pathend.lineTo(1280,720);
         pathend.lineTo(0,720);
-        long long int sub = util::currentTimeMS()- timesup;
+        int sub = static_cast<int>(util::currentTimeMS() - timesup);
         if (sub<=600){
             painter.setBrush(QColor(40,44,53,sub*255/600));
             painter.drawPath(pathend);
@@ -445,7 +448,6 @@ void Widget::paintEvent(QPaintEvent *event){
             painter.setBrush(QColor(40,44,53,255));
             painter.drawPath(pathend);
         }
-
     }
  //   if()
     //Game->getPlayingData()->getScore()->RecentScore

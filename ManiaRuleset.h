@@ -487,6 +487,7 @@ namespace nso{
 
             if (event->key() == Qt::Key_Escape) {
                 EscPressed = true;
+                DebugL("")
             }
 
             if (KeyPipe != NULL) {
