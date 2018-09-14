@@ -160,4 +160,4 @@ FORMS    += mainwindow.ui \
 
 FORMS    += widget.ui
 
-LIBS += -L .\ -l bass
+LIBS += -L ./ -l bass
