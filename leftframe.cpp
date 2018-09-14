@@ -21,9 +21,9 @@ LeftFrame::LeftFrame( const My_Difficulty & mydifficulty, string itplace , QWidg
     id = itplace;
     difficultyInfo = mydifficulty;
     connect(this,SIGNAL(clicked()),this,SLOT(onleftFrameClicked()));
-    trans = new QGraphicsOpacityEffect(this);
-    trans->setOpacity(0.6);
-    this->setGraphicsEffect(trans);
+  //  trans = new QGraphicsOpacityEffect(this);
+  //  trans->setOpacity(0.6);
+  //  this->setGraphicsEffect(trans);
 
 }
 
