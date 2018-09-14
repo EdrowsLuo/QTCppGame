@@ -54,7 +54,7 @@ Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent
     mGameHolder ->loadGame(osuFile);
 
     mGameHolder->getGame()->runGame();
-    mGameHolder->getGame()->getSongChannel()->seekTo(110000);
+    mGameHolder->getGame()->getSongChannel()->seekTo(112000);
 }
 
 void Widget::animate(){
@@ -281,6 +281,8 @@ void Widget::paintEvent(QPaintEvent *event){
             AddCAS pixcas(100,514,230,72,3);
             pixcas.draw(event,&painter);
         }
+        //翻动数字效果
+        //if (timesub > 5750)
     }
 
  //   if()
