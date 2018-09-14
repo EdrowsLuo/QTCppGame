@@ -11,7 +11,7 @@ SlideBox1::SlideBox1(int NOS , QString *NL ,QWidget *parent) :
 {
     ui->setupUi(this);
 
-/*    for(int i=0;i<7;i++){
+    for(int i=0;i<7;i++){
         heightOfFakeButton[i]=50;
         widthOfFakeButton[i]=300;
         xOfFakeButton[i]=50;
@@ -62,7 +62,7 @@ SlideBox1::SlideBox1(int NOS , QString *NL ,QWidget *parent) :
   //  ptf[0]->setGeometry(100,0,100,400);
 
 //    connect(ui->upPage,SIGNAL(clicked()),this,SLOT(close()));
-*/
+
 }
 
 
@@ -77,7 +77,7 @@ SlideBox1::~SlideBox1()
 void SlideBox1::on_downPage_clicked()
 {
 
-/*    emit downPagePressed(); /*
+    emit downPagePressed();
 
   /*  slide1 = new QPropertyAnimation(ptf[(cT)%7],"geometry");
     slide1->setDuration(400);
@@ -128,7 +128,7 @@ void SlideBox1::on_downPage_clicked()
     slide5->start(QAbstractAnimation::DeleteWhenStopped);
     slide6->start(QAbstractAnimation::DeleteWhenStopped);
     slide7->start(QAbstractAnimation::DeleteWhenStopped);*/
-/*
+
     SlideAnimDown *dons;
     dons = new SlideAnimDown(xOfFakeButton,yOfFakeButton, widthOfFakeButton, heightOfFakeButton,this,cT,ptf);
     dons->start(QAbstractAnimation::DeleteWhenStopped);
@@ -141,7 +141,7 @@ void SlideBox1::on_downPage_clicked()
     if (id>=numberOfSongs)id=0;
     if (id<0)id=numberOfSongs-1;
 
-    ptf[(cT+7)%7]->setText(songName[(id)%numberOfSongs]);*/
+    ptf[(cT+7)%7]->setText(songName[(id)%numberOfSongs]);
 }
 
 
@@ -183,7 +183,7 @@ void SlideBox1::upDateSizes(){
 
 void SlideBox1::on_upPage_clicked()
 {
- /*   emit upPagePressed();
+    emit upPagePressed();
     /*slide1 = new QPropertyAnimation(ptf[(cT+6)%7],"geometry");
     slide1->setDuration(400);
     slide1->setStartValue(QRect(xOfFakeButton[6],yOfFakeButton[6],widthOfFakeButton[6],heightOfFakeButton[6]));
@@ -244,7 +244,7 @@ void SlideBox1::on_upPage_clicked()
  //   QMessageBox::about(this,"ds",a );
  //   slide01->start();
    */
-/*    SlideAnimUp * upps;
+    SlideAnimUp * upps;
 
     upps = new SlideAnimUp(xOfFakeButton,yOfFakeButton, widthOfFakeButton, heightOfFakeButton,this,cT,ptf);
 
@@ -258,7 +258,7 @@ void SlideBox1::on_upPage_clicked()
     if (id>=numberOfSongs)id=0;
     if (id<0)id=numberOfSongs-1;
 
-    ptf[(cT+6)%7]->setText(songName[(id+6)%numberOfSongs]);*/
+    ptf[(cT+6)%7]->setText(songName[(id+6)%numberOfSongs]);
 
 }
 
