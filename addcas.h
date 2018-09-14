@@ -5,10 +5,12 @@
 class AddCAS : public MyDraw
 {
 public:
-    AddCAS();
-   /* void draw(QPaintEvent *event, QPainter *painter);
+    AddCAS(double,double,double,double,int);
+    void draw(QPaintEvent *event, QPainter *painter);
 private:
-    QString address1,address2,address3;*/
+    QString address1,address2,address3;
+    double x,y,w,h;
+    int num;
 };
 
 #endif // ADDCAS_H

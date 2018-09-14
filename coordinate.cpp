@@ -14,7 +14,7 @@ void coordinate::calculateSize1(int trackenum,double Pos){
     }
     if (judge==0){
         x1=1280/7*trackenum+((480+320/7*trackenum)-1280/7*trackenum)*Pos;
-        x2=1280/7*trackenum+((480+320/7*trackenum)-1280/7*trackenum)*Pos;
+        x2=1280/7*(trackenum+1)+((480+320/7*(trackenum+1))-1280/7*(trackenum+1))*Pos;
         y1=612-528*Pos;
         y2=612-528*Pos;
     }

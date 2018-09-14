@@ -103,10 +103,13 @@ namespace nso{
                 case Mania::ScoreType_Tick:
                 default:{
                     //tick不影响分数
+                    if (result.score == Mania::S_MISS) {
+                        CurrentBonusRate = 0;
+                    }
                 }break;
             }
 
-
+            PassedCombo++;
             if (result.score != Mania::S_MISS) {
                 Combo++;
             } else {
@@ -156,6 +159,7 @@ namespace nso{
         int TotalHit;
         int MaxCombo;
         int Combo;
+        int PassedCombo;
         int *HitCounter;
     };
 

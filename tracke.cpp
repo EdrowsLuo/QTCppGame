@@ -31,13 +31,14 @@ void trackE::draw (QPaintEvent *event, QPainter *painter){
     }
     if (judge==0)
     {
-        painter->drawLine(183,612,526,84);
-        painter->drawLine(366,612,572,84);
-        painter->drawLine(548,612,617,84);
-        painter->drawLine(731,612,663,84);
-        painter->drawLine(914,612,709,84);
-        painter->drawLine(1097,612,755,84);
-        painter->drawLine(1280,612,800,84);
+        for (int i=1;i<=7;i++)
+        painter->drawLine(1280/7*i,612,480+320/7*i,84);
+        /*painter->drawLine(1280/7*2,612,480+320/7,84);
+        painter->drawLine(1280/7*3,612,480+320/7,84);
+        painter->drawLine(1280/7,612,480+320/7,84);
+        painter->drawLine(1280/7,612,480+320/7,84);
+        painter->drawLine(1280/7,612,480+320/7,84);
+        painter->drawLine(1280,612,800,84);*/
     }
     QPainterPath path1;
     path1.moveTo(0,612);
