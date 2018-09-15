@@ -8,6 +8,7 @@
 #include "defext.h"
 #include "CJsonObject.hpp"
 #include "songgroup.h"
+#include "settings.h"
 
 using namespace nso;
 using namespace neb;
@@ -30,34 +31,6 @@ MainWindow::MainWindow(QWidget *parent) :
      IOUtil::readFull(out,str);
      CJsonObject object(str);
      CJsonObject *basicData;
-
-     numOfSong = object["data"].GetArraySize();
-
-     basicData = new CJsonObject[numOfSong];
-     SongName = new string[numOfSong];
-
-
-     for ( int i = 0 ; i<numOfSong ; i++ ){
-         objcet["data"].Get(i,basicData[i]);
-     }
-
-     SongName = new string[numOfSong];
-
- */
-
-
-
-
-/*    ss= new QString[9];
-    ss[0]="s0";
-    ss[1]="s1";
-    ss[2]="s2";
-    ss[3]="s3";
-    ss[4]="s4";
-    ss[5]="s5";
-    ss[6]="s6";
-    ss[7]="s7";
-    ss[8]="s8";
 */
     ss = new QString[s.Number];
     for ( int i = 0 ; i<s.Number ; i++ ){
@@ -140,6 +113,8 @@ MainWindow::MainWindow(QWidget *parent) :
     modeButtonAppear01 = new QPropertyAnimation(ui->ModeButton1,"geometry",this);
     upButtonAppear01 = new QPropertyAnimation(ui->upButton,"geometry",this);
     rightBoxAppear01 = new QPropertyAnimation(RightBox,"geometry",this);
+
+    Settings *SetSurface = new Settings;
 
 }
 
