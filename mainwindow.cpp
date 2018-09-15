@@ -115,13 +115,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     leftBoxAppear0=new QPropertyAnimation(this);
     leftBoxDisappear0=new QPropertyAnimation(this);
-    LeftBox[(SN+100)%2]->hide();
+    LeftBox[(SN+100)%2]->close();
 
 
 
     rightBoxAppear0 =new QPropertyAnimation(RightBox,"geometry",this);
     rightBoxDisappear0 =new QPropertyAnimation(RightBox,"geometry",this);
-    RightBox->hide();
+    RightBox->close();
 
     upButtonAppear=new QPropertyAnimation(ui->upButton,"geometry",this);
     upButtonDisappear=new QPropertyAnimation(ui->upButton,"geometry",this);
@@ -249,10 +249,10 @@ void MainWindow::on_StartButton_clicked()
 
 
 void MainWindow::onChooseSurfaceAppear(){
-    ui->StartButton->hide();
-    ui->SetButton->hide();
-    ui->ExitButton->hide();
-    ui->label->hide();
+    ui->StartButton->close();
+    ui->SetButton->close();
+    ui->ExitButton->close();
+    ui->label->close();
     ui->upButton->setGeometry(QRect(ux,0-uh,uw,uh));
     ui->upButton->show();
     ui->ModeButton1->show();
@@ -322,9 +322,9 @@ void MainWindow::on_upButton_clicked()
 }
 
 void MainWindow::onStartSurfaceAppear(){
-    ui->upButton->hide();
-    RightBox->hide();
-    LeftBox[(SN+100)%2]->hide();
+    ui->upButton->close();
+    RightBox->close();
+    LeftBox[(SN+100)%2]->close();
     ui->StartButton->show();
     ui->SetButton->show();
     ui->ExitButton->show();
@@ -519,10 +519,10 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event) {
 
 
 void MainWindow::GAMESTART(){
-    LeftBox[(SN+100)%2]->hide();
-    RightBox->hide();
-    ui->upButton->hide();
-    ui->ModeButton1->hide();
+    LeftBox[(SN+100)%2]->close();
+    RightBox->close();
+    ui->upButton->close();
+    ui->ModeButton1->close();
     gameview->show();
     Project::ProjectGame->startGame();
 }
