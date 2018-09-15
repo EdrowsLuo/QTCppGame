@@ -263,7 +263,7 @@ void MainWindow::onChooseSurfaceAppear(){
     upButtonAppear->setEasingCurve(QEasingCurve::OutCirc);
     upButtonAppear->start();
 
-    modeButtonAppear->setStartValue(QRect(mx,620+mh,mw,mh));
+    modeButtonAppear->setStartValue(QRect(mx,this->height()+mh,mw,mh));
     modeButtonAppear->setEndValue(QRect(mx,my,mw,mh));
     modeButtonAppear->setDuration(800);
     modeButtonAppear->setEasingCurve(QEasingCurve::OutBack);
@@ -298,7 +298,7 @@ void MainWindow::on_upButton_clicked()
     upButtonDisappear->start();
 
     modeButtonDisappear->setStartValue(QRect(mx,my,mw,mh));
-    modeButtonDisappear->setEndValue(QRect(mx,600+mh,mw,mh));
+    modeButtonDisappear->setEndValue(QRect(mx,this->height()+mh,mw,mh));
     modeButtonDisappear->setDuration(800);
     modeButtonDisappear->setEasingCurve(QEasingCurve::InBack);
     modeButtonDisappear->start();
@@ -483,7 +483,7 @@ void MainWindow::InitialGame(){
        upButtonDisappear01->start();
 
        modeButtonDisappear01->setStartValue(QRect(mx,my,mw,mh));
-       modeButtonDisappear01->setEndValue(QRect(mx,650+mh,mw,mh));
+       modeButtonDisappear01->setEndValue(QRect(mx,this->height()+mh,mw,mh));
        modeButtonDisappear01->setDuration(800);
        modeButtonDisappear01->setEasingCurve(QEasingCurve::InBack);
        modeButtonDisappear01->start();
