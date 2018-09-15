@@ -161,4 +161,8 @@ FORMS    += mainwindow.ui \
 
 FORMS    += widget.ui
 
+
+RESOURCES += \
+    background.qrc
+
 LIBS += -L D:\QT\wj\QTCppGame-release-working -l bass

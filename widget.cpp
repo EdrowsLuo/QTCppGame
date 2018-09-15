@@ -80,6 +80,9 @@ void Widget::paintEvent(QPaintEvent *event){
         Game->update();
     }*/
     mGameHolder->update();
+    /*if (Game->getFrameTime()<2000){
+        path
+    }*/
 
     if(mGameHolder->EscPressed){
         //DebugL("")
