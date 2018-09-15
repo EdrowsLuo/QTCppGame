@@ -23,7 +23,7 @@ MyQSplitter::MyQSplitter( int nn, const My_Song & jsong, QWidget *parent ) :
 
 
         f[i]->setStyleSheet("QPushButton{background-color:transparent;border-image:url(:/assets/image/textbox-01.png);color:white}"
-                           "QPushButton::hover{background-color:transparent;border-image:url(:/assets/image/textbox2-01.png));color:white}" );
+                           "QPushButton::hover{background-color:transparent;border-image:url(:/assets/image/textbox2-01.png);color:white}" );
         f[i]->setText(QApplication::translate("", ch, 0, QApplication::UnicodeUTF8));
         this->addWidget(f[i]);
     }

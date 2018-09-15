@@ -164,7 +164,7 @@ void MainWindow::UpDateSize(){
     rw = 310*w/800;
     rh = h;
     ux = 370*w/800; mx = 370*w/800;
-    uy = -30; my = 560*h/600;
+    uy = -30; my = 550*h/600;
     uw = 60*w/800; mw = 60*w/800;
     uh = 60*h/600; mh = 60*h/600;
     ui->upButton->setGeometry(QRect(ux,uy,uw,uh));
