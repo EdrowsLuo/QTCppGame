@@ -51,7 +51,7 @@ Widget::Widget(QWidget *parent) : Renderer(parent)
     //DebugL("")
     QTimer *timer=new QTimer (this);
     connect(timer,SIGNAL(timeout()),this,SLOT(animate()));
-    timer->start(0.1);
+    timer->start(12);
     //Game->linkKeyInput(keyPipee);
     //Game->runGame();
     mGameHolder = Project::ProjectGame;
@@ -391,6 +391,7 @@ void Widget::paintEvent(QPaintEvent *event){
             pixmapp.load(nso::Project::fromRootQ("assets\\image\\default-percent.png"));
             painter.drawPixmap(1200,530,22.5,22.5,pixmapp);
         }
+        if (f == 1){
         if (timesub>7050){
             QPixmap pixmappp;
             pixmappp.load(nso::Project::fromRootQ("assets\\image\\point.png"));
@@ -409,6 +410,29 @@ void Widget::paintEvent(QPaintEvent *event){
             }
             accuracy=accuracy/10;
         }
+        }
+        }
+        else{
+            accuracy = 1000;
+            if (timesub>7050){
+                QPixmap pixmappp;
+                pixmappp.load(nso::Project::fromRootQ("assets\\image\\point.png"));
+                painter.drawPixmap(1154,545,4,4,pixmappp);
+            }
+            for (int i=0;i<4;i++){
+            if (Game->getFrameTime()-6850>100*i){
+                MaxCombo[i]=accuracy-accuracy/10*10;
+                if (timesub>6850+i*100&&timesub<6950+i*100){
+                    drawfirst.set(1160-40*i,535-30*(1-(6950+i*100-timesub)/100),36,60*(1-(6950+i*100-timesub)/100),MaxCombo[i]);
+                    drawfirst.draw(event,&painter);
+                }
+                else if(timesub>6950+100*i){
+                    drawfirst.set(1160-40*i,505,36,60,MaxCombo[i]);
+                    drawfirst.draw(event,&painter);
+                }
+                accuracy=accuracy/10;
+            }
+            }
         }
         int o=Game->getPlayingData()->getScore()->getScore();
         for (int i=0;i<7;i++){
