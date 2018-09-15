@@ -98,7 +98,7 @@ void Widget::paintEvent(QPaintEvent *event){
     //static
     double hei = rect().height();
     painter.scale(wid/1280,hei/720);
-    if (Game->getFrameTime() < Game->getSongChannel()->length() + 2550) {
+    if (Game->getFrameTime() < Game->getLength() + 2550) {
         //背景轨道绘制
         draw2.judge = KeyNum;
         EdpFile f(*Game->getSetDirectory(),Game->getOsuBeatmap()->BackgroundFile);
@@ -218,11 +218,11 @@ void Widget::paintEvent(QPaintEvent *event){
         drawshadow.draw(event, &painter);
 
         //进度条
-        drawPB.set(Game->getFrameTime() / Game->getSongChannel()->length());
+        drawPB.set(Game->getFrameTime() / Game->getLength());
         drawPB.draw(event, &painter);
     }//im
     //结算界面绘制
-    double timelong = Game->getSongChannel()->length();
+    double timelong = Game->getLength();
     //MyScore draw11(270,90,36,60,0);
     if ((Game->getFrameTime())>timelong){
         double timepre = Game->getFrameTime();
