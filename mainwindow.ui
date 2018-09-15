@@ -33,8 +33,8 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image: url(:/assets/image/powerButtonOff.png);color:white}
-QPushButton::hover{border-image:url(:/assets/image/powerButtonOn.png);color:white}</string>
+     <string notr="true">QPushButton{border-image: url(:/assets/image/powerButtonOff.png);color:black}
+QPushButton::hover{border-image:url(:/assets/image/powerButtonOn.png);color:black}</string>
     </property>
     <property name="text">
      <string>Menu</string>
