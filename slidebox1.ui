@@ -32,8 +32,9 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image:url(:/C:/Users/HJ/Pictures/QT/myb-01.png);
-background-color:transparent;</string>
+    <string notr="true">border-image:url(:/assets/image/titlebox1.png);
+background-color:transparent;
+color:white</string>
    </property>
    <property name="text">
     <string>PushButton1</string>
@@ -49,8 +50,9 @@ background-color:transparent;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image:url(:/C:/Users/HJ/Pictures/QT/myb-01.png);
-background-color:transparent;</string>
+    <string notr="true">border-image:url(:/assets/image/titlebox1.png);
+background-color:transparent;
+color:white</string>
    </property>
    <property name="text">
     <string>PushButton2</string>
@@ -66,8 +68,9 @@ background-color:transparent;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image:url(:/C:/Users/HJ/Pictures/QT/myb-01.png);
-background-color:transparent;</string>
+    <string notr="true">border-image:url(:/assets/image/titlebox1.png);
+background-color:transparent;
+color:white</string>
    </property>
    <property name="text">
     <string>PushButton3</string>
@@ -83,8 +86,9 @@ background-color:transparent;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image:url(:/C:/Users/HJ/Pictures/QT/myb-01.png);
-background-color:transparent;</string>
+    <string notr="true">border-image:url(:/assets/image/titlebox1.png);
+background-color:transparent;
+color:white</string>
    </property>
    <property name="text">
     <string>PushButton4</string>
@@ -100,8 +104,9 @@ background-color:transparent;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image:url(:/C:/Users/HJ/Pictures/QT/myb-01.png);
-background-color:transparent;</string>
+    <string notr="true">border-image:url(:/assets/image/titlebox1.png);
+background-color:transparent;
+color:white</string>
    </property>
    <property name="text">
     <string>PushButton5</string>
@@ -117,8 +122,9 @@ background-color:transparent;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image:url(:/C:/Users/HJ/Pictures/QT/fakebutton0-01.png);
-background-color:transparent;</string>
+    <string notr="true">border-image:url(:/assets/image/titlebox1.png);
+background-color:transparent;
+color:white</string>
    </property>
    <property name="text">
     <string>PushButton6</string>
@@ -134,8 +140,9 @@ background-color:transparent;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image:url(:/C:/Users/HJ/Pictures/QT/fakebutton0-01.png);
-background-color:transparent;</string>
+    <string notr="true">border-image:url(:/assets/image/titlebox1.png);
+background-color:transparent;
+color:white</string>
    </property>
    <property name="text">
     <string>PushButton7</string>
@@ -151,7 +158,7 @@ background-color:transparent;</string>
     </rect>
    </property>
    <property name="text">
-    <string>Up</string>
+    <string/>
    </property>
   </widget>
   <widget class="QPushButton" name="downPage">
@@ -164,7 +171,7 @@ background-color:transparent;</string>
     </rect>
    </property>
    <property name="text">
-    <string>Down</string>
+    <string/>
    </property>
   </widget>
   <widget class="QPushButton" name="chooseButton">
@@ -177,7 +184,7 @@ background-color:transparent;</string>
     </rect>
    </property>
    <property name="text">
-    <string>Choose</string>
+    <string/>
    </property>
   </widget>
  </widget>

@@ -17,25 +17,14 @@ MyQSplitter::MyQSplitter( int nn, const My_Song & jsong, QWidget *parent ) :
         f[i]->setMinimumHeight( 200 );
         f[i]->setObjectName("sb");
         connect(f[i],SIGNAL(passtosplitter()),this,SLOT(passedtosplitter()));
-        f[i]->setStyleSheet("QPushButton{background-color:transparent;border-image:url(:/C:/Users/HJ/Pictures/QT/Infographic-with-crystal-banners/081-01.png)}"
-                           "QPushButton::hover{background-color:transparent;border-image:url(:/C:/Users/HJ/Pictures/QT/Infographic-with-crystal-banners/031.png)}"
-                            "QPushButton::pressed{background-color:transparent;border-image:url(:/C:/Users/HJ/Pictures/QT/Infographic-with-crystal-banners/032.png)}" );
-
-        MakeString(s,"Version: " << jsong.difficultylist[i].version <<endl <<"Star: " << jsong.difficultylist[i].star << "\t" <<
-                    "OverallDifficulty: "<< jsong.difficultylist[i].overalldifficulty << endl << "KeyCount: " <<jsong.difficultylist[i].circlesize );
-     //   content = content + "\n" +"Star: "+
-        //content = content + "\n";
-        //content = content + jsong.difficultylist[i].version.c_str();
-        //content = content + "\n";
+        MakeString(s,"Version: " << jsong.difficultylist[i].version <<"  Star: " << jsong.difficultylist[i].star << endl<<"OverallDifficulty: "<< jsong.difficultylist[i].overalldifficulty << endl << "  KeyCount: " <<jsong.difficultylist[i].circlesize <<"  Length: "<<jsong.difficultylist[i].lenth);
         const char*  ch;
         ch=s.c_str();
-  //      DebugI(ch)
-  //              DebugI("fk")
+
+
+        f[i]->setStyleSheet("QPushButton{background-color:transparent;border-image:url(:/assets/image/textbox-01.png);color:white}"
+                           "QPushButton::hover{background-color:transparent;border-image:url(:/assets/image/textbox2-01.png));color:white}" );
         f[i]->setText(QApplication::translate("", ch, 0, QApplication::UnicodeUTF8));
- //       content = content + (char)jsong.difficultylist[i].overalldifficulty
-        f[i]->setStyleSheet("QPushButton{background-color:transparent;border-image:url(:/C:/Users/HJ/Pictures/QT/Infographic-with-crystal-banners/081-01.png)}"
-                           "QPushButton::hover{background-color:transparent;border-image:url(:/C:/Users/HJ/Pictures/QT/Infographic-with-crystal-banners/031.png)}"
-                            "QPushButton::pressed{background-color:transparent;border-image:url(:/C:/Users/HJ/Pictures/QT/Infographic-with-crystal-banners/032.png)}" );
         this->addWidget(f[i]);
     }
     this->setOrientation(Qt::Vertical);
