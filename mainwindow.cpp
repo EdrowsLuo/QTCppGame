@@ -503,13 +503,13 @@ void MainWindow::InitialGame(){
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
+    //Project::ProjectGame->mkeyPressEvent(event);
     QWidget::keyPressEvent(event);
-    Project::ProjectGame->mkeyPressEvent(event);
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent *event) {
+    //Project::ProjectGame->mkeyReleaseEvent(event);
     QWidget::keyReleaseEvent(event);
-    Project::ProjectGame->mkeyReleaseEvent(event);
 }
 
 
@@ -519,6 +519,7 @@ void MainWindow::GAMESTART(){
     ui->upButton->close();
     ui->ModeButton1->close();
     gameview->show();
+    gameview->setFocus();
     gameview->onGameStart();
     Project::ProjectGame->startGame();
 }

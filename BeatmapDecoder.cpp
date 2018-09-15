@@ -15,7 +15,7 @@
 using namespace nso;
 
 BeatmapDecoder::BeatmapDecoder(EdpFile &file) : BaseDecoder(file) { }
-BeatmapDecoder::BeatmapDecoder(const string &path): BaseDecoder(path) { }
+BeatmapDecoder::BeatmapDecoder(const string &data): BaseDecoder(data) { }
 
 void BeatmapDecoder::load() {
     registerParser("General", (new BaseParser())

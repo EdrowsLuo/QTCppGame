@@ -18,10 +18,7 @@ BaseDecoder::BaseDecoder(EdpFile &file) : parserMap(), parseProperty() {
     input << data;
 }
 
-BaseDecoder::BaseDecoder(const string &path) : parserMap(), parseProperty() {
-    string data;
-    EdpFile f(path);
-    IOUtil::readFull(f, data);
+BaseDecoder::BaseDecoder(const string &data) : parserMap(), parseProperty() {
     input << data;
 }
 
