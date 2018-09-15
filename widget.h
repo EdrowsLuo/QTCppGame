@@ -73,12 +73,12 @@ private:
     Pixmapmanager manager;
     int Comborecord,ssr;
     double timerecord;
-    int t;
+    int t,tranjudge;
     int MaxCombo[4];
     int Totalscore[7];
     bool esc;
     long long int timesup;
-
+    double tranj;
 
     BackGround draw1;
     trackE draw2;

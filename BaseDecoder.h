@@ -61,7 +61,7 @@ namespace nso{
         string currentLine;
         int parsingLine;
 
-        explicit BaseDecoder(const string &path);
+        explicit BaseDecoder(const string &data);
         explicit BaseDecoder(EdpFile &file);
         virtual ~BaseDecoder();
 

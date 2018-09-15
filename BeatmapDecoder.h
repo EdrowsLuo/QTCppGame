@@ -12,7 +12,7 @@ namespace nso{
     class BeatmapDecoder: public BaseDecoder {
     public:
         explicit BeatmapDecoder(EdpFile &file);
-        explicit BeatmapDecoder(const string &path);
+        explicit BeatmapDecoder(const string &data);
     protected:
         virtual bool onBegin(Beatmap &beatmap);
         virtual void load();
