@@ -81,6 +81,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->ExitButton->raise();
 
     gameview = new Widget(this);
+    //connect(gameview, SIGNAL(omGameStart()), this, SLOT(onGameStart()));
     connect(gameview, SIGNAL(GameEnd()), this, SLOT(GAMEEND()));
     gameview->close();
 
@@ -524,6 +525,7 @@ void MainWindow::GAMESTART(){
     ui->upButton->close();
     ui->ModeButton1->close();
     gameview->show();
+    gameview->onGameStart();
     Project::ProjectGame->startGame();
 }
 

@@ -48,8 +48,10 @@ public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
     void paintEvent(QPaintEvent *event);
+    void onGameStart();
 public slots:
     void animate();
+
 protected:
     virtual void keyPressEvent(QKeyEvent *event);
     virtual void keyReleaseEvent(QKeyEvent *event);

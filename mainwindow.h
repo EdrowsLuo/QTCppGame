@@ -76,6 +76,7 @@ public slots:
 signals:
     void CHANGE_TO_AUTO();
     void CHANGE_TO_MANUAL();
+    void onGameStart();
 
 protected:
     virtual void keyPressEvent(QKeyEvent *event);

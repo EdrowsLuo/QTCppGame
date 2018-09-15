@@ -484,3 +484,20 @@ void Widget::paintEvent(QPaintEvent *event){
 
     mGameHolder->endUpdate();
 }
+
+void Widget::onGameStart() {
+    esc = false;
+    endjudge = true;
+    ForI(i,0,7) {
+        Totalscore[i] = 0;
+        Score[i] = 0;
+    }
+    ForI(i,0,4) {
+        MaxCombo[i] = 0;
+    }
+    NorH = false;
+    timesup = 0;
+    t = 0;
+    Scorepre = 0;
+    Scorenow = 0;
+}

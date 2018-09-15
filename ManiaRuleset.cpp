@@ -38,7 +38,7 @@ void ManiaPlaytimeData::endJudge() {
 
 ManiaDrawdata::ManiaDrawdata(nso::Beatmap &beatmap) :
         Preempt(500),
-        LineCount((int) (beatmap.CircleSize + 0.01)), SpeedChange(true) {
+        LineCount((int) (beatmap.CircleSize + 0.01)), SpeedChange(false) {
     beats.insert(beats.begin(), beatmap.controlPoints.Beats.begin(), beatmap.controlPoints.Beats.end());
     float currentPosition = beatmap.controlPoints.Timings.begin()->Time - 5000;
     double currentTime = beatmap.controlPoints.Timings.begin()->Time - 5000;
