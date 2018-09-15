@@ -453,8 +453,9 @@ void Widget::paintEvent(QPaintEvent *event){
         pathend.lineTo(1280,720);
         pathend.lineTo(0,720);
         int sub = static_cast<int>(util::currentTimeMS() - timesup);
+        sub = sub < 0 ? 0 : sub;
         if (sub<=600){
-            sub = static_cast<int>(easing::applyEasing(0, sub, 600, easing::OutQuart));
+            sub = static_cast<int>(easing::applyEasing(0, sub / 600.0, 600, easing::OutQuart));
             painter.setBrush(QColor(40,44,53,sub*255/600));
             painter.drawPath(pathend);
         }
