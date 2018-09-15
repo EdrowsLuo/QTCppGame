@@ -322,6 +322,7 @@ namespace nso{
         Getter(Beatmap *,OsuBeatmap)
         Getter(ManiaSetting *,Setting)
         Getter(double,FrameTime)
+        Getter(EdpFile *,SetDirectory)
 
     protected:
         EdpFile *OsuFile;
@@ -481,13 +482,20 @@ namespace nso{
         }
 
         virtual void mkeyPressEvent(QKeyEvent *event) {
+
+            if (event->key() == Qt::Key_Tab) {
+                if (checkGame()) {
+                    Game->getSongChannel()->seekTo(Game->getSongChannel()->getTime() + 1000);
+                }
+            }
+
+
             if (event->isAutoRepeat()) {
                 return;
             }
 
             if (event->key() == Qt::Key_Escape) {
                 EscPressed = true;
-                DebugL("")
             }
 
             if (KeyPipe != NULL) {

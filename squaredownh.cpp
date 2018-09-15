@@ -18,11 +18,16 @@ void SquareDownH::draw (QPaintEvent *event, QPainter *painter){
     yq1=coord1.setouty1();
     yq2=coord1.setouty2();
     coordinate coord2(judge1);
-    coord2.calculateSize1(trackeNum,Pos2);
+    coord2.calculateSize1(trackeNum,Pos2+0.1*(1-Pos2));
     xq3=coord2.setoutx1();
     xq4=coord2.setoutx2();
     yq3=coord2.setouty1();
     yq4=coord2.setouty2();
+    /*coord2.calculateSize1(trackeNum,Pos2);
+    xq3=coord2.setoutx1();
+    xq4=coord2.setoutx2();
+    yq3=coord2.setouty1();
+    yq4=coord2.setouty2();*/
     path1.moveTo(xq1,yq1);
     path1.lineTo(xq2,yq2);
     path1.lineTo(xq4,yq4);

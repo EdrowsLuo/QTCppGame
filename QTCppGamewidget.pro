@@ -161,4 +161,4 @@ FORMS    += mainwindow.ui \
 
 FORMS    += widget.ui
 
-LIBS += -L D:/Qt/code/qt_bb -l bass
+LIBS += -L D:\QT\wj\QTCppGame-release-working -l bass

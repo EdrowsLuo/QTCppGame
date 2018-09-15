@@ -21,32 +21,23 @@
 //#include "testtest.h"
 #include "Util.h"
 #include "keys.h"
+#include "easing.h"
+
 using namespace edp;
 using namespace nso;
 
-Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent)
-    ,
+Widget::Widget(QWidget *parent) :
+        Renderer(
+#ifdef USING_GL
+                QGLFormat(QGL::SampleBuffers),
+#endif
+                parent),
     ui(new Ui::Widget)
 {
-    //BG1 = new RankingBG(&manager);
     ui->setupUi(this);
-    //this->setFixedSize(720*16/9,720);
-   /* EdpFile *osuFile = new EdpFile(
-           "D:\\QT\\wj\\MyBKG\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [4K Lv.4].osu"
-            //"D:\\QT\\wj\\MyBKG\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
-            //"D:\\QT\\wj\\MyBKG\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Starry's 4K Lv.15].osu"
-            );*/
-    //Game = new ManiaGame(osuFile,new ManiaSetting());
-    //DebugL("")
-    //Game->prepareGame();
-    //DebugL("")
-    //keyPipee = new QTKeyPipe();
-    //DebugL("")
-    //keyPipee->setTimer(Game->getSongChannel());
-    //DebugL("")
     QTimer *timer=new QTimer (this);
     connect(timer,SIGNAL(timeout()),this,SLOT(animate()));
-    timer->start(0.1);
+    timer->start(12);
     //Game->linkKeyInput(keyPipee);
     //Game->runGame();
     mGameHolder = Project::ProjectGame;
@@ -57,6 +48,7 @@ Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent
     //mGameHolder->getGame()->runGame();
     //mGameHolder->getGame()->getSongChannel()->seekTo(102000);
     esc= false;
+    endjudge = true;
 }
 
 void Widget::animate(){
@@ -79,7 +71,7 @@ void Widget::keyReleaseEvent(QKeyEvent *event){
 
 void Widget::paintEvent(QPaintEvent *event){
     Q_UNUSED(event);
-    DebugL("")
+    //DebugL("")
     QPainter painter(this);
     /*if(Game->updateTime()){
         Game->update();
@@ -87,7 +79,7 @@ void Widget::paintEvent(QPaintEvent *event){
     mGameHolder->update();
 
     if(mGameHolder->EscPressed){
-        DebugL("")
+        //DebugL("")
         esc=true;
         timesup=util::currentTimeMS();
     }
@@ -109,6 +101,8 @@ void Widget::paintEvent(QPaintEvent *event){
     if (Game->getFrameTime() < Game->getSongChannel()->length() + 2550) {
         //背景轨道绘制
         draw2.judge = KeyNum;
+        EdpFile f(*Game->getSetDirectory(),Game->getOsuBeatmap()->BackgroundFile);
+        draw1.set(f.getFullPath());
         draw1.draw(event, &painter);
         draw2.draw(event, &painter);
         drawkey0.judge = KeyNum;
@@ -384,6 +378,7 @@ void Widget::paintEvent(QPaintEvent *event){
             pixmapp.load(nso::Project::fromRootQ("assets\\image\\default-percent.png"));
             painter.drawPixmap(1200,530,22.5,22.5,pixmapp);
         }
+        if (f != 1){
         if (timesub>7050){
             QPixmap pixmappp;
             pixmappp.load(nso::Project::fromRootQ("assets\\image\\point.png"));
@@ -403,6 +398,29 @@ void Widget::paintEvent(QPaintEvent *event){
             accuracy=accuracy/10;
         }
         }
+        }
+        else{
+            accuracy = 1000;
+            if (timesub>7050){
+                QPixmap pixmappp;
+                pixmappp.load(nso::Project::fromRootQ("assets\\image\\point.png"));
+                painter.drawPixmap(1154,545,4,4,pixmappp);
+            }
+            for (int i=0;i<4;i++){
+            if (Game->getFrameTime()-6850>100*i){
+                MaxCombo[i]=accuracy-accuracy/10*10;
+                if (timesub>6850+i*100&&timesub<6950+i*100){
+                    drawfirst.set(1160-40*i,535-30*(1-(6950+i*100-timesub)/100),36,60*(1-(6950+i*100-timesub)/100),MaxCombo[i]);
+                    drawfirst.draw(event,&painter);
+                }
+                else if(timesub>6950+100*i){
+                    drawfirst.set(1160-40*i,505,36,60,MaxCombo[i]);
+                    drawfirst.draw(event,&painter);
+                }
+                accuracy=accuracy/10;
+            }
+            }
+        }
         int o=Game->getPlayingData()->getScore()->getScore();
         for (int i=0;i<7;i++){
         if (Game->getFrameTime()-7350>150*i){
@@ -419,7 +437,9 @@ void Widget::paintEvent(QPaintEvent *event){
         }
         }
         if (timesub>8400&&timesub<9000){
-            drawR.set(1-(9000-timesub)/600,sqrt(1+(9000-timesub)/600),Game->getPlayingData()->getScore()->getRanking());
+            double p = (timesub - 8400) / 600.0;
+            drawR.set(easing::applyEasing(0, p, 1, easing::OutQuart), easing::applyEasing(4, p, 1, easing::OutQuart),
+                      Game->getPlayingData()->getScore()->getRanking());
             drawR.draw(event,&painter);
         }
         else if (timesub >9000){
@@ -434,13 +454,19 @@ void Widget::paintEvent(QPaintEvent *event){
         pathend.lineTo(1280,720);
         pathend.lineTo(0,720);
         int sub = static_cast<int>(util::currentTimeMS() - timesup);
+        sub = sub < 0 ? 0 : sub;
         if (sub<=600){
+            sub = static_cast<int>(easing::applyEasing(0, sub / 600.0, 600, easing::OutQuart));
             painter.setBrush(QColor(40,44,53,sub*255/600));
             painter.drawPath(pathend);
         }
         else if (sub>600){
             painter.setBrush(QColor(40,44,53,255));
             painter.drawPath(pathend);
+            if (endjudge){
+                emit GameEnd();
+                endjudge = false;
+            }
         }
     }
  //   if()
