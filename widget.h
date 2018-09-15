@@ -96,6 +96,7 @@ private:
     MyScore drawfirst;
     Rankingpic drawR;
     Pressesc drawpress;
+    double timestarts;
 };
 
 #endif // WIDGET_H
