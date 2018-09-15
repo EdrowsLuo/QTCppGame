@@ -48,6 +48,7 @@ Widget::Widget(QWidget *parent) :
     //mGameHolder->getGame()->runGame();
     //mGameHolder->getGame()->getSongChannel()->seekTo(102000);
     esc= false;
+    endjudge = true;
 }
 
 void Widget::animate(){
@@ -377,7 +378,7 @@ void Widget::paintEvent(QPaintEvent *event){
             pixmapp.load(nso::Project::fromRootQ("assets\\image\\default-percent.png"));
             painter.drawPixmap(1200,530,22.5,22.5,pixmapp);
         }
-        if (f == 1){
+        if (f != 1){
         if (timesub>7050){
             QPixmap pixmappp;
             pixmappp.load(nso::Project::fromRootQ("assets\\image\\point.png"));
@@ -462,6 +463,10 @@ void Widget::paintEvent(QPaintEvent *event){
         else if (sub>600){
             painter.setBrush(QColor(40,44,53,255));
             painter.drawPath(pathend);
+            if (endjudge){
+                emit GameEnd();
+                endjudge = false;
+            }
         }
     }
  //   if()
