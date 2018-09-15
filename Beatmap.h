@@ -297,6 +297,7 @@ namespace nso{
                     l = t;
                 }
             }
+            return l;
         }
 
         void loadMore() {

@@ -254,7 +254,7 @@ void ManiaGame::prepareGame() {
     try {
         decoder.parse(*OsuBeatmap);
         EdpFile songFile(*SetDirectory, OsuBeatmap->AudioFilename);
-        Length = OsuBeatmap->avalibleLength() + 2;
+        Length = OsuBeatmap->avalibleLength() + 2000;
         SongChannel = new EdpBassChannel(songFile);
         GameKeyFrame = new KeyFrame();
 
