@@ -114,7 +114,7 @@ MainWindow::MainWindow(QWidget *parent) :
     upButtonAppear01 = new QPropertyAnimation(ui->upButton,"geometry",this);
     rightBoxAppear01 = new QPropertyAnimation(RightBox,"geometry",this);
 
-    Settings *SetSurface = new Settings;
+ //   Settings *SetSurface = new Settings;
 
 }
 
@@ -207,8 +207,9 @@ void MainWindow::on_StartButton_clicked()
     place = place + s.songlist[(ST+s.Number+3)%s.Number].difficultylist[0].audiofilename;
     EdpFile f(*Project::ProjectRoot,place);
     string fullpath = f.getFullPath();
-    Project::ProjectGame->loadMusic(fullpath,s.songlist[(ST+s.Number+3)%s.Number].difficultylist[0].previewtime);
 
+    Project::ProjectGame->loadMusic(fullpath,s.songlist[(ST+s.Number+3)%s.Number].difficultylist[0].previewtime);
+    DebugI("d")
 }
 
 

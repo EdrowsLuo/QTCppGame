@@ -24,12 +24,13 @@ void Settings::on_pushButton_clicked()
     this->close();
 }
 
-void Settings::on_pushButton_3_clicked()
-{
-    emit CLOSED();
-}
 
 void Settings::on_verticalSlider_valueChanged(int value)
 {
+    Project::ProjectGame->setSpeedLevel(value/4);
+}
 
+void Settings::on_horizontalSlider_valueChanged(int value)
+{
+    Project::ProjectGame->setBaseVolume((double)value/100.0);
 }
