@@ -40,6 +40,6 @@ void Pressesc::draw(QPaintEvent *event, QPainter *painter){
     QPixmap pixmap1;
     pixmap1.load(AAaddress);
     painter->setOpacity(tran);
-    painter->drawPixmap(0,0,505,40,pixmap1);
+    painter->drawPixmap(669,575,561,105,pixmap1);
     painter->restore();
 }

@@ -22,7 +22,7 @@
 #include "Util.h"
 #include "keys.h"
 #include "easing.h"
-
+#include <cmath>
 using namespace edp;
 using namespace nso;
 
@@ -49,7 +49,9 @@ Widget::Widget(QWidget *parent) :
     //mGameHolder->getGame()->getSongChannel()->seekTo(102000);
     esc= false;
     endjudge = true;
-    ssr=150;
+    ssr=200;
+    tranjudge = 0;
+    tranj = 0.0;
 }
 
 void Widget::animate(){
@@ -273,7 +275,7 @@ void Widget::paintEvent(QPaintEvent *event){
             pixcas.set(630,505,351,64,2);
             pixcas.draw(event,&painter);
         }
-        if(timesub>53050+ssr*8&&timesub<=3050+ssr*9){
+        if(timesub>3050+ssr*8&&timesub<=3050+ssr*9){
             pixcas.set(100,610-36*(1-(3050+ssr*9-timesub)/ssr),230,72*(1-(3050+ssr*9-timesub)/ssr),3);
             pixcas.draw(event,&painter);
         }
@@ -447,8 +449,20 @@ void Widget::paintEvent(QPaintEvent *event){
             drawR.set(1,1,Game->getPlayingData()->getScore()->getRanking());
             drawR.draw(event,&painter);
         }
-        if (timesub > 5150+ssr*13 && timesub <5650 + ssr * 13){
-            drawpress.set((5650 + ssr * 13-timesub)/500);
+        if (timesub > 5250+ssr*13){
+            drawpress.set(abs(sin((timesub-5250-ssr*13)/600)));
+           /* if (tranjudge == 0){
+                tranj = tranj + 0.01;
+            }
+            if (tranjudge == 1){
+                tranj = tranj -0.01;
+            }
+            if (tranj > 1){
+                tranjudge = 1;
+            }
+            if (tranj < 0){
+                tranjudge = 0;
+            }*/
             drawpress.draw(event,&painter);
         }
 
