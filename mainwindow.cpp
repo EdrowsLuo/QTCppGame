@@ -93,7 +93,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     LeftBox[(SN+100)%2]=new DifficultyScrollArea( s.songlist[0] ,this);
     LeftBox[(SN+100)%2]->setObjectName("dou");
-
+    connect(LeftBox[((SN+100))%2]->my_splitter,SIGNAL(StartGame()),this,SLOT(InitialGame()));
     leftBoxDisappear=new QPropertyAnimation( this );
     leftBoxDisappear->setPropertyName("geometry");
     leftBoxAppear = new QPropertyAnimation (this);
@@ -377,7 +377,7 @@ void MainWindow::on_ModeButton1_clicked()
 void MainWindow::SN_ADD(){
     if(al==0){
         leftBoxDisappear->stop();
-//        disconnect(LeftBox[((SN+100)+1)%2]->my_splitter,SIGNAL(StartGame()),this,SLOT(InitialGame()));
+        disconnect(LeftBox[((SN+100)+1)%2]->my_splitter,SIGNAL(StartGame()),this,SLOT(InitialGame()));
         LeftBox[((SN+100)+1)%2]->deleteLater();
 //            LeftBox[(SN+1)%2]=NULL;
         LeftBox[(SN+100)%2]->show();
@@ -413,7 +413,7 @@ void MainWindow::SN_ADD(){
 void MainWindow::SN_SUB(){
     if(al==0){
         leftBoxDisappear->stop();
-        //       disconnect(LeftBox[((SN+100)+1)%2]->my_splitter,SIGNAL(StartGame()),this,SLOT(InitialGame()));
+        disconnect(LeftBox[((SN+100)+1)%2]->my_splitter,SIGNAL(StartGame()),this,SLOT(InitialGame()));
         LeftBox[((SN+100)+1)%2]->deleteLater();
 //            LeftBox[(SN+1)%2]=NULL;
         LeftBox[(SN+100)%2]->show();
@@ -441,7 +441,7 @@ void MainWindow::SN_SUB(){
     place = place + s.songlist[(ST+s.Number+3)%s.Number].difficultylist[0].audiofilename;
     EdpFile f(*Project::ProjectRoot,place);
     string fullpath = f.getFullPath();
-    DebugL(fullpath.c_str())
+//    DebugL(fullpath.c_str())
     Project::ProjectGame->loadMusic(fullpath,s.songlist[(ST+s.Number+3)%s.Number].difficultylist[0].previewtime);
 //    this->setStyleSheet("background-color:red");
 }
