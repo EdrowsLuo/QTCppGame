@@ -173,7 +173,7 @@ namespace edp{
         }
 
         static double applyEasing(double v1, double m, double v2, int easing) {
-            double p = applyEasing((m - v1) / (v2 - v1), easing);
+            double p = applyEasing(m, easing);
             return v1 * (1 - p) + v2 * p;
         }
 
