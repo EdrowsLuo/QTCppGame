@@ -22,7 +22,7 @@ MyQSplitter::MyQSplitter( int nn, const My_Song & jsong, QWidget *parent ) :
                             "QPushButton::pressed{background-color:transparent;border-image:url(:/C:/Users/HJ/Pictures/QT/Infographic-with-crystal-banners/032.png)}" );
 
         MakeString(s,"Version: " << jsong.difficultylist[i].version <<endl <<"Star: " << jsong.difficultylist[i].star << "\t" <<
-                    "OverallDifficulty: "<< jsong.difficultylist[i].overalldifficulty << endl << "CircleSize: "<<jsong.difficultylist[i].version );
+                    "OverallDifficulty: "<< jsong.difficultylist[i].overalldifficulty << endl << "KeyCount: " <<jsong.difficultylist[i].circlesize );
      //   content = content + "\n" +"Star: "+
         //content = content + "\n";
         //content = content + jsong.difficultylist[i].version.c_str();

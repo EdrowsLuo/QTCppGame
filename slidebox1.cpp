@@ -74,10 +74,10 @@ SlideBox1::~SlideBox1()
 }
 
 
-void SlideBox1::on_downPage_clicked()
+void SlideBox1::on_upPage_clicked()
 {
 
-    emit downPagePressed();
+    emit upPagePressed();
 
   /*  slide1 = new QPropertyAnimation(ptf[(cT)%7],"geometry");
     slide1->setDuration(400);
@@ -181,9 +181,9 @@ void SlideBox1::upDateSizes(){
 
 }
 
-void SlideBox1::on_upPage_clicked()
+void SlideBox1::on_downPage_clicked()
 {
-    emit upPagePressed();
+    emit downPagePressed();
     /*slide1 = new QPropertyAnimation(ptf[(cT+6)%7],"geometry");
     slide1->setDuration(400);
     slide1->setStartValue(QRect(xOfFakeButton[6],yOfFakeButton[6],widthOfFakeButton[6],heightOfFakeButton[6]));
