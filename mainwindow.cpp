@@ -92,7 +92,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(RightBox,SIGNAL(downPagePressed()),this,SLOT(SN_ADD()));
     connect(RightBox,SIGNAL(upPagePressed()),this,SLOT(SN_SUB()));
 
-    LeftBox[(SN+100)%2]=new DifficultyScrollArea( s.songlist[0] ,this);
+    LeftBox[(SN+100)%2]=new DifficultyScrollArea( s.songlist[3] ,this);
     LeftBox[(SN+100)%2]->setObjectName("dou");
     connect(LeftBox[((SN+100))%2]->my_splitter,SIGNAL(StartGame()),this,SLOT(InitialGame()));
     leftBoxDisappear=new QPropertyAnimation( this );
@@ -399,7 +399,7 @@ void MainWindow::SN_ADD(){
     if (ST>=s.Number) ST = 0;
     if (ST<0) ST = s.Number-1;
     //   DebugL("y")
-    LeftBox[(SN+100)%2] = new DifficultyScrollArea(s.songlist[(ST+s.Number)%s.Number],this);
+    LeftBox[(SN+100)%2] = new DifficultyScrollArea(s.songlist[(ST+s.Number+3)%s.Number],this);
     connect(LeftBox[((SN+100))%2]->my_splitter,SIGNAL(StartGame()),this,SLOT(InitialGame()));
     DebugL("y1")
     string place = "assets\\songs\\" + s.songlist[(ST+s.Number+3)%s.Number].fileName;
@@ -434,7 +434,7 @@ void MainWindow::SN_SUB(){
     ST--;
     if (ST>=s.Number) ST = 0;
     if (ST<0) ST = s.Number-1;
-    LeftBox[(SN+100)%2] = new DifficultyScrollArea(s.songlist[(ST+s.Number)%s.Number],this);
+    LeftBox[(SN+100)%2] = new DifficultyScrollArea(s.songlist[(ST+s.Number+3)%s.Number],this);
     connect(LeftBox[((SN+100))%2]->my_splitter,SIGNAL(StartGame()),this,SLOT(InitialGame()));
 
     string place = "assets\\songs\\" + s.songlist[(ST+s.Number+3)%s.Number].fileName;
