@@ -32,7 +32,15 @@ namespace Ui {
     class Widget;
 }
 
-class Widget : public QGLWidget
+#define USING_GL
+
+#ifdef USING_GL
+typedef QGLWidget Renderer;
+#else
+typedef QWidget Renderer;
+#endif
+
+class Widget : public Renderer
 {
     Q_OBJECT
 

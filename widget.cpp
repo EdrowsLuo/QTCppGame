@@ -21,14 +21,19 @@
 //#include "testtest.h"
 #include "Util.h"
 #include "keys.h"
+#include "easing.h"
+
 using namespace edp;
 using namespace nso;
 
-Widget::Widget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers),parent)
+Widget::Widget(QWidget *parent) : Renderer(parent)
     ,
     ui(new Ui::Widget)
 {
     //BG1 = new RankingBG(&manager);
+#ifdef USING_GL
+    setFormat(QGLFormat(QGL::SampleBuffers));
+#endif
     ui->setupUi(this);
     //this->setFixedSize(720*16/9,720);
    /* EdpFile *osuFile = new EdpFile(
@@ -421,7 +426,9 @@ void Widget::paintEvent(QPaintEvent *event){
         }
         }
         if (timesub>8400&&timesub<9000){
-            drawR.set(1-(9000-timesub)/600,sqrt(1+(9000-timesub)/600),Game->getPlayingData()->getScore()->getRanking());
+            double p = (timesub - 8400) / 600.0;
+            drawR.set(easing::applyEasing(0, p, 1, easing::OutQuart), easing::applyEasing(4, p, 1, easing::OutQuart),
+                      Game->getPlayingData()->getScore()->getRanking());
             drawR.draw(event,&painter);
         }
         else if (timesub >9000){
@@ -437,6 +444,7 @@ void Widget::paintEvent(QPaintEvent *event){
         pathend.lineTo(0,720);
         int sub = static_cast<int>(util::currentTimeMS() - timesup);
         if (sub<=600){
+            sub = static_cast<int>(easing::applyEasing(0, sub, 600, easing::OutQuart));
             painter.setBrush(QColor(40,44,53,sub*255/600));
             painter.drawPath(pathend);
         }

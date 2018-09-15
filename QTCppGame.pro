@@ -120,6 +120,7 @@ HEADERS  += \
     BeatmapBase.h \
     Util.h \
     Project.h \
+    easing.h\
     addcas.h\
     rankingpic.h\
     \

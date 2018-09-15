@@ -133,7 +133,7 @@ add_executable(qt_bb
         widget1.h
         widgettest.cpp
         widgettest.h
-        )
+        easing.h)
 
 target_link_libraries(qt_bb ${QT_LIBRARIES} )
 
