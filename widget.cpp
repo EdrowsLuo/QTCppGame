@@ -378,7 +378,7 @@ void Widget::paintEvent(QPaintEvent *event){
             pixmapp.load(nso::Project::fromRootQ("assets\\image\\default-percent.png"));
             painter.drawPixmap(1200,530,22.5,22.5,pixmapp);
         }
-        //if (f == 1){
+        if (f != 1){
         if (timesub>7050){
             QPixmap pixmappp;
             pixmappp.load(nso::Project::fromRootQ("assets\\image\\point.png"));
@@ -398,8 +398,8 @@ void Widget::paintEvent(QPaintEvent *event){
             accuracy=accuracy/10;
         }
         }
-        //}
-        /*else{
+        }
+        else{
             accuracy = 1000;
             if (timesub>7050){
                 QPixmap pixmappp;
@@ -420,7 +420,7 @@ void Widget::paintEvent(QPaintEvent *event){
                 accuracy=accuracy/10;
             }
             }
-        }*/
+        }
         int o=Game->getPlayingData()->getScore()->getScore();
         for (int i=0;i<7;i++){
         if (Game->getFrameTime()-7350>150*i){
