@@ -63,7 +63,7 @@ private:
     ManiaGame *Game;
     QTKeyPipe *keyPipee;
     int KeyNum;
-    bool NorH;
+    bool NorH,endjudge;
     GameHolder *mGameHolder;
     int Scorepre,Scorenow;
     int Combopre,Combonow;
