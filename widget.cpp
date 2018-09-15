@@ -49,6 +49,7 @@ Widget::Widget(QWidget *parent) :
     //mGameHolder->getGame()->getSongChannel()->seekTo(102000);
     esc= false;
     endjudge = true;
+    ssr=150;
 }
 
 void Widget::animate(){
@@ -242,9 +243,9 @@ void Widget::paintEvent(QPaintEvent *event){
         //judgeScore2 pixmapjs[6];
         for (int i=0;i<=5;i++){
             //pixmapjs[i].load(scorej[5-i]);
-            if (timesub>=(3050+300*i)){
-                if (timesub<=3350+300*i){
-                    pixmapgh.set(100.0,120+66*i-33*(1-(3350+300*i-timesub)/300),144,66*(1-(3350+300*i-timesub)/300),5-i);
+            if (timesub>=(3050+ssr*i)){
+                if (timesub<=3050+ssr*(i+1)){
+                    pixmapgh.set(100.0,120+66*i-33*(1-(3050+ssr*(i+1)-timesub)/ssr),144,66*(1-(3050+ssr*(i+1)-timesub)/ssr),5-i);
                     //pixmapgh.get();
                     pixmapgh.draw(event,&painter);
                 }
@@ -256,81 +257,81 @@ void Widget::paintEvent(QPaintEvent *event){
                 }
             }
         }
-        if(timesub>4850&&timesub<=5150){
-            pixcas.set(100,530-36*(1-(5150-timesub)/300),230,72*(1-(5150-timesub)/300),1);
+        if((timesub>3050+ssr*6)&&timesub<=3050+ssr*7){
+            pixcas.set(100,530-36*(1-(3050+ssr*7-timesub)/ssr),230,72*(1-(3050+ssr*7-timesub)/ssr),1);
             pixcas.draw(event,&painter);
         }
-        else if (timesub>5150){
+        else if (timesub>3050+ssr*7){
             pixcas.set(100,494,230,72,1);
             pixcas.draw(event,&painter);
         }
-        if(timesub>5150&&timesub<=5450){
-            pixcas.set(630,537-32*(1-(5450-timesub)/300),351,64*(1-(5450-timesub)/300),2);
+        if(timesub>3050+ssr*7&&timesub<=3050+ssr*8){
+            pixcas.set(630,537-32*(1-(3050+ssr*8-timesub)/ssr),351,64*(1-(3050+ssr*8-timesub)/ssr),2);
             pixcas.draw(event,&painter);
         }
-        else if (timesub>5450){
+        else if (timesub>3050+ssr*8){
             pixcas.set(630,505,351,64,2);
             pixcas.draw(event,&painter);
         }
-        if(timesub>5450&&timesub<=5750){
-            pixcas.set(100,610-36*(1-(5750-timesub)/300),230,72*(1-(5750-timesub)/300),3);
+        if(timesub>53050+ssr*8&&timesub<=3050+ssr*9){
+            pixcas.set(100,610-36*(1-(3050+ssr*9-timesub)/ssr),230,72*(1-(3050+ssr*9-timesub)/ssr),3);
             pixcas.draw(event,&painter);
         }
-        else if (timesub>5750){
+        else if (timesub>3050+ssr*9){
             pixcas.set(100,574,230,72,3);
             pixcas.draw(event,&painter);
         }
         //翻动数字效果
-        if (timesub>5750&&timesub<5950){
+        if (timesub>3050+ssr*9&&timesub<3050+ssr*10){
             for (int i=0;i<6;i++){
                 int t=Game->getPlayingData()->getScore()->HitCounter[5-i];
-                drawfirst.set(414,120+66*i-30*(1-(5950-timesub)/200),36,60*(1-(5950-timesub)/200),t-t/10*10);
+                drawfirst.set(414,120+66*i-30*(1-(3050+ssr*10-timesub)/ssr),36,60*(1-(3050+ssr*10-timesub)/ssr),t-t/10*10);
                 drawfirst.draw(event,&painter);
             }
         }
-        else if (timesub>5950){
+        else if (timesub>3050+ssr*10){
             for (int i=0;i<6;i++){
                 int t=Game->getPlayingData()->getScore()->HitCounter[5-i];
                 drawfirst.set(414,90+66*i,36,60,t-t/10*10);
                 drawfirst.draw(event,&painter);
             }
         }
-        if (timesub>5950&&timesub<6150){
+        if (timesub>3050+ssr*10&&timesub<3050+ssr*11){
             for (int i=0;i<6;i++){
                 int t=Game->getPlayingData()->getScore()->HitCounter[5-i];
-                drawfirst.set(378,120+66*i-30*(1-(6150-timesub)/200),36,60*(1-(6150-timesub)/200),t/10-t/100*10);
+                drawfirst.set(378,120+66*i-30*(1-(3050+ssr*11-timesub)/ssr),36,60*(1-(3050+ssr*11-timesub)/ssr),t/10-t/100*10);
                 drawfirst.draw(event,&painter);
             }
         }
-        else if (timesub>6150){
+        else if (timesub>3050+ssr*11){
             for (int i=0;i<6;i++){
                 int t=Game->getPlayingData()->getScore()->HitCounter[5-i];
                 drawfirst.set(378,90+66*i,36,60,t/10-t/100*10);
                 drawfirst.draw(event,&painter);
             }
         }
-        if (timesub>6150&&timesub<6350){
+        if (timesub>3050+ssr*11&&timesub<3050+ssr*12){
             for (int i=0;i<6;i++){
                 int t=Game->getPlayingData()->getScore()->HitCounter[5-i];
-                drawfirst.set(342,120+66*i-30*(1-(6350-timesub)/200),36,60*(1-(6350-timesub)/200),t/100-t/1000*10);
+                drawfirst.set(342,120+66*i-30*(1-(3050+ssr*12-timesub)/ssr),36,60*(1-(3050+ssr*12-timesub)/ssr),t/100-t/1000*10);
                 drawfirst.draw(event,&painter);
             }
         }
-        else if (timesub>6350){
+        else if (timesub>3050+ssr*12){
             for (int i=0;i<6;i++){
                 int t=Game->getPlayingData()->getScore()->HitCounter[5-i];
                 drawfirst.set(342,90+66*i,36,60,t/100-t/1000*10);
                 drawfirst.draw(event,&painter);
             }
         }
-        if (timesub>6350&&timesub<6550){
+        if (timesub>3050+ssr*12&&timesub<3050+ssr*13){
             for (int i=0;i<6;i++){
                 int t=Game->getPlayingData()->getScore()->HitCounter[5-i];
-                drawfirst.set(306,120+66*i-30*(1-(6550-timesub)/200),36,60*(1-(6550-timesub)/200),t/1000);
+                drawfirst.set(306,120+66*i-30*(1-(3050+ssr*13-timesub)/ssr),36,60*(1-(3050+ssr*13-timesub)/ssr),t/1000);
                 drawfirst.draw(event,&painter);
             }
         }
-        else if (timesub>6550){
+        else if (timesub>3050+ssr*13){
             for (int i=0;i<6;i++){
                 int t=Game->getPlayingData()->getScore()->HitCounter[5-i];
                 drawfirst.set(306,90+66*i,36,60,t/1000);
@@ -358,13 +359,13 @@ void Widget::paintEvent(QPaintEvent *event){
             }
         }*/
         for (int i=0;i<4;i++){
-        if (Game->getFrameTime()-6550>100*i){
+        if (Game->getFrameTime()-3050-ssr*13>100*i){
             MaxCombo[i]=s%10;
-            if (timesub>6550+i*100&&timesub<6650+i*100){
-                drawfirst.set(494-36*i,535-30*(1-(6650+i*100-timesub)/100),36,60*(1-(6650+i*100-timesub)/100),MaxCombo[i]);
+            if (timesub>3050+ssr*13+i*100&&timesub<3150+ssr*13+i*100){
+                drawfirst.set(494-36*i,535-30*(1-(3150+ssr*13+i*100-timesub)/100),36,60*(1-(3150+ssr*13+i*100-timesub)/100),MaxCombo[i]);
                 drawfirst.draw(event,&painter);
             }
-            else if(timesub>6650+100*i){
+            else if(timesub>3150+ssr*13+100*i){
                 drawfirst.set(494-36*i,505,36,60,MaxCombo[i]);
                 drawfirst.draw(event,&painter);
             }
@@ -373,25 +374,25 @@ void Widget::paintEvent(QPaintEvent *event){
         }
         double f = Game->getPlayingData()->getScore()->getAccuracy() * 10000;
         int accuracy = (int)f;
-        if (timesub > 6850){
+        if (timesub > 3450+ssr*13){
             QPixmap pixmapp;
             pixmapp.load(nso::Project::fromRootQ("assets\\image\\default-percent.png"));
             painter.drawPixmap(1200,530,22.5,22.5,pixmapp);
         }
-        if (f != 1){
-        if (timesub>7050){
+        if (f != 10000){
+        if (timesub>3650+ssr*13){
             QPixmap pixmappp;
             pixmappp.load(nso::Project::fromRootQ("assets\\image\\point.png"));
             painter.drawPixmap(1114,545,4,4,pixmappp);
         }
         for (int i=0;i<4;i++){
-        if (Game->getFrameTime()-6850>100*i){
+        if (Game->getFrameTime()-3450-ssr*13>100*i){
             MaxCombo[i]=accuracy-accuracy/10*10;
-            if (timesub>6850+i*100&&timesub<6950+i*100){
-                drawfirst.set(1160-40*i,535-30*(1-(6950+i*100-timesub)/100),36,60*(1-(6950+i*100-timesub)/100),MaxCombo[i]);
+            if (timesub>3450+ssr*13+i*100&&timesub<3550+ssr*13+i*100){
+                drawfirst.set(1160-40*i,535-30*(1-(3550+ssr*13+i*100-timesub)/100),36,60*(1-(3550+ssr*13+i*100-timesub)/100),MaxCombo[i]);
                 drawfirst.draw(event,&painter);
             }
-            else if(timesub>6950+100*i){
+            else if(timesub>3550+ssr*13+100*i){
                 drawfirst.set(1160-40*i,505,36,60,MaxCombo[i]);
                 drawfirst.draw(event,&painter);
             }
@@ -401,19 +402,19 @@ void Widget::paintEvent(QPaintEvent *event){
         }
         else{
             accuracy = 1000;
-            if (timesub>7050){
+            if (timesub>3550+ssr*13){
                 QPixmap pixmappp;
                 pixmappp.load(nso::Project::fromRootQ("assets\\image\\point.png"));
                 painter.drawPixmap(1154,545,4,4,pixmappp);
             }
             for (int i=0;i<4;i++){
-            if (Game->getFrameTime()-6850>100*i){
+            if (Game->getFrameTime()-3450-ssr*13>100*i){
                 MaxCombo[i]=accuracy-accuracy/10*10;
-                if (timesub>6850+i*100&&timesub<6950+i*100){
-                    drawfirst.set(1160-40*i,535-30*(1-(6950+i*100-timesub)/100),36,60*(1-(6950+i*100-timesub)/100),MaxCombo[i]);
+                if (timesub>3450+ssr*13+i*100&&timesub<3550+ssr*13+i*100){
+                    drawfirst.set(1160-40*i,535-30*(1-(3550+ssr*13+i*100-timesub)/100),36,60*(1-(3550+ssr*13+i*100-timesub)/100),MaxCombo[i]);
                     drawfirst.draw(event,&painter);
                 }
-                else if(timesub>6950+100*i){
+                else if(timesub>3550+ssr*13+100*i){
                     drawfirst.set(1160-40*i,505,36,60,MaxCombo[i]);
                     drawfirst.draw(event,&painter);
                 }
@@ -423,29 +424,31 @@ void Widget::paintEvent(QPaintEvent *event){
         }
         int o=Game->getPlayingData()->getScore()->getScore();
         for (int i=0;i<7;i++){
-        if (Game->getFrameTime()-7350>150*i){
+        if (Game->getFrameTime()-3850-ssr*13>100*i){
             Totalscore[i]=o-o/10*10;
-            if (timesub>7350+i*150&&timesub<7500+i*150){
-                drawfirst.set(600-36*i,620-30*(1-(7500+i*150-timesub)/150),36,60*(1-(7500+i*150-timesub)/150),Totalscore[i]);
+            if (timesub>3850+ssr*13+i*100&&timesub<3950+ssr*13+i*100){
+                drawfirst.set(600-36*i,620-30*(1-(3950+ssr*13+i*100-timesub)/100),36,60*(1-(3950+ssr*13+i*100-timesub)/100),Totalscore[i]);
                 drawfirst.draw(event,&painter);
             }
-            else if(timesub>7500+150*i){
+            else if(timesub>3950+ssr*13+i*100){
                 drawfirst.set(600-36*i,590,36,60,Totalscore[i]);
                 drawfirst.draw(event,&painter);
             }
             o=o/10;
         }
         }
-        if (timesub>8400&&timesub<9000){
-            double p = (timesub - 8400) / 600.0;
+        if (timesub>4550+ssr*13&&timesub<5150+ssr*13){
+            double p = (timesub - 4550-ssr*13) / 600.0;
             drawR.set(easing::applyEasing(0, p, 1, easing::OutQuart), easing::applyEasing(4, p, 1, easing::OutQuart),
                       Game->getPlayingData()->getScore()->getRanking());
             drawR.draw(event,&painter);
         }
-        else if (timesub >9000){
+        else if (timesub >5150+ssr*13){
             drawR.set(1,1,Game->getPlayingData()->getScore()->getRanking());
             drawR.draw(event,&painter);
         }
+
+
     }
     if (esc){
         QPainterPath pathend;
