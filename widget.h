@@ -71,7 +71,7 @@ private:
     int Combopre,Combonow;
     //RankingBG *BG1;
     Pixmapmanager manager;
-    int Comborecord;
+    int Comborecord,ssr;
     double timerecord;
     int t;
     int MaxCombo[4];
