@@ -42,7 +42,7 @@ bool EdpBassChannel::play() {
             //从暂停状态恢复
             startTime = util::currentTimeMS() - (recodeTime - startTime);
         }
-        return BASS_ChannelPlay(handle, false);
+        return BASS_ChannelPlay(handle, true);
     } else {
         return true;
     }
