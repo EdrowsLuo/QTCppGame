@@ -106,7 +106,7 @@ namespace nso{
         int Time;
         int Meter;
         double BeatLength;
-
+        double SpeedMultiplier;
     };
 
     class TimingPoints{
@@ -123,7 +123,37 @@ namespace nso{
 
     class ControlPoints{
     public:
-        void load(TimingPoints &datas);
+        void load(TimingPoints &datas) {
+            if (datas.timings.size() < 1) {
+                return;
+            } else {
+                RawTimingPoint &raw = datas.timings[0];
+                TimingControlPoint preTp;
+                preTp.Time = raw.offset;
+                preTp.BeatLength = raw.perbeat;
+                preTp.Meter = raw.meter;
+                preTp.SpeedMultiplier = raw.perbeat > 0 ? 1 : (100.0 / (-raw.perbeat));
+
+                Timings.push_back(preTp);
+
+                int size = datas.timings.size();
+
+                ForI(i, 1, size) {
+                    raw = datas.timings[i];
+                    if (raw.inherited) {
+                        preTp.Time = raw.offset;
+                        preTp.BeatLength = raw.perbeat;
+                        preTp.Meter = raw.meter;
+                        preTp.SpeedMultiplier = raw.perbeat > 0 ? 1 : (100.0 / (-raw.perbeat));
+
+                        Timings.push_back(preTp);
+                    }
+                }
+
+                sort(Timings.begin(), Timings.end(), tmpfunc::sortcp<TimingControlPoint>);
+            }
+        }
+
 
         TimingControlPoint &getTimingControlPointAt(double time);
 

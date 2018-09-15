@@ -214,16 +214,31 @@ namespace nso{
         float endposition;
     };
 
+    struct ScrollingObject {
+        PlayingHitObject *rawObject;
+        int type;
+        int line;
+        float startPosition;
+        float endPosition;
+    };
+
+    struct ScrollingControlPoint {
+        float startPosition;
+        float startTime;
+        float speed;
+    };
+
     class ManiaDrawdata{
     public:
         static const int NOTE = 0;
         static const int HOLD = 1;
 
         explicit ManiaDrawdata(Beatmap &beatmap);
-        ManiaDrawdata();
 
         void prepare();
         void update(double time);
+
+        void updateTypeSpeedChange(double time);
 
         vector<ManiaDrawdataNode>& getDatas(){
             return datas;
@@ -240,6 +255,28 @@ namespace nso{
         GetSet(int ,LineCount)
         GetSet(float,Preempt)
 
+        ScrollingControlPoint &findScrollingPoint(double time) {
+            vector<ScrollingControlPoint>::iterator itr = scrollingPoints.begin();
+            if (itr->startTime >= time) {
+                return *itr;
+            } else {
+                itr++;
+                while (itr != scrollingPoints.end()) {
+                    if (itr->startTime > time) {
+                        return *(itr - 1);
+                    }
+                    itr++;
+                }
+                return *(itr - 1);
+            }
+        }
+
+
+        float timeToPosition(double time) {
+            ScrollingControlPoint &sp = findScrollingPoint(time);
+            return static_cast<float>(sp.startPosition + (time - sp.startTime) * sp.speed);
+        }
+
     protected:
         virtual void onShowObject(PlayingHitObject *object){};
         virtual void onHideObject(PlayingHitObject *object){};
@@ -248,7 +285,12 @@ namespace nso{
         float Preempt;
         int LineCount;
 
+        bool SpeedChange;
+
+
         vector<ManiaDrawdataNode> datas;
+
+        vector<ScrollingControlPoint> scrollingPoints;
 
         //原始物件
         vector<PlayingHitObject*> rawObjects;
@@ -256,6 +298,13 @@ namespace nso{
         list<PlayingHitObject*> objectsToAdd;
         //正在判定中的物件
         vector<PlayingHitObject*> objectsUsing;
+
+        //原始物件
+        vector<ScrollingObject*> srawObjects;
+        //还没有被添加的物件
+        list<ScrollingObject*> sobjectsToAdd;
+        //正在判定中的物件
+        vector<ScrollingObject*> sobjectsUsing;
 
         vector<double> beatsAvalible;
 

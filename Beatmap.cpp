@@ -34,35 +34,6 @@ _T &nso::ControlPoints::binarySearch(vector<_T> &l, int value) {
     }
 }
 
-void nso::ControlPoints::load(nso::TimingPoints &datas) {
-    if (datas.timings.size() < 1) {
-        return;
-    } else {
-        RawTimingPoint &raw = datas.timings[0];
-        TimingControlPoint preTp;
-        preTp.Time = raw.offset;
-        preTp.BeatLength = raw.perbeat;
-        preTp.Meter = raw.meter;
-
-        Timings.push_back(preTp);
-
-        int size = datas.timings.size();
-
-        ForI(i, 1, size) {
-            raw = datas.timings[i];
-            if (raw.inherited) {
-                preTp.Time = raw.offset;
-                preTp.BeatLength = raw.perbeat;
-                preTp.Meter = raw.meter;
-
-                Timings.push_back(preTp);
-            }
-        }
-
-        sort(Timings.begin(), Timings.end(), tmpfunc::sortcp<TimingControlPoint>);
-    }
-}
-
 void nso::ControlPoints::generateBeats(vector<double> &l, double start, double end) {
     TimingControlPoint &tp = Timings[0];
     double beat = start;
