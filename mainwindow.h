@@ -56,7 +56,8 @@ public:
     QPropertyAnimation *leftBoxDisappear01,*rightBoxDisappear01,*upButtonDisappear01,*modeButtonDisappear01;
     QPropertyAnimation *upButtonAppear , *upButtonDisappear;
     QPropertyAnimation *modeButtonAppear , *modeButtonDisappear;
-//    QPushButton *l;
+    QPropertyAnimation *leftBoxAppear01,*rightBoxAppear01,*upButtonAppear01,*modeButtonAppear01;
+
     bool al,a2;
     Songs *Songinfo[7];
     QGraphicsOpacityEffect *uppaged;
@@ -70,6 +71,7 @@ public slots:
     void SN_SUB_ANIM1();
     void InitialGame();
     void GAMESTART();
+    void GAMEEND();
 
 signals:
     void CHANGE_TO_AUTO();
@@ -85,9 +87,7 @@ private slots:
     void onStartSurfaceAppear();
 
     void on_upButton_clicked();
-
     void on_ExitButton_clicked();
-
     void on_ModeButton1_clicked();
 
 private:

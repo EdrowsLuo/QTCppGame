@@ -145,6 +145,7 @@ void ManiaGame::prepareGame() {
     try {
         decoder.parse(*OsuBeatmap);
         EdpFile songFile(*SetDirectory, OsuBeatmap->AudioFilename);
+        Length = OsuBeatmap->avalibleLength() + 2;
         SongChannel = new EdpBassChannel(songFile);
         GameKeyFrame = new KeyFrame();
 
@@ -283,8 +284,9 @@ bool ManiaGame::running() {
     return SongChannel->isPlaying();
 }
 
-ManiaGame::ManiaGame(EdpFile *f, ManiaSetting *setting) : FrameTime(0), OsuFile(new EdpFile(f->getFullPath())), SetDirectory(
-        new EdpFile(f->getParentPath())), Setting(setting), paused(false) {
+ManiaGame::ManiaGame(EdpFile *f, ManiaSetting *setting) :
+        FrameTime(0), OsuFile(new EdpFile(f->getFullPath())), SetDirectory(
+        new EdpFile(f->getParentPath())), Setting(setting), paused(false), Length(0) {
 
 }
 
