@@ -161,4 +161,7 @@ FORMS    += mainwindow.ui \
 
 FORMS    += widget.ui
 
+RESOURCES += \
+    background.qrc
+
 LIBS += -L D:/Qt/code/qt_bb -l bass
