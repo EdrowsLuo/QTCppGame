@@ -535,26 +535,26 @@ void MainWindow::GAMEEND(){
     LeftBox[(SN+100)%2]->show();
     RightBox->show();
 
-    upButtonAppear01->setStartValue(QRect(ux,uy,uw,uh));
-    upButtonAppear01->setEndValue(QRect(ux,0-uh,uw,uh));
+    upButtonAppear01->setStartValue(QRect(ux,0-uh,uw,uh));
+    upButtonAppear01->setEndValue(QRect(ux,uy,uw,uy));
     upButtonAppear01->setDuration(800);
     upButtonAppear01->setEasingCurve(QEasingCurve::InBack);
     upButtonAppear01->start();
 
-    modeButtonAppear01->setStartValue(QRect(mx,my,mw,mh));
-    modeButtonAppear01->setEndValue(QRect(mx,600+mh,mw,mh));
+    modeButtonAppear01->setStartValue(QRect(mx,this->height()+mh,mw,mh));
+    modeButtonAppear01->setEndValue(QRect(mx,my,mw,mh));
     modeButtonAppear01->setDuration(800);
     modeButtonAppear01->setEasingCurve(QEasingCurve::InBack);
     modeButtonAppear01->start();
 
-    leftBoxAppear01->setStartValue(QRect(lx,ly,lw,lh));
-    leftBoxAppear01->setEndValue(QRect(0-lw,ly,lw,lh));
+    leftBoxAppear01->setStartValue(QRect(0-lw,ly,lw,lh));
+    leftBoxAppear01->setEndValue(QRect(lx,ly,lw,lh));
     leftBoxAppear01->setDuration(800);
     leftBoxAppear01->setEasingCurve(QEasingCurve::InBack);
     leftBoxAppear01->start();
 
-    rightBoxAppear01->setStartValue(QRect(rx,ry,rw,rh));
-    rightBoxAppear01->setEndValue(QRect(this->width()+rw,ry,rw,rh));
+    rightBoxAppear01->setStartValue(QRect(this->width()+rw,ry,rw,rh));
+    rightBoxAppear01->setEndValue(QRect(rx,ry,rw,rh));
     rightBoxAppear01->setDuration(800);
     rightBoxAppear01->setEasingCurve(QEasingCurve::InBack);
     rightBoxAppear01->start();
