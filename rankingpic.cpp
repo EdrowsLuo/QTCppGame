@@ -33,3 +33,13 @@ void Rankingpic::draw (QPaintEvent *event, QPainter *painter){
     painter->drawPixmap(500+200*(2-Pos2),320-250*Pos,400*Pos2,500*Pos,pixmap1);
     painter->restore();
 }
+
+void Pressesc::draw(QPaintEvent *event, QPainter *painter){
+    painter->save();
+    painter->setRenderHint(QPainter::Antialiasing,true);
+    QPixmap pixmap1;
+    pixmap1.load(AAaddress);
+    painter->setOpacity(tran);
+    painter->drawPixmap(0,0,505,40,pixmap1);
+    painter->restore();
+}

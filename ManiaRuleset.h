@@ -214,16 +214,31 @@ namespace nso{
         float endposition;
     };
 
+    struct ScrollingObject {
+        PlayingHitObject *rawObject;
+        int type;
+        int line;
+        float startPosition;
+        float endPosition;
+    };
+
+    struct ScrollingControlPoint {
+        float startPosition;
+        float startTime;
+        float speed;
+    };
+
     class ManiaDrawdata{
     public:
         static const int NOTE = 0;
         static const int HOLD = 1;
 
         explicit ManiaDrawdata(Beatmap &beatmap);
-        ManiaDrawdata();
 
         void prepare();
         void update(double time);
+
+        void updateTypeSpeedChange(double time);
 
         vector<ManiaDrawdataNode>& getDatas(){
             return datas;
@@ -240,6 +255,28 @@ namespace nso{
         GetSet(int ,LineCount)
         GetSet(float,Preempt)
 
+        ScrollingControlPoint &findScrollingPoint(double time) {
+            vector<ScrollingControlPoint>::iterator itr = scrollingPoints.begin();
+            if (itr->startTime >= time) {
+                return *itr;
+            } else {
+                itr++;
+                while (itr != scrollingPoints.end()) {
+                    if (itr->startTime > time) {
+                        return *(itr - 1);
+                    }
+                    itr++;
+                }
+                return *(itr - 1);
+            }
+        }
+
+
+        float timeToPosition(double time) {
+            ScrollingControlPoint &sp = findScrollingPoint(time);
+            return static_cast<float>(sp.startPosition + (time - sp.startTime) * sp.speed);
+        }
+
     protected:
         virtual void onShowObject(PlayingHitObject *object){};
         virtual void onHideObject(PlayingHitObject *object){};
@@ -248,7 +285,12 @@ namespace nso{
         float Preempt;
         int LineCount;
 
+        bool SpeedChange;
+
+
         vector<ManiaDrawdataNode> datas;
+
+        vector<ScrollingControlPoint> scrollingPoints;
 
         //原始物件
         vector<PlayingHitObject*> rawObjects;
@@ -256,6 +298,13 @@ namespace nso{
         list<PlayingHitObject*> objectsToAdd;
         //正在判定中的物件
         vector<PlayingHitObject*> objectsUsing;
+
+        //原始物件
+        vector<ScrollingObject*> srawObjects;
+        //还没有被添加的物件
+        list<ScrollingObject*> sobjectsToAdd;
+        //正在判定中的物件
+        vector<ScrollingObject*> sobjectsUsing;
 
         vector<double> beatsAvalible;
 
@@ -323,6 +372,7 @@ namespace nso{
         Getter(ManiaSetting *,Setting)
         Getter(double,FrameTime)
         Getter(EdpFile *,SetDirectory)
+        Getter(int,Length)
 
     protected:
         EdpFile *OsuFile;
@@ -332,6 +382,8 @@ namespace nso{
         Beatmap *OsuBeatmap;
         EdpBassChannel *SongChannel;
         KeyFrame *GameKeyFrame;
+
+        int Length;
 
         bool paused;
 
@@ -374,7 +426,7 @@ namespace nso{
     public:
         GameHolder() :
                 Mods(0),
-                BaseVolume(0.5f),
+                BaseVolume(0.3f),
                 Game(NULL),
                 Setting(NULL),
                 KeyPipe(NULL),
@@ -418,7 +470,6 @@ namespace nso{
             Channel = new EdpBassChannel(path);
             Channel->setVolume(BaseVolume);
             Channel->seekTo(previewTime);
-            DebugI(previewTime)
             Channel->play();
         }
 
@@ -442,6 +493,7 @@ namespace nso{
         void startGame() {
             if (checkGame()) {
                 if (!Game->getSongChannel()->isPlaying()) {
+                    Game->getSongChannel()->setVolume(BaseVolume);
                     Game->runGame();
                     if (Channel != NULL) {
                         Channel->pause();
@@ -517,6 +569,17 @@ namespace nso{
             }
             if (KeyPipe != NULL) {
                 KeyPipe->keyReleaseEvent(event);
+            }
+        }
+
+        void setBaseVolume(float v) {
+            v = Clamp(0, v, 1);
+            BaseVolume = v;
+            if (Game != NULL) {
+                Game->getSongChannel()->setVolume(BaseVolume);
+            }
+            if (Channel != NULL) {
+                Channel->setVolume(BaseVolume);
             }
         }
 

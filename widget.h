@@ -48,8 +48,10 @@ public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
     void paintEvent(QPaintEvent *event);
+    void onGameStart();
 public slots:
     void animate();
+
 protected:
     virtual void keyPressEvent(QKeyEvent *event);
     virtual void keyReleaseEvent(QKeyEvent *event);
@@ -69,7 +71,7 @@ private:
     int Combopre,Combonow;
     //RankingBG *BG1;
     Pixmapmanager manager;
-    int Comborecord;
+    int Comborecord,ssr;
     double timerecord;
     int t;
     int MaxCombo[4];
@@ -93,6 +95,7 @@ private:
     AddCAS pixcas;
     MyScore drawfirst;
     Rankingpic drawR;
+    Pressesc drawpress;
 };
 
 #endif // WIDGET_H

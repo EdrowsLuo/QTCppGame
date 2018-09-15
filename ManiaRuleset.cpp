@@ -36,8 +36,23 @@ void ManiaPlaytimeData::endJudge() {
 }
 
 
-ManiaDrawdata::ManiaDrawdata(nso::Beatmap &beatmap) : Preempt(500), LineCount((int) (beatmap.CircleSize + 0.01)) {
+ManiaDrawdata::ManiaDrawdata(nso::Beatmap &beatmap) :
+        Preempt(500),
+        LineCount((int) (beatmap.CircleSize + 0.01)), SpeedChange(false) {
     beats.insert(beats.begin(), beatmap.controlPoints.Beats.begin(), beatmap.controlPoints.Beats.end());
+    float currentPosition = beatmap.controlPoints.Timings.begin()->Time - 5000;
+    double currentTime = beatmap.controlPoints.Timings.begin()->Time - 5000;
+    double speed = 1;
+    ForEachLong(beatmap.controlPoints.Timings, itr, vector<TimingControlPoint>::iterator) {
+        ScrollingControlPoint point;
+        point.speed = static_cast<float>(itr->SpeedMultiplier);
+        point.startTime = itr->Time;
+        point.startPosition = static_cast<float>((point.startTime - currentTime) * speed + currentPosition);
+        speed = point.speed;
+        currentPosition = point.startPosition;
+        currentTime = point.startTime;
+        scrollingPoints.push_back(point);
+    }
 }
 
 namespace mania{
@@ -51,9 +66,35 @@ void ManiaDrawdata::prepare() {
     objectsToAdd.clear();
     objectsToAdd.insert(objectsToAdd.end(), rawObjects.begin(), rawObjects.end());
     objectsUsing.clear();
+
+    if (SpeedChange) {
+        ForEachLong(rawObjects, itr, vector<PlayingHitObject *>::iterator) {
+            PlayingHitObject *object = *itr;
+            ScrollingObject *scrollingObject = new ScrollingObject;
+            scrollingObject->startPosition = timeToPosition(object->getTime());
+            scrollingObject->endPosition = timeToPosition(object->getEndTime());
+            scrollingObject->type =
+                    (object->getType() == HitObject::TYPE_MANIA_HOLD) ? 0 //ManiaDrawdata::HOLD
+                                                                      : 1; // ManiaDrawdata::NOTE;
+            scrollingObject->line = ManiaUtil::positionToLine(object->getX(), LineCount);
+            scrollingObject->rawObject = object;
+            DebugI(scrollingObject->startPosition << "  :  " << scrollingObject->endPosition)
+            srawObjects.push_back(scrollingObject);
+        }
+        sobjectsToAdd.clear();
+        sobjectsToAdd.insert(sobjectsToAdd.end(), srawObjects.begin(), srawObjects.end());
+        sobjectsUsing.clear();
+    }
 }
 
 void ManiaDrawdata::update(double time) {
+
+    if (SpeedChange) {
+        updateTypeSpeedChange(time);
+        return;
+    }
+
+
     //添加
     double preShowTime = time + Preempt;
     while (!objectsToAdd.empty()) {
@@ -124,8 +165,76 @@ void ManiaDrawdata::update(double time) {
     }
 }
 
-ManiaDrawdata::ManiaDrawdata() {
+void ManiaDrawdata::updateTypeSpeedChange(double time) {
+    //DebugI("time: " << time)
+    time = timeToPosition(time);
+    //DebugI("pos : " << time)
+    //添加
+    double preShowTime = time + Preempt;
+    while (!sobjectsToAdd.empty()) {
+        ScrollingObject *object = sobjectsToAdd.front();
+        if (object->startPosition <= preShowTime) {
+            //onShowObject(object);
+            sobjectsUsing.push_back(object);
+            sobjectsToAdd.pop_front();
+        } else {
+            break;
+        }
+    }
 
+    //舍弃不需要了的物件
+    ForEachLong(sobjectsUsing, it, vector<ScrollingObject*>::iterator) {
+        if ((*it)->rawObject->isReleased()) {
+            //onHideObject(object);
+            it = sobjectsUsing.erase(it);
+            it--;
+        } else if ((*it)->endPosition < time) {
+            (*it)->rawObject->release();
+            //onHideObject(object);
+            it = sobjectsUsing.erase(it);
+            it--;
+        }
+    }
+
+    //开始组织数据
+    datas.clear();
+    ForEachLong(sobjectsUsing, it, vector<ScrollingObject*>::iterator) {
+        //if (it->type == ManiaDrawdata::HOLD) {
+            float t = static_cast<float>(((*it)->startPosition - time) / Preempt);
+            t = Clamp(0, t, 1);
+            float t2 = static_cast<float>(((*it)->endPosition - time) / Preempt);
+            t2 = Clamp(0, t2, 1);
+            datas.push_back(ManiaDrawdataNode{
+                    (*it)->rawObject,
+                    (*it)->type,
+                    (*it)->line,
+                    t,
+                    t2
+            });
+       /* } else {
+            float t = static_cast<float>((it->startPosition - time) / Preempt);
+            t = Clamp(0, t, 1);
+            datas.push_back(ManiaDrawdataNode{
+                    it->rawObject,
+                    ManiaDrawdata::NOTE,
+                    it->line,
+                    t,
+                    t
+            });
+        }*/
+    }
+
+    beatsAvalible.clear();
+    while ((!beats.empty()) && beats.front() < time) {
+        beats.pop_front();
+    }
+    ForEachLong(beats,itr,list<double>::iterator) {
+        if (*itr < time + Preempt) {
+            beatsAvalible.push_back((timeToPosition(*itr) - time) / Preempt);
+        } else {
+            break;
+        }
+    }
 }
 
 PlayingHitObject::PlayingHitObject(HitObject &h) :
@@ -145,6 +254,7 @@ void ManiaGame::prepareGame() {
     try {
         decoder.parse(*OsuBeatmap);
         EdpFile songFile(*SetDirectory, OsuBeatmap->AudioFilename);
+        Length = OsuBeatmap->avalibleLength() + 2000;
         SongChannel = new EdpBassChannel(songFile);
         GameKeyFrame = new KeyFrame();
 
@@ -283,8 +393,9 @@ bool ManiaGame::running() {
     return SongChannel->isPlaying();
 }
 
-ManiaGame::ManiaGame(EdpFile *f, ManiaSetting *setting) : FrameTime(0), OsuFile(new EdpFile(f->getFullPath())), SetDirectory(
-        new EdpFile(f->getParentPath())), Setting(setting), paused(false) {
+ManiaGame::ManiaGame(EdpFile *f, ManiaSetting *setting) :
+        FrameTime(0), OsuFile(new EdpFile(f->getFullPath())), SetDirectory(
+        new EdpFile(f->getParentPath())), Setting(setting), paused(false), Length(0) {
 
 }
 

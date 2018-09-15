@@ -31,5 +31,21 @@ private:
     //int k;
 };
 
+class Pressesc : MyDraw
+{
+public:
+    Pressesc(){
+        AAaddress = Project::fromRootQ("assets\\image\\pressesc.png");
+    }
+    void draw(QPaintEvent *event, QPainter *painter);
+    void set (double a){
+        tran = a;
+    }
+private:
+    double tran;
+    QString AAaddress;
+
+};
+
 #endif // RANKINGPIC_H
 
