@@ -95,6 +95,7 @@ private:
     AddCAS pixcas;
     MyScore drawfirst;
     Rankingpic drawR;
+    Pressesc drawpress;
 };
 
 #endif // WIDGET_H
