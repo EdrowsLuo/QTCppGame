@@ -253,6 +253,22 @@ namespace nso{
             }
         }
 
+        int avalibleLength() {
+            int l = 0;
+            ForEachLong(hitobjects, itre, vector<HitObject *>::iterator) {
+                HitObject *object = *itre;
+                int t = 0;
+                if ((object->type & HitObject::TYPE_MASK) == HitObject::TYPE_MANIA_HOLD) {
+                    t = ((ManiaHold &) (*object)).endTime;
+                } else {
+                    t = object->time;
+                }
+                if (t > l) {
+                    l = t;
+                }
+            }
+        }
+
         void loadMore() {
             controlPoints.load(timingPoints);
         }

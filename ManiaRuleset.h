@@ -323,6 +323,7 @@ namespace nso{
         Getter(ManiaSetting *,Setting)
         Getter(double,FrameTime)
         Getter(EdpFile *,SetDirectory)
+        Getter(int,Length)
 
     protected:
         EdpFile *OsuFile;
@@ -332,6 +333,8 @@ namespace nso{
         Beatmap *OsuBeatmap;
         EdpBassChannel *SongChannel;
         KeyFrame *GameKeyFrame;
+
+        int Length;
 
         bool paused;
 
