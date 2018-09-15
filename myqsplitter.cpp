@@ -20,10 +20,7 @@ MyQSplitter::MyQSplitter( int nn, const My_Song & jsong, QWidget *parent ) :
         f[i]->setStyleSheet("QPushButton{background-color:transparent;border-image:url(:/C:/Users/HJ/Pictures/QT/Infographic-with-crystal-banners/081-01.png)}"
                            "QPushButton::hover{background-color:transparent;border-image:url(:/C:/Users/HJ/Pictures/QT/Infographic-with-crystal-banners/031.png)}"
                             "QPushButton::pressed{background-color:transparent;border-image:url(:/C:/Users/HJ/Pictures/QT/Infographic-with-crystal-banners/032.png)}" );
-   //     f[i]->setStyleSheet("border-image:url(:/C:/Users/HJ/Pictures/QT/fakeButton4.png);"
-   //                        "background-color:transparent;");
-     //   string content = "Version: " + jsong.difficultylist[i].version;
-     //   content = content + "CircleSize: " + jsong.difficultylist[i].circlesize;
+
         MakeString(s,"Version: " << jsong.difficultylist[i].version <<endl <<"Star: " << jsong.difficultylist[i].star << "\t" <<
                     "OverallDifficulty: "<< jsong.difficultylist[i].overalldifficulty << endl << "CircleSize: "<<jsong.difficultylist[i].version );
      //   content = content + "\n" +"Star: "+
@@ -36,7 +33,9 @@ MyQSplitter::MyQSplitter( int nn, const My_Song & jsong, QWidget *parent ) :
   //              DebugI("fk")
         f[i]->setText(QApplication::translate("", ch, 0, QApplication::UnicodeUTF8));
  //       content = content + (char)jsong.difficultylist[i].overalldifficulty
-
+        f[i]->setStyleSheet("QPushButton{background-color:transparent;border-image:url(:/C:/Users/HJ/Pictures/QT/Infographic-with-crystal-banners/081-01.png)}"
+                           "QPushButton::hover{background-color:transparent;border-image:url(:/C:/Users/HJ/Pictures/QT/Infographic-with-crystal-banners/031.png)}"
+                            "QPushButton::pressed{background-color:transparent;border-image:url(:/C:/Users/HJ/Pictures/QT/Infographic-with-crystal-banners/032.png)}" );
         this->addWidget(f[i]);
     }
     this->setOrientation(Qt::Vertical);
