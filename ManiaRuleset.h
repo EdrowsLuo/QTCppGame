@@ -428,6 +428,7 @@ namespace nso{
                 Mods(0),
                 BaseVolume(0.4f),
                 Game(NULL),
+                Channel(NULL),
                 Setting(NULL),
                 KeyPipe(NULL),
                 AutoPlay(NULL),
