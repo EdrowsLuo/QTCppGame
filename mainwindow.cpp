@@ -79,30 +79,20 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->SetButton->raise();
     ui->label->raise();
     ui->ExitButton->raise();
-//    for ( int i = 0 ; i<7 ;i++)
-//    Songinfo[i] = new Songs(i+1);
+
     gameview = new Widget(this);
-//    gameview->setFixedSize(1280, 720);
     gameview->close();
 
 
     RightBox = new SlideBox1(s.Number,ss,this);
     RightBox->setObjectName("sid");
     RightBox->setStyleSheet("QWidget#RightBox{background-color:transparent}");
-//    testeffect->setOpacity(0.5);
- //   RightBox->setGraphicsEffect(testeffect);
-//    testwidget->updateGL();
 
     connect(RightBox,SIGNAL(downPagePressed()),this,SLOT(SN_ADD()));
     connect(RightBox,SIGNAL(upPagePressed()),this,SLOT(SN_SUB()));
 
     LeftBox[(SN+100)%2]=new DifficultyScrollArea( s.songlist[0] ,this);
     LeftBox[(SN+100)%2]->setObjectName("dou");
-
-    //   testeffect1 = new QGraphicsOpacityEffect(this);
-    //   testeffect1->setOpacity(0.5);
-    //   LeftBox[(SN+100)%2]->setGraphicsEffect(testeffect1);
-
 
     leftBoxDisappear=new QPropertyAnimation( this );
     leftBoxDisappear->setPropertyName("geometry");
@@ -134,7 +124,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     upButtonAppear=new QPropertyAnimation(ui->upButton,"geometry",this);
     upButtonDisappear=new QPropertyAnimation(ui->upButton,"geometry",this);
-//    ui->gridLayout->removeWidget(ui->upButton);
     ui->upButton->close();
 
     connect(upButtonDisappear,SIGNAL(finished()),this,SLOT(onStartSurfaceAppear()));
@@ -149,6 +138,12 @@ MainWindow::MainWindow(QWidget *parent) :
     upButtonDisappear01=new QPropertyAnimation(ui->upButton,"geometry",this);
     rightBoxDisappear01 =new QPropertyAnimation(RightBox,"geometry",this);
     connect(modeButtonDisappear01,SIGNAL(finished()),this,SLOT(GAMESTART()));
+
+    leftBoxAppear01 = new QPropertyAnimation(this);
+    leftBoxAppear01->setPropertyName("geometry");
+    modeButtonAppear01 = new QPropertyAnimation(ui->ModeButton1,"geometry",this);
+    upButtonAppear01 = new QPropertyAnimation(ui->upButton,"geometry",this);
+    rightBoxAppear01 = new QPropertyAnimation(RightBox,"geometry",this);
 
 }
 
@@ -173,9 +168,9 @@ void MainWindow::UpDateSize(){
     rw = 350*w/800;
     rh = h;
     ux = 370*w/800; mx = 370*w/800;
-    uy = 0; my = 540*h/600;
+    uy = 0; my = 530*h/600;
     uw = 60*w/800; mw = 60*w/800;
-    uh = 25*h/600; mh = 25*h/600;
+    uh = 25*h/600; mh = 60*h/600;
     ui->upButton->setGeometry(QRect(ux,uy,uw,uh));
     ui->ModeButton1->setGeometry(QRect(mx,my,mw,mh));
     sx = 300*w/800;
@@ -242,6 +237,12 @@ void MainWindow::on_StartButton_clicked()
     titleDisappear->setEasingCurve(QEasingCurve::InBack);
     titleDisappear->start();
 
+    string place = "assets\\songs\\" + s.songlist[(ST+s.Number+3)%s.Number].fileName;
+    place = place + "\\";
+    place = place + s.songlist[(ST+s.Number+3)%s.Number].difficultylist[0].audiofilename;
+    EdpFile f(*Project::ProjectRoot,place);
+    string fullpath = f.getFullPath();
+    Project::ProjectGame->loadMusic(fullpath,s.songlist[(ST+s.Number+3)%s.Number].difficultylist[0].previewtime);
 
 }
 
@@ -400,12 +401,12 @@ void MainWindow::SN_ADD(){
     LeftBox[(SN+100)%2] = new DifficultyScrollArea(s.songlist[(ST+s.Number)%s.Number],this);
     connect(LeftBox[((SN+100))%2]->my_splitter,SIGNAL(StartGame()),this,SLOT(InitialGame()));
     DebugL("y1")
-    string place = "assets\\songs\\" + s.songlist[(ST+s.Number)%s.Number].fileName;
+    string place = "assets\\songs\\" + s.songlist[(ST+s.Number+3)%s.Number].fileName;
     place = place + "\\";
-    place = place + s.songlist[(ST+s.Number)%s.Number].difficultylist[0].audiofilename;
+    place = place + s.songlist[(ST+s.Number+3)%s.Number].difficultylist[0].audiofilename;
     EdpFile f(*Project::ProjectRoot,place);
     string fullpath = f.getFullPath();
-    Project::ProjectGame->loadMusic(fullpath,s.songlist[(ST+s.Number)%s.Number].difficultylist[0].previewtime);
+    Project::ProjectGame->loadMusic(fullpath,s.songlist[(ST+s.Number+3)%s.Number].difficultylist[0].previewtime);
 }
 
 
@@ -435,13 +436,13 @@ void MainWindow::SN_SUB(){
     LeftBox[(SN+100)%2] = new DifficultyScrollArea(s.songlist[(ST+s.Number)%s.Number],this);
     connect(LeftBox[((SN+100))%2]->my_splitter,SIGNAL(StartGame()),this,SLOT(InitialGame()));
 
-    string place = "assets\\songs\\" + s.songlist[(ST+s.Number)%s.Number].fileName;
+    string place = "assets\\songs\\" + s.songlist[(ST+s.Number+3)%s.Number].fileName;
     place = place + "\\";
-    place = place + s.songlist[(ST+s.Number)%s.Number].difficultylist[0].audiofilename;
+    place = place + s.songlist[(ST+s.Number+3)%s.Number].difficultylist[0].audiofilename;
     EdpFile f(*Project::ProjectRoot,place);
     string fullpath = f.getFullPath();
     DebugL(fullpath.c_str())
-    Project::ProjectGame->loadMusic(fullpath,s.songlist[(ST+s.Number)%s.Number].difficultylist[0].previewtime);
+    Project::ProjectGame->loadMusic(fullpath,s.songlist[(ST+s.Number+3)%s.Number].difficultylist[0].previewtime);
 //    this->setStyleSheet("background-color:red");
 }
 
@@ -525,4 +526,37 @@ void MainWindow::GAMESTART(){
     Project::ProjectGame->startGame();
 }
 
+void MainWindow::GAMEEND(){
+    leftBoxAppear01->setTargetObject(LeftBox[(SN+100)%2]);
+    leftBoxAppear01->setPropertyName("geometry");
+
+    ui->upButton->show();
+    ui->ModeButton1->show();
+    LeftBox[(SN+100)%2]->show();
+    RightBox->show();
+
+    upButtonAppear01->setStartValue(QRect(ux,uy,uw,uh));
+    upButtonAppear01->setEndValue(QRect(ux,0-uh,uw,uh));
+    upButtonAppear01->setDuration(800);
+    upButtonAppear01->setEasingCurve(QEasingCurve::InBack);
+    upButtonAppear01->start();
+
+    modeButtonAppear01->setStartValue(QRect(mx,my,mw,mh));
+    modeButtonAppear01->setEndValue(QRect(mx,600+mh,mw,mh));
+    modeButtonAppear01->setDuration(800);
+    modeButtonAppear01->setEasingCurve(QEasingCurve::InBack);
+    modeButtonAppear01->start();
+
+    leftBoxAppear01->setStartValue(QRect(lx,ly,lw,lh));
+    leftBoxAppear01->setEndValue(QRect(0-lw,ly,lw,lh));
+    leftBoxAppear01->setDuration(800);
+    leftBoxAppear01->setEasingCurve(QEasingCurve::InBack);
+    leftBoxAppear01->start();
+
+    rightBoxAppear01->setStartValue(QRect(rx,ry,rw,rh));
+    rightBoxAppear01->setEndValue(QRect(this->width()+rw,ry,rw,rh));
+    rightBoxAppear01->setDuration(800);
+    rightBoxAppear01->setEasingCurve(QEasingCurve::InBack);
+    rightBoxAppear01->start();
+}
 

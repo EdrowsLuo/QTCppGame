@@ -3,7 +3,7 @@
 #include <QPushButton>
 #include <string>
 #include <QApplication>
-
+#include "defext.h"
 
 
 
@@ -22,13 +22,16 @@ MyQSplitter::MyQSplitter( int nn, const My_Song & jsong, QWidget *parent ) :
                             "QPushButton::pressed{background-color:transparent;border-image:url(:/C:/Users/HJ/Pictures/QT/Infographic-with-crystal-banners/032.png)}" );
    //     f[i]->setStyleSheet("border-image:url(:/C:/Users/HJ/Pictures/QT/fakeButton4.png);"
    //                        "background-color:transparent;");
-        string content = jsong.difficultylist[i].version;
-
+     //   string content = "Version: " + jsong.difficultylist[i].version;
+     //   content = content + "CircleSize: " + jsong.difficultylist[i].circlesize;
+        MakeString(s,"Version: " << jsong.difficultylist[i].version <<endl <<"Star: " << jsong.difficultylist[i].star << "\t" <<
+                    "OverallDifficulty: "<< jsong.difficultylist[i].overalldifficulty << endl << "CircleSize: "<<jsong.difficultylist[i].version );
+     //   content = content + "\n" +"Star: "+
         //content = content + "\n";
         //content = content + jsong.difficultylist[i].version.c_str();
         //content = content + "\n";
         const char*  ch;
-        ch=content.c_str();
+        ch=s.c_str();
   //      DebugI(ch)
   //              DebugI("fk")
         f[i]->setText(QApplication::translate("", ch, 0, QApplication::UnicodeUTF8));
