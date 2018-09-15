@@ -447,7 +447,10 @@ void Widget::paintEvent(QPaintEvent *event){
             drawR.set(1,1,Game->getPlayingData()->getScore()->getRanking());
             drawR.draw(event,&painter);
         }
-
+        if (timesub > 5150+ssr*13 && timesub <5650 + ssr * 13){
+            drawpress.set((5650 + ssr * 13-timesub)/500);
+            drawpress.draw(event,&painter);
+        }
 
     }
     if (esc){
@@ -471,6 +474,7 @@ void Widget::paintEvent(QPaintEvent *event){
                 endjudge = false;
             }
         }
+
     }
  //   if()
     //Game->getPlayingData()->getScore()->RecentScore
