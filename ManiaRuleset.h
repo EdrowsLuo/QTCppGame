@@ -428,6 +428,13 @@ namespace nso{
             }
         }
 
+        void playNormalMusic() {
+            if (Channel != NULL) {
+                Channel->reset();
+                Channel->play();
+            }
+        }
+
         bool checkGame() {
             return Game != NULL;
         }
@@ -453,6 +460,7 @@ namespace nso{
         //游戏结束释放游戏资源
         void releaseGame(){
             if (checkGame()) {
+                Game->pauseGame();
                 if (modIsEnable(Mania::MOD_AUTO)) {
                     delete AutoPlay;
                     AutoPlay = NULL;

@@ -81,6 +81,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->ExitButton->raise();
 
     gameview = new Widget(this);
+    connect(gameview, SIGNAL(GameEnd()), this, SLOT(GAMEEND()));
     gameview->close();
 
 
@@ -527,6 +528,12 @@ void MainWindow::GAMESTART(){
 }
 
 void MainWindow::GAMEEND(){
+
+    Project::ProjectGame->releaseGame();
+
+    Project::ProjectGame->playNormalMusic();
+
+    gameview->close();
     leftBoxAppear01->setTargetObject(LeftBox[(SN+100)%2]);
     leftBoxAppear01->setPropertyName("geometry");
 
