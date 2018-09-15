@@ -426,7 +426,7 @@ namespace nso{
     public:
         GameHolder() :
                 Mods(0),
-                BaseVolume(0.3f),
+                BaseVolume(0.4f),
                 Game(NULL),
                 Setting(NULL),
                 KeyPipe(NULL),
