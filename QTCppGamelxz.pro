@@ -75,6 +75,7 @@ SOURCES += \
     \
     cJSON.cpp\
     CJsonObject.cpp\
+    settings.cpp
 
 
 
@@ -149,6 +150,7 @@ HEADERS  += \
     \
     CJsonObject.hpp \
     cJSON.h \
+    settings.h
 
 
 
@@ -156,7 +158,8 @@ FORMS    += mainwindow.ui \
     slidebox1.ui \
     difficultyscrollarea.ui \
     difficultyframe.ui \
-    rightframe.ui
+    rightframe.ui \
+    settings.ui
 
 FORMS    += widget.ui
 

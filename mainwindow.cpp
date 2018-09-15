@@ -200,12 +200,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_StartButton_clicked()
 {
-
-    /*  QMessageBox::about(NULL,"s",QString::number(ui->label->x()));
-      QMessageBox::about(NULL,"s",QString::number(ui->label->y()));
-      QMessageBox::about(NULL,"s",QString::number(ui->label->width()));
-      QMessageBox::about(NULL,"s",QString::number(ui->label->height()));*/
-
     leftBoxAppear0->setTargetObject(LeftBox[(SN+100)%2]);
     leftBoxAppear0->setPropertyName("geometry");
 
