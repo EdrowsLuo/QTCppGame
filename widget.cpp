@@ -26,29 +26,15 @@
 using namespace edp;
 using namespace nso;
 
-Widget::Widget(QWidget *parent) : Renderer(parent)
-    ,
+Widget::Widget(QWidget *parent) :
+        Renderer(
+#ifdef USING_GL
+                QGLFormat(QGL::SampleBuffers),
+#endif
+                parent),
     ui(new Ui::Widget)
 {
-    //BG1 = new RankingBG(&manager);
-#ifdef USING_GL
-    setFormat(QGLFormat(QGL::SampleBuffers));
-#endif
     ui->setupUi(this);
-    //this->setFixedSize(720*16/9,720);
-   /* EdpFile *osuFile = new EdpFile(
-           "D:\\QT\\wj\\MyBKG\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [4K Lv.4].osu"
-            //"D:\\QT\\wj\\MyBKG\\qt_bb\\data\\356253 ginkiha - Borealis\\ginkiha - Borealis ([ A v a l o n ]) [CS' ADVANCED].osu"
-            //"D:\\QT\\wj\\MyBKG\\qt_bb\\data\\324288 xi - ANiMA\\xi - ANiMA (Kuo Kyoka) [Starry's 4K Lv.15].osu"
-            );*/
-    //Game = new ManiaGame(osuFile,new ManiaSetting());
-    //DebugL("")
-    //Game->prepareGame();
-    //DebugL("")
-    //keyPipee = new QTKeyPipe();
-    //DebugL("")
-    //keyPipee->setTimer(Game->getSongChannel());
-    //DebugL("")
     QTimer *timer=new QTimer (this);
     connect(timer,SIGNAL(timeout()),this,SLOT(animate()));
     timer->start(12);
