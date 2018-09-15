@@ -94,7 +94,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     LeftBox[(SN+100)%2]=new DifficultyScrollArea( s.songlist[0] ,this);
     LeftBox[(SN+100)%2]->setObjectName("dou");
-
+    connect(LeftBox[((SN+100))%2]->my_splitter,SIGNAL(StartGame()),this,SLOT(InitialGame()));
     leftBoxDisappear=new QPropertyAnimation( this );
     leftBoxDisappear->setPropertyName("geometry");
     leftBoxAppear = new QPropertyAnimation (this);
@@ -378,7 +378,7 @@ void MainWindow::on_ModeButton1_clicked()
 void MainWindow::SN_ADD(){
     if(al==0){
         leftBoxDisappear->stop();
-//        disconnect(LeftBox[((SN+100)+1)%2]->my_splitter,SIGNAL(StartGame()),this,SLOT(InitialGame()));
+        disconnect(LeftBox[((SN+100)+1)%2]->my_splitter,SIGNAL(StartGame()),this,SLOT(InitialGame()));
         LeftBox[((SN+100)+1)%2]->deleteLater();
 //            LeftBox[(SN+1)%2]=NULL;
         LeftBox[(SN+100)%2]->show();
@@ -414,7 +414,7 @@ void MainWindow::SN_ADD(){
 void MainWindow::SN_SUB(){
     if(al==0){
         leftBoxDisappear->stop();
-        //       disconnect(LeftBox[((SN+100)+1)%2]->my_splitter,SIGNAL(StartGame()),this,SLOT(InitialGame()));
+        disconnect(LeftBox[((SN+100)+1)%2]->my_splitter,SIGNAL(StartGame()),this,SLOT(InitialGame()));
         LeftBox[((SN+100)+1)%2]->deleteLater();
 //            LeftBox[(SN+1)%2]=NULL;
         LeftBox[(SN+100)%2]->show();
@@ -442,7 +442,7 @@ void MainWindow::SN_SUB(){
     place = place + s.songlist[(ST+s.Number+3)%s.Number].difficultylist[0].audiofilename;
     EdpFile f(*Project::ProjectRoot,place);
     string fullpath = f.getFullPath();
-    DebugL(fullpath.c_str())
+//    DebugL(fullpath.c_str())
     Project::ProjectGame->loadMusic(fullpath,s.songlist[(ST+s.Number+3)%s.Number].difficultylist[0].previewtime);
 //    this->setStyleSheet("background-color:red");
 }
@@ -542,26 +542,26 @@ void MainWindow::GAMEEND(){
     LeftBox[(SN+100)%2]->show();
     RightBox->show();
 
-    upButtonAppear01->setStartValue(QRect(ux,uy,uw,uh));
-    upButtonAppear01->setEndValue(QRect(ux,0-uh,uw,uh));
+    upButtonAppear01->setStartValue(QRect(ux,0-uh,uw,uh));
+    upButtonAppear01->setEndValue(QRect(ux,uy,uw,uy));
     upButtonAppear01->setDuration(800);
     upButtonAppear01->setEasingCurve(QEasingCurve::InBack);
     upButtonAppear01->start();
 
-    modeButtonAppear01->setStartValue(QRect(mx,my,mw,mh));
-    modeButtonAppear01->setEndValue(QRect(mx,600+mh,mw,mh));
+    modeButtonAppear01->setStartValue(QRect(mx,this->height()+mh,mw,mh));
+    modeButtonAppear01->setEndValue(QRect(mx,my,mw,mh));
     modeButtonAppear01->setDuration(800);
     modeButtonAppear01->setEasingCurve(QEasingCurve::InBack);
     modeButtonAppear01->start();
 
-    leftBoxAppear01->setStartValue(QRect(lx,ly,lw,lh));
-    leftBoxAppear01->setEndValue(QRect(0-lw,ly,lw,lh));
+    leftBoxAppear01->setStartValue(QRect(0-lw,ly,lw,lh));
+    leftBoxAppear01->setEndValue(QRect(lx,ly,lw,lh));
     leftBoxAppear01->setDuration(800);
     leftBoxAppear01->setEasingCurve(QEasingCurve::InBack);
     leftBoxAppear01->start();
 
-    rightBoxAppear01->setStartValue(QRect(rx,ry,rw,rh));
-    rightBoxAppear01->setEndValue(QRect(this->width()+rw,ry,rw,rh));
+    rightBoxAppear01->setStartValue(QRect(this->width()+rw,ry,rw,rh));
+    rightBoxAppear01->setEndValue(QRect(rx,ry,rw,rh));
     rightBoxAppear01->setDuration(800);
     rightBoxAppear01->setEasingCurve(QEasingCurve::InBack);
     rightBoxAppear01->start();
