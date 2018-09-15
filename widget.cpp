@@ -80,9 +80,6 @@ void Widget::paintEvent(QPaintEvent *event){
         Game->update();
     }*/
     mGameHolder->update();
-    /*if (Game->getFrameTime()<2000){
-        path
-    }*/
 
     if(mGameHolder->EscPressed){
         //DebugL("")
@@ -493,6 +490,16 @@ void Widget::paintEvent(QPaintEvent *event){
         }
 
     }
+    QPainterPath pathbb1;
+    pathbb1.moveTo(0,0);
+    pathbb1.lineTo(1280,0);
+    pathbb1.lineTo(1280,720);
+    pathbb1.lineTo(0,720);
+    if (util::currentTimeMS()-timestarts <600){
+        DebugI("in: "<<(util::currentTimeMS()-timestarts)*255/600)
+        painter.setBrush(QColor(40,44,53,255-(util::currentTimeMS()-timestarts)*255/600));//*(1-(util::currentTimeMS()-timestarts)/1000)40,44,53
+        painter.drawPath(pathbb1);
+    }
  //   if()
     //Game->getPlayingData()->getScore()->RecentScore
     //MyCombo drawcombo(Game->getPlayingData()->getScore()->Combo,false);
@@ -524,4 +531,6 @@ void Widget::onGameStart() {
     t = 0;
     Scorepre = 0;
     Scorenow = 0;
+    timestarts = util::currentTimeMS();
+    DebugI("in1: "<<timestarts)
 }

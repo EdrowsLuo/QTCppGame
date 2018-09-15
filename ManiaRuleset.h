@@ -431,7 +431,8 @@ namespace nso{
                 Setting(NULL),
                 KeyPipe(NULL),
                 AutoPlay(NULL),
-                EscPressed(false){
+                EscPressed(false),
+                SpeedLevel(10) {
 
         }
 
@@ -584,12 +585,14 @@ namespace nso{
         }
 
         Getter(ManiaGame *,Game)
+        Setter(int,SpeedLevel)
 
         bool EscPressed;
 
     private:
         EdpBassChannel *Channel;
         float BaseVolume;
+        int SpeedLevel;
 
         QTKeyPipe *KeyPipe;
         AutoKeyPipe *AutoPlay;
