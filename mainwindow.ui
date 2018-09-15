@@ -20,17 +20,21 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMainWindow{border-image:url(:/C:/Users/HJ/Pictures/QT/galaxy/106.jpg)}</string>
+   <string notr="true">QMainWindow{}</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QPushButton" name="upButton">
     <property name="geometry">
      <rect>
-      <x>368</x>
+      <x>360</x>
       <y>10</y>
-      <width>75</width>
-      <height>23</height>
+      <width>80</width>
+      <height>80</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{border-image: url(:/assets/image/powerButtonOff.png);color:white}
+QPushButton::hover{border-image:url(:/assets/image/powerButtonOn.png);color:white}</string>
     </property>
     <property name="text">
      <string>Menu</string>
@@ -46,8 +50,8 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image: url(:/C:/Users/HJ/Pictures/QT/powerButtonOff.png);}
-QPushButton::hover{border-image:url(:/C:/Users/HJ/Pictures/QT/powerButtonOn.png)}</string>
+     <string notr="true">QPushButton{border-image: url(:/assets/image/Menu.png)}
+QPushButton::hover{border-image:url(:/assets/image/tiltle2.png)}</string>
     </property>
     <property name="text">
      <string>manual</string>
@@ -80,10 +84,9 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image: url(:/C:/Users/HJ/Pictures/QT/Blue-transparent-glass-web-template/Btf1.png);}
-QPushButton::hover{border-image:url(:/C:/Users/HJ/Pictures/QT/Blue-transparent-glass-web-template/Btf2.png)}
-QPushButton::pressed{
-	border-image: url(:/C:/Users/HJ/Pictures/QT/Blue-transparent-glass-web-template/Btf3.png);}
+     <string notr="true">QPushButton{border-image:url(:/assets/image/Btf1.png);}
+QPushButton::hover{border-image:url(:/assets/image/Btf2.png);}
+QPushButton::pressed{border-image: url(:/assets/image/Btf3.png);}
 </string>
     </property>
     <property name="text">
@@ -100,10 +103,10 @@ QPushButton::pressed{
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image: url(:/C:/Users/HJ/Pictures/QT/Blue-transparent-glass-web-template/Btf1.png);}
-QPushButton::hover{border-image:url(:/C:/Users/HJ/Pictures/QT/Blue-transparent-glass-web-template/Btf2.png)}
-QPushButton::pressed{
-	border-image: url(:/C:/Users/HJ/Pictures/QT/Blue-transparent-glass-web-template/Btf3.png);}</string>
+     <string notr="true">QPushButton{border-image:url(:/assets/image/Btf1.png)}
+QPushButton::hover{border-image:url(:/assets/image/Btf2.png)}
+QPushButton::pressed{border-image: url(:/assets/image/Btf3.png)}
+</string>
     </property>
     <property name="text">
      <string>SETTINGS</string>
@@ -119,10 +122,10 @@ QPushButton::pressed{
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image: url(:/C:/Users/HJ/Pictures/QT/Blue-transparent-glass-web-template/Btf1.png);}
-QPushButton::hover{border-image:url(:/C:/Users/HJ/Pictures/QT/Blue-transparent-glass-web-template/Btf2.png)}
-QPushButton::pressed{
-	border-image: url(:/C:/Users/HJ/Pictures/QT/Blue-transparent-glass-web-template/Btf3.png);}</string>
+     <string notr="true">QPushButton{border-image:url(:/assets/image/Btf1.png)}
+QPushButton::hover{border-image:url(:/assets/image/Btf2.png)}
+QPushButton::pressed{border-image: url(:/assets/image/Btf3.png)}
+</string>
     </property>
     <property name="text">
      <string>EXIT</string>
@@ -147,7 +150,6 @@ QPushButton::pressed{
     <bool>false</bool>
    </attribute>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

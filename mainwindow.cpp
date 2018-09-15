@@ -21,14 +21,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //   testwidget->show();
     ui->setupUi(this);
 
-
-
-//    testeffect = new QGraphicsOpacityEffect(testwidget);
-//    testeffect->setOpacity(0.2);
-//    testwidget->setGraphicsEffect(testeffect);
-    // testwidget->show();
-    // testwidget->setGeometry(QRect(this->x(),this->y(),this->width(),this->height()));
-    // testwidget->lower();
+    this->setAutoFillBackground(true);
+    this->setPalette(QPalette(QColor(40,44,53)));
 
     s = SongGroup();
     /* EdpFile out(*Project::ProjectRoot,"assets\\songs\\songs.json");
@@ -159,20 +153,20 @@ void MainWindow::UpDateSize(){
     int w,h;
     w = this->width();
     h = this->height();
-    this->RightBox->setGeometry(QRect(439*w/800,11*h/600,350*w/800,h));
+    this->RightBox->setGeometry(QRect(490*w/800,11*h/600,310*w/800,h));
     this->LeftBox[(SN+100)%2]->setGeometry(QRect(11*w/800,40*h/600,422*w/800,510*h/600));
     lx = 11*w/800;
     ly = 40*h/600;
     lw = 422*w/800;
     lh = 510*h/600;
-    rx = 439*w/800;
+    rx = 490*w/800;
     ry = 11*h/600;
-    rw = 350*w/800;
+    rw = 310*w/800;
     rh = h;
     ux = 370*w/800; mx = 370*w/800;
-    uy = 0; my = 530*h/600;
+    uy = -30; my = 560*h/600;
     uw = 60*w/800; mw = 60*w/800;
-    uh = 25*h/600; mh = 60*h/600;
+    uh = 60*h/600; mh = 60*h/600;
     ui->upButton->setGeometry(QRect(ux,uy,uw,uh));
     ui->ModeButton1->setGeometry(QRect(mx,my,mw,mh));
     sx = 300*w/800;
@@ -254,7 +248,7 @@ void MainWindow::onChooseSurfaceAppear(){
     ui->SetButton->close();
     ui->ExitButton->close();
     ui->label->close();
-    ui->upButton->setGeometry(QRect(ux,0-uh,uw,uh));
+    ui->upButton->setGeometry(QRect(ux,-30-uh,uw,uh));
     ui->upButton->show();
     ui->ModeButton1->show();
 
@@ -263,13 +257,13 @@ void MainWindow::onChooseSurfaceAppear(){
 
 
 
-    upButtonAppear->setStartValue(QRect(ux,0-uh,uw,uh));
+    upButtonAppear->setStartValue(QRect(ux,uy-uh,uw,uh));
     upButtonAppear->setEndValue(QRect(ux,uy,uw,uh));
     upButtonAppear->setDuration(1000);
     upButtonAppear->setEasingCurve(QEasingCurve::OutCirc);
     upButtonAppear->start();
 
-    modeButtonAppear->setStartValue(QRect(mx,600+mh,mw,mh));
+    modeButtonAppear->setStartValue(QRect(mx,620+mh,mw,mh));
     modeButtonAppear->setEndValue(QRect(mx,my,mw,mh));
     modeButtonAppear->setDuration(800);
     modeButtonAppear->setEasingCurve(QEasingCurve::OutBack);
@@ -280,7 +274,7 @@ void MainWindow::onChooseSurfaceAppear(){
     leftBoxAppear0->setStartValue(QRect(0-lw,ly,lw,lh));
     leftBoxAppear0->setEndValue(QRect(lx,ly,lw,lh));
     leftBoxAppear0->setDuration(800);
-    leftBoxAppear0->setEasingCurve(QEasingCurve::OutBack);
+ //   leftBoxAppear0->setEasingCurve();
     leftBoxAppear0->start();
 
     RightBox->show();
@@ -298,7 +292,7 @@ void MainWindow::on_upButton_clicked()
     leftBoxDisappear0->setPropertyName("geometry");
 
     upButtonDisappear->setStartValue(QRect(ux,uy,uw,uh));
-    upButtonDisappear->setEndValue(QRect(ux,0-uh,uw,uh));
+    upButtonDisappear->setEndValue(QRect(ux,uy-uh,uw,uh));
     upButtonDisappear->setDuration(800);
     upButtonDisappear->setEasingCurve(QEasingCurve::InBack);
     upButtonDisappear->start();
@@ -312,7 +306,7 @@ void MainWindow::on_upButton_clicked()
     leftBoxDisappear0->setStartValue(QRect(lx,ly,lw,lh));
     leftBoxDisappear0->setEndValue(QRect(0-lw,ly,lw,lh));
     leftBoxDisappear0->setDuration(800);
-    leftBoxDisappear0->setEasingCurve(QEasingCurve::InBack);
+    //leftBoxDisappear0->setEasingCurve();
     leftBoxDisappear0->start();
 
     rightBoxDisappear0->setStartValue(QRect(rx,ry,rw,rh));
@@ -393,7 +387,7 @@ void MainWindow::SN_ADD(){
     leftBoxDisappear->setStartValue(QRect(lx,ly,lw,lh));
     leftBoxDisappear->setEndValue(QRect(0-lw,ly,lw,lh));
     leftBoxDisappear->setDuration(400);
-    leftBoxDisappear->setEasingCurve(QEasingCurve::InBack);
+    //leftBoxDisappear->setEasingCurve();
     leftBoxDisappear->start(QAbstractAnimation::KeepWhenStopped);
     SN++;
     ST++;
@@ -429,7 +423,7 @@ void MainWindow::SN_SUB(){
     leftBoxDisappear->setStartValue(QRect(lx,ly,lw,lh));
     leftBoxDisappear->setEndValue(QRect(0-lw,ly,lw,lh));
     leftBoxDisappear->setDuration(400);
-    leftBoxDisappear->setEasingCurve(QEasingCurve::InBack);
+    //leftBoxDisappear->setEasingCurve();
     leftBoxDisappear->start(QAbstractAnimation::KeepWhenStopped);
     SN--;
     ST--;
@@ -463,7 +457,7 @@ void MainWindow::SN_SUB_ANIM1(){
     leftBoxAppear->setDuration(400);
     leftBoxAppear->setStartValue(QRect(0-lw,ly,lw,lh));
     leftBoxAppear->setEndValue(QRect(lx,ly,lw,lh));
-    leftBoxAppear->setEasingCurve(QEasingCurve::OutBack);
+    //leftBoxAppear->setEasingCurve();
     leftBoxAppear->start();
 //        DebugL("l")
     disconnect(LeftBox[((SN+100)+1)%2]->my_splitter,SIGNAL(StartGame()),this,SLOT(InitialGame()));
@@ -483,13 +477,13 @@ void MainWindow::InitialGame(){
   //  port->addWidget(gameview);
 
        upButtonDisappear01->setStartValue(QRect(ux,uy,uw,uh));
-       upButtonDisappear01->setEndValue(QRect(ux,0-uh,uw,uh));
+       upButtonDisappear01->setEndValue(QRect(ux,uy-uh,uw,uh));
        upButtonDisappear01->setDuration(800);
        upButtonDisappear01->setEasingCurve(QEasingCurve::InBack);
        upButtonDisappear01->start();
 
        modeButtonDisappear01->setStartValue(QRect(mx,my,mw,mh));
-       modeButtonDisappear01->setEndValue(QRect(mx,600+mh,mw,mh));
+       modeButtonDisappear01->setEndValue(QRect(mx,650+mh,mw,mh));
        modeButtonDisappear01->setDuration(800);
        modeButtonDisappear01->setEasingCurve(QEasingCurve::InBack);
        modeButtonDisappear01->start();
@@ -497,7 +491,7 @@ void MainWindow::InitialGame(){
        leftBoxDisappear01->setStartValue(QRect(lx,ly,lw,lh));
        leftBoxDisappear01->setEndValue(QRect(0-lw,ly,lw,lh));
        leftBoxDisappear01->setDuration(800);
-       leftBoxDisappear01->setEasingCurve(QEasingCurve::InBack);
+       //leftBoxDisappear01->setEasingCurve();
        leftBoxDisappear01->start();
 
        rightBoxDisappear01->setStartValue(QRect(rx,ry,rw,rh));
@@ -544,8 +538,8 @@ void MainWindow::GAMEEND(){
     LeftBox[(SN+100)%2]->show();
     RightBox->show();
 
-    upButtonAppear01->setStartValue(QRect(ux,0-uh,uw,uh));
-    upButtonAppear01->setEndValue(QRect(ux,uy,uw,uy));
+    upButtonAppear01->setStartValue(QRect(ux,uy-uh,uw,uh));
+    upButtonAppear01->setEndValue(QRect(ux,uy,uw,uh));
     upButtonAppear01->setDuration(800);
     upButtonAppear01->setEasingCurve(QEasingCurve::InBack);
     upButtonAppear01->start();
@@ -559,7 +553,7 @@ void MainWindow::GAMEEND(){
     leftBoxAppear01->setStartValue(QRect(0-lw,ly,lw,lh));
     leftBoxAppear01->setEndValue(QRect(lx,ly,lw,lh));
     leftBoxAppear01->setDuration(800);
-    leftBoxAppear01->setEasingCurve(QEasingCurve::InBack);
+    //leftBoxAppear01->setEasingCurve();
     leftBoxAppear01->start();
 
     rightBoxAppear01->setStartValue(QRect(this->width()+rw,ry,rw,rh));

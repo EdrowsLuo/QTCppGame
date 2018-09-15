@@ -1,22 +1,14 @@
 <RCC>
     <qresource prefix="/">
-        <file>C:/Users/HJ/Pictures/QT/14471.png</file>
-        <file>C:/Users/HJ/Pictures/QT/Blue-transparent-glass-web-template/Btf1.png</file>
-        <file>C:/Users/HJ/Pictures/QT/Blue-transparent-glass-web-template/Btf2.png</file>
-        <file>C:/Users/HJ/Pictures/QT/Blue-transparent-glass-web-template/Btf3.png</file>
-        <file>C:/Users/HJ/Pictures/QT/fakeButton4.png</file>
-        <file>C:/Users/HJ/Pictures/QT/Infographic-with-crystal-banners/08-02.png</file>
-        <file>C:/Users/HJ/Pictures/QT/Infographic-with-crystal-banners/08-021-02.png</file>
-        <file>C:/Users/HJ/Pictures/QT/Infographic-with-crystal-banners/0803-02.png</file>
-        <file>C:/Users/HJ/Pictures/QT/Infographic-with-crystal-banners/01.png</file>
-        <file>C:/Users/HJ/Pictures/QT/Infographic-with-crystal-banners/02.png</file>
-        <file>C:/Users/HJ/Pictures/QT/Infographic-with-crystal-banners/03.png</file>
-        <file>C:/Users/HJ/Pictures/QT/Infographic-with-crystal-banners/081-01.png</file>
-        <file>C:/Users/HJ/Pictures/QT/88-01.png</file>
-        <file>C:/Users/HJ/Pictures/QT/myb-01.png</file>
-        <file>C:/Users/HJ/Pictures/QT/fakebutton0-01.png</file>
-        <file>C:/Users/HJ/Pictures/QT/galaxy/106.jpg</file>
-        <file>C:/Users/HJ/Pictures/QT/powerButtonOn.png</file>
-        <file>C:/Users/HJ/Pictures/QT/powerButtonOff.png</file>
+        <file>assets/image/Btf1.png</file>
+        <file>assets/image/Btf2.png</file>
+        <file>assets/image/Btf3.png</file>
+        <file>assets/image/Menu.png</file>
+        <file>assets/image/powerButtonOff.png</file>
+        <file>assets/image/powerButtonOn.png</file>
+        <file>assets/image/textbox-01.png</file>
+        <file>assets/image/textbox2-01.png</file>
+        <file>assets/image/tiltle2.png</file>
+        <file>assets/image/titlebox1.png</file>
     </qresource>
 </RCC>

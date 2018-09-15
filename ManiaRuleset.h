@@ -426,7 +426,7 @@ namespace nso{
     public:
         GameHolder() :
                 Mods(0),
-                BaseVolume(0.5f),
+                BaseVolume(0.3f),
                 Game(NULL),
                 Setting(NULL),
                 KeyPipe(NULL),
@@ -470,7 +470,6 @@ namespace nso{
             Channel = new EdpBassChannel(path);
             Channel->setVolume(BaseVolume);
             Channel->seekTo(previewTime);
-            DebugI(previewTime)
             Channel->play();
         }
 
@@ -494,6 +493,7 @@ namespace nso{
         void startGame() {
             if (checkGame()) {
                 if (!Game->getSongChannel()->isPlaying()) {
+                    Game->getSongChannel()->setVolume(BaseVolume);
                     Game->runGame();
                     if (Channel != NULL) {
                         Channel->pause();
@@ -569,6 +569,17 @@ namespace nso{
             }
             if (KeyPipe != NULL) {
                 KeyPipe->keyReleaseEvent(event);
+            }
+        }
+
+        void setBaseVolume(float v) {
+            v = Clamp(0, v, 1);
+            BaseVolume = v;
+            if (Game != NULL) {
+                Game->getSongChannel()->setVolume(BaseVolume);
+            }
+            if (Channel != NULL) {
+                Channel->setVolume(BaseVolume);
             }
         }
 
