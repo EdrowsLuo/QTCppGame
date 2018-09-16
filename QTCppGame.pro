@@ -37,8 +37,8 @@ SOURCES += \
     EdpFileReader.cpp \
     EdpFileWriter.cpp \
     IOUtil.cpp \
+    KeyIO.cpp\
     Beatmap.cpp \
-    parsers.cpp \
     BeatmapDecoder.cpp \
     EdpBass.cpp \
     GameJudgement.cpp \
@@ -65,9 +65,7 @@ SOURCES += \
         progressbar.cpp \
         rhythmline.cpp\
         judgescore.cpp \
-        widgettest.cpp \
         calscore.cpp \
-        pixmapmanager.cpp\
         judgescore2.cpp\
         addcas.cpp\
         rankingpic.cpp\
@@ -104,7 +102,6 @@ HEADERS  += \
     IOUtil.h \
     Beatmap.h \
     StringUtil.h \
-    parsers.h \
     BeatmapDecoder.h \
     nsoclass.h \
     EdpBass.h \
@@ -141,9 +138,7 @@ HEADERS  += \
         progressbar.h \
         rhythmline.h\
         judgescore.h \
-        widgettest.h \
         calscore.h \
-        pixmapmanager.h\
         judgescore2.h\
     \
     \

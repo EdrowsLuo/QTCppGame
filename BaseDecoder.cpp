@@ -12,13 +12,13 @@
 using namespace nso;
 using namespace edp;
 
-BaseDecoder::BaseDecoder(EdpFile &file) : parserMap(), parseProperty() {
+BaseDecoder::BaseDecoder(EdpFile &file) {
     string data;
     IOUtil::readFull(file, data);
     input << data;
 }
 
-BaseDecoder::BaseDecoder(const string &data) : parserMap(), parseProperty() {
+BaseDecoder::BaseDecoder(const string &data) {
     input << data;
 }
 

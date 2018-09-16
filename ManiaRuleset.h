@@ -34,9 +34,7 @@ namespace nso{
         GetSetO(ManiaScore,Score)
         GetSetO(KeyFrame,MKeyFrame)
 
-        void setTimer(EdpTimer *t){
-            timer = t;
-        }
+        void setTimer(EdpTimer *t);
 
     protected:
         EdpTimer *timer;
@@ -84,68 +82,11 @@ namespace nso{
         ManiaScore(Beatmap *beatmap);
 
         int getScore();
-        void applyScore(ManiaHitResult &result){ //apply 一个成绩
-            RecentScore = result.score;
+        void applyScore(ManiaHitResult &result);
 
-            switch (result.type) {
-                case Mania::ScoreType_Note:{
-                    TotalScore += Mania::BaseScore[result.score];
-                    CurrentBonusRate += Mania::BonusMul[result.score];
-                    CurrentBonusRate = Clamp(0, CurrentBonusRate, 100);
-                    TotalBonus += (int)(Mania::BaseBonus[result.score] * sqrt(CurrentBonusRate)+0.0001);
+        double getAccuracy();
 
-                    AccScore += Mania::BaseAcc[result.score];
-                    HitCount++;
-
-                    HitCounter[result.score]++;
-                }break;
-
-                case Mania::ScoreType_Tick:
-                default:{
-                    //tick不影响分数
-                    if (result.score == Mania::S_MISS) {
-                        CurrentBonusRate = 0;
-                    }
-                }break;
-            }
-
-            PassedCombo++;
-            if (result.score > Mania::S_MISS) {
-                Combo++;
-            } else {
-                if (MaxCombo < Combo) {
-                    MaxCombo = Combo;
-                }
-                Combo = 0;
-            }
-        }
-
-        double getAccuracy() {
-            if (HitCount == 0) {
-                return 1;
-            } else {
-                return AccScore / (HitCount * 300.0);
-            }
-        }
-
-        string getRanking() {
-            if (AccScore == HitCount * 300) {
-                return Mania::Ranking_SS;
-            } else {
-                double acc = getAccuracy();
-                if (acc >= 0.95) {
-                    return Mania::Ranking_S;
-                } else if (acc >= 0.90) {
-                    return Mania::Ranking_A;
-                } else if (acc >= 0.80) {
-                    return Mania::Ranking_B;
-                } else if (acc >= 0.70) {
-                    return Mania::Ranking_C;
-                } else {
-                    return Mania::Ranking_D;
-                }
-            }
-        }
+        string getRanking();
 
     public:
         Beatmap *RawBeatmap;
@@ -175,13 +116,9 @@ namespace nso{
         VaGetter(int,FinalTime){ return getEndTime(); } //超时时间
         VGetter(int,Type)
         VGetter(int,HitSound)
-        bool isReleased(){
-            return released;
-        }
+        bool isReleased();
 
-        virtual void release(){
-            released = true;
-        }
+        virtual void release();
     protected:
         bool released;
         int X;
@@ -240,42 +177,19 @@ namespace nso{
 
         void updateTypeSpeedChange(double time);
 
-        vector<ManiaDrawdataNode>& getDatas(){
-            return datas;
-        }
+        vector<ManiaDrawdataNode>& getDatas();
 
-        vector<PlayingHitObject*> * rawObjectsPointer(){
-            return &rawObjects;
-        }
+        vector<PlayingHitObject*> * rawObjectsPointer();
 
-        vector<double> *getBeatsAvalibe(){
-            return &beatsAvalible;
-        }
+        vector<double> *getBeatsAvalibe();
 
         GetSet(int ,LineCount)
         GetSet(float,Preempt)
 
-        ScrollingControlPoint &findScrollingPoint(double time) {
-            vector<ScrollingControlPoint>::iterator itr = scrollingPoints.begin();
-            if (itr->startTime >= time) {
-                return *itr;
-            } else {
-                itr++;
-                while (itr != scrollingPoints.end()) {
-                    if (itr->startTime > time) {
-                        return *(itr - 1);
-                    }
-                    itr++;
-                }
-                return *(itr - 1);
-            }
-        }
+        ScrollingControlPoint &findScrollingPoint(double time);
 
 
-        float timeToPosition(double time) {
-            ScrollingControlPoint &sp = findScrollingPoint(time);
-            return static_cast<float>(sp.startPosition + (time - sp.startTime) * sp.speed);
-        }
+        float timeToPosition(double time);
 
     protected:
         virtual void onShowObject(PlayingHitObject *object){};
@@ -424,85 +338,23 @@ namespace nso{
      */
     class GameHolder{
     public:
-        GameHolder() :
-                Mods(0),
-                BaseVolume(0.4f),
-                Game(NULL),
-                Channel(NULL),
-                Setting(NULL),
-                KeyPipe(NULL),
-                AutoPlay(NULL),
-                EscPressed(false),
-                SpeedLevel(10) {
+        GameHolder();
 
-        }
+        bool modIsEnable(int mod);
 
-        bool modIsEnable(int mod) {
-            return (Mods & mod) == mod;
-        }
+        bool enableMod(int mod);
 
-        bool enableMod(int mod) {
-            if (checkGame()) {
-                DebugI("you can't change mod when game is loaded!")
-                return false;
-            }
-            Mods |= mod;
-            return true;
-        }
+        bool disableMod(int mod);
 
-        bool disableMod(int mod) {
-            if (checkGame()) {
-                DebugI("you can't change mod when game is loaded!")
-                return false;
-            }
-            Mods &= ~mod;
-            return true;
-        }
+        bool loadMusic(const string &path, int previewTime);
 
-        bool loadMusic(const string &path, int previewTime) {
-            if (checkGame()) {
-                DebugI("you can't change music when game is loaded!")
-                return false;
-            }
-            if (Channel != NULL) {
-                Channel->release();
-                delete Channel;
-                Channel = NULL;
-            }
-            Channel = new EdpBassChannel(path);
-            Channel->setVolume(BaseVolume);
-            Channel->seekTo(previewTime);
-            Channel->play();
-        }
+        void pauseNormalMusic();
 
-        void pauseNormalMusic() {
-            if (Channel != NULL) {
-                Channel->pause();
-            }
-        }
+        void playNormalMusic();
 
-        void playNormalMusic() {
-            if (Channel != NULL) {
-                Channel->reset();
-                Channel->play();
-            }
-        }
+        bool checkGame();
 
-        bool checkGame() {
-            return Game != NULL;
-        }
-
-        void startGame() {
-            if (checkGame()) {
-                if (!Game->getSongChannel()->isPlaying()) {
-                    Game->getSongChannel()->setVolume(BaseVolume);
-                    Game->runGame();
-                    if (Channel != NULL) {
-                        Channel->pause();
-                    }
-                }
-            }
-        }
+        void startGame();
 
         void loadGame(string &path);
 
@@ -512,78 +364,17 @@ namespace nso{
         void reloadGame();
 
         //游戏结束释放游戏资源
-        void releaseGame(){
-            if (checkGame()) {
-                Game->pauseGame();
-                if (modIsEnable(Mania::MOD_AUTO)) {
-                    delete AutoPlay;
-                    AutoPlay = NULL;
-                } else {
-                    delete KeyPipe;
-                    KeyPipe = NULL;
-                }
-                delete Game;
-                Game = NULL;
-            }
-        }
+        void releaseGame();
 
-        void update(){
-            if (checkGame()) {
-                if (Game->updateTime()) {
-                    if (modIsEnable(Mania::MOD_AUTO)) {
-                        AutoPlay->update(Game->getFrameTime());
-                    }
-                    Game->update();
-                }
-            }
+        void update();
 
-        }
+        void endUpdate();
 
-        void endUpdate() {
-            EscPressed = false;
-        }
+        virtual void mkeyPressEvent(QKeyEvent *event);
 
-        virtual void mkeyPressEvent(QKeyEvent *event) {
+        virtual void mkeyReleaseEvent(QKeyEvent *event);
 
-            if (event->key() == Qt::Key_Tab) {
-                if (checkGame()) {
-                    Game->getSongChannel()->seekTo(Game->getSongChannel()->getTime() + 1000);
-                }
-            }
-
-
-            if (event->isAutoRepeat()) {
-                return;
-            }
-
-            if (event->key() == Qt::Key_Escape) {
-                EscPressed = true;
-            }
-
-            if (KeyPipe != NULL) {
-                KeyPipe->keyPressEvent(event);
-            }
-        }
-
-        virtual void mkeyReleaseEvent(QKeyEvent *event) {
-            if (event->isAutoRepeat()) {
-                return;
-            }
-            if (KeyPipe != NULL) {
-                KeyPipe->keyReleaseEvent(event);
-            }
-        }
-
-        void setBaseVolume(float v) {
-            v = Clamp(0, v, 1);
-            BaseVolume = v;
-            if (Game != NULL) {
-                Game->getSongChannel()->setVolume(BaseVolume);
-            }
-            if (Channel != NULL) {
-                Channel->setVolume(BaseVolume);
-            }
-        }
+        void setBaseVolume(float v);
 
         Getter(ManiaGame *,Game)
         Setter(int,SpeedLevel)
