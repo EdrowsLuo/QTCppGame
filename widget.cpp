@@ -496,7 +496,7 @@ void Widget::paintEvent(QPaintEvent *event){
     pathbb1.lineTo(1280,720);
     pathbb1.lineTo(0,720);
     if (util::currentTimeMS()-timestarts <600){
-        DebugI("in: "<<(util::currentTimeMS()-timestarts)*255/600)
+        //DebugI("in: "<<(util::currentTimeMS()-timestarts)*255/600)
         painter.setBrush(QColor(40,44,53,255-(util::currentTimeMS()-timestarts)*255/600));//*(1-(util::currentTimeMS()-timestarts)/1000)40,44,53
         painter.drawPath(pathbb1);
     }
@@ -532,5 +532,5 @@ void Widget::onGameStart() {
     Scorepre = 0;
     Scorenow = 0;
     timestarts = util::currentTimeMS();
-    DebugI("in1: "<<timestarts)
+    //DebugI("in1: "<<timestarts)
 }
