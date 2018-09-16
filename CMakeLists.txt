@@ -106,6 +106,8 @@ add_executable(qt_bb
         rankingpic.h
         shadow.cpp
         shadow.h
+        settings.cpp
+        settings.h
         slideanim.h
         slideanim.cpp
         slidebox1.cpp

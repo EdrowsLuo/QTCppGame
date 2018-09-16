@@ -28,6 +28,7 @@ SOURCES += \
     my_song.cpp \
     my_difficulty.cpp \
     leftframe.cpp\
+    setting.cpp\
     \
     \
     \
@@ -73,7 +74,6 @@ SOURCES += \
     \
     cJSON.cpp\
     CJsonObject.cpp\
-    settings.cpp
 
 
 
@@ -90,6 +90,7 @@ HEADERS  += \
     my_song.h \
     my_difficulty.h \
     leftframe.h\
+    setting.h\
     \
     \
     \
@@ -145,7 +146,6 @@ HEADERS  += \
     \
     CJsonObject.hpp \
     cJSON.h \
-    settings.h
 
 
 
