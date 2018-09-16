@@ -11,9 +11,12 @@ Settings::Settings(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),ui->spinBox,SLOT(setValue(int)));
     connect(ui->spinBox,SIGNAL(valueChanged(int)),ui->horizontalSlider,SLOT(setValue(int)));
+    connect(ui->horizontalSlider_2,SIGNAL(valueChanged(int)),ui->spinBox_2,SLOT(setValue(int)));
+    connect(ui->spinBox_2,SIGNAL(valueChanged(int)),ui->horizontalSlider_2,SLOT(setValue(int)));
     ui->spinBox->setValue(40);
-    ui->verticalSlider->setValue(40);
-    this->setAutoFillBackground(true);
+    ui->spinBox_2->setValue(40);
+    this->setStyleSheet("QWidget#Settings{background-color:RGB(40,44,53)}");
+
 }
 
 Settings::~Settings()
@@ -27,12 +30,13 @@ void Settings::on_pushButton_clicked()
 }
 
 
-void Settings::on_verticalSlider_valueChanged(int value)
-{
-    Project::ProjectGame->setSpeedLevel(value/4);
-}
 
 void Settings::on_horizontalSlider_valueChanged(int value)
 {
     Project::ProjectGame->setBaseVolume((double)value/100.0);
+}
+
+void Settings::on_horizontalSlider_2_valueChanged(int value)
+{
+    Project::ProjectGame->setSpeedLevel(value/4);
 }

@@ -539,6 +539,7 @@ void MainWindow::GAMEEND(){
 void MainWindow::on_SetButton_clicked()
 {
     setSurface->setParent(this);
+    setSurface->setAutoFillBackground(true);
     setSurface->show();
     setSurface->setGeometry(QRect(0,0,this->width(),this->height()));
 }

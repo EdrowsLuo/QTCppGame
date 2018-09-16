@@ -7,9 +7,12 @@
 #include "Edp.h"
 #include "EdpFile.h"
 #include <QGraphicsOpacityEffect>
+#include <QPaintEvent>
 
 using namespace edp;
 using namespace nso;
+
+
 
 class LeftFrame : public QPushButton
 {
@@ -20,7 +23,10 @@ public:
     My_Difficulty difficultyInfo;
     string id;
     QGraphicsOpacityEffect * trans;
+  //  static QImage image;
+  //  QPixmap pict;
 
+    void PaintEvent(QPaintEvent*);
 signals:
     void passtosplitter();
 
@@ -28,6 +34,7 @@ public slots:
     void onleftFrameClicked();
 
 };
+
 /*class LeftFrameSlot : public QObject
 {
     Q_OBJECT
