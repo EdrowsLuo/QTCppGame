@@ -718,6 +718,16 @@ void GameHolder::loadGame(EdpFile *osuFile) {
     }
     Game = new ManiaGame(osuFile,Setting);
     Game->prepareGame();
+    double preempt = 0;
+    double p;
+    if (SpeedLevel >= 10) {
+        p = (SpeedLevel - 10) / 15.0;
+        preempt = 500 * (1 - p) + 200 * p;
+    } else {
+        p = SpeedLevel / 10.0;
+        preempt = 3000 * (1 - p) + 500 * p;
+    }
+    Game->getDrawdata()->setPreempt((int) (p + 0.001));
     savedPath = osuFile->getFullPath();
     Game->getSongChannel()->setVolume(BaseVolume);
     if (modIsEnable(Mania::MOD_AUTO)) {
@@ -891,4 +901,13 @@ void GameHolder::setBaseVolume(float v) {
     if (Channel != NULL) {
         Channel->setVolume(BaseVolume);
     }
+}
+
+bool GameHolder::setEnableBackground(bool v) {
+    if (checkGame()) {
+        DebugI("you can't change setting when game is loaded!")
+        return false;
+    }
+    EnableBackground = v;
+    return true;
 }
