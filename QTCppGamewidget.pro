@@ -37,6 +37,7 @@ SOURCES += \
     EdpFileReader.cpp \
     EdpFileWriter.cpp \
     IOUtil.cpp \
+    KeyIO.cpp\
     Beatmap.cpp \
     BeatmapDecoder.cpp \
     EdpBass.cpp \
