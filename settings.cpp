@@ -16,6 +16,8 @@ Settings::Settings(QWidget *parent) :
     ui->spinBox->setValue(40);
     ui->spinBox_2->setValue(40);
     this->setStyleSheet("QWidget#Settings{background-color:RGB(40,44,53)}");
+    d = 1;
+    Project::ProjectGame->setEnableBackground(d%2);
 
 }
 
@@ -39,4 +41,18 @@ void Settings::on_horizontalSlider_valueChanged(int value)
 void Settings::on_horizontalSlider_2_valueChanged(int value)
 {
     Project::ProjectGame->setSpeedLevel(value/4);
+}
+
+
+
+void Settings::on_pushButton_2_clicked()
+{
+    d++;
+    Project::ProjectGame->setEnableBackground(d%2);
+    if (d%2==0){
+        ui->pushButton_2->setText(QApplication::translate("", "Enable Background", 0, QApplication::UnicodeUTF8));
+    }
+    if (d%2==1){
+         ui->pushButton_2->setText(QApplication::translate("", "Disable Background", 0, QApplication::UnicodeUTF8));
+    }
 }

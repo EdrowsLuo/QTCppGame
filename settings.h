@@ -14,7 +14,7 @@ class Settings : public QWidget
 public:
     explicit Settings(QWidget *parent = 0);
     ~Settings();
-
+    int d;
 signals:
     void CLOSED();
 
@@ -29,6 +29,9 @@ private slots:
     void on_horizontalSlider_2_valueChanged(int value);
 
 
+
+
+    void on_pushButton_2_clicked();
 
 private:
     Ui::Settings *ui;
