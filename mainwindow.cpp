@@ -22,8 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //   testwidget->show();
     ui->setupUi(this);
 
-    this->setAutoFillBackground(true);
-    this->setPalette(QPalette(QColor(40,44,53)));
+
 
     s = SongGroup();
     /* EdpFile out(*Project::ProjectRoot,"assets\\songs\\songs.json");
@@ -114,7 +113,8 @@ MainWindow::MainWindow(QWidget *parent) :
     upButtonAppear01 = new QPropertyAnimation(ui->upButton,"geometry",this);
     rightBoxAppear01 = new QPropertyAnimation(RightBox,"geometry",this);
 
- //   Settings *SetSurface = new Settings;
+    setSurface = new Settings();
+    setSurface->hide();
 
 }
 
@@ -160,6 +160,7 @@ void MainWindow::UpDateSize(){
     gw=this->width();
     gh=this->height();
     gameview->setGeometry(QRect(0,0,gw,gh));
+    setSurface->setGeometry(QRect(0,0,this->width(),this->height()));
 
 }
 void MainWindow::resizeEvent(QResizeEvent *){
@@ -534,3 +535,10 @@ void MainWindow::GAMEEND(){
     rightBoxAppear01->start();
 }
 
+
+void MainWindow::on_SetButton_clicked()
+{
+    setSurface->setParent(this);
+    setSurface->show();
+    setSurface->setGeometry(QRect(0,0,this->width(),this->height()));
+}
