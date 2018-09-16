@@ -28,6 +28,8 @@ private slots:
 
     void on_horizontalSlider_2_valueChanged(int value);
 
+
+
 private:
     Ui::Settings *ui;
 };
