@@ -379,6 +379,7 @@ namespace nso{
         Getter(ManiaGame *,Game)
         Setter(int,SpeedLevel)
         bool setEnableBackground(bool v);
+        bool isEnableBackground();
 
         bool EscPressed;
 

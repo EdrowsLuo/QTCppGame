@@ -911,3 +911,7 @@ bool GameHolder::setEnableBackground(bool v) {
     EnableBackground = v;
     return true;
 }
+
+bool GameHolder::isEnableBackground() {
+    return EnableBackground;
+}
