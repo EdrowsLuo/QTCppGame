@@ -8,8 +8,8 @@ Cpp小学期大作业。。。<br>
 osu官网: [https://osu.ppy.sh](https://osu.ppy.sh/)
 
 # Requirements
--Qt 4.7.0
--貌似因为Qt太废所以对性能消耗有点高，请使用好一点的GPU
+- Qt 4.7.0
+- 貌似因为Qt太废所以对性能消耗有点高，请使用好一点的GPU
 
 # Building and running
 
