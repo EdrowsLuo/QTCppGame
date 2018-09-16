@@ -16,7 +16,6 @@
 #include "cJSON.h"
 #include "CJsonObject.hpp"
 #include "Project.h"
-#include "widgettest.h"
 #include "widget.h"
 
 namespace Ui {
@@ -30,7 +29,6 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    Widgettest * testwidget;
     SlideBox1 * RightBox;
     DifficultyScrollArea *LeftBox[2];
     void UpDateSize();

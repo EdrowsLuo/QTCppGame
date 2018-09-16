@@ -35,7 +35,10 @@ Widget::Widget(QWidget *parent) :
     ui(new Ui::Widget)
 {
     ui->setupUi(this);
-    QTimer *timer=new QTimer (this);
+
+    endjudge = true;
+    ssr=200;
+    tranjudge = 0;QTimer *timer=new QTimer (this);
     connect(timer,SIGNAL(timeout()),this,SLOT(animate()));
     timer->start(12);
     //Game->linkKeyInput(keyPipee);
@@ -48,9 +51,6 @@ Widget::Widget(QWidget *parent) :
     //mGameHolder->getGame()->runGame();
     //mGameHolder->getGame()->getSongChannel()->seekTo(102000);
     esc= false;
-    endjudge = true;
-    ssr=200;
-    tranjudge = 0;
     tranj = 0.0;
 }
 

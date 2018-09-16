@@ -9,7 +9,6 @@
 #include "BeatmapDecoder.h"
 #include "EdpFile.h"
 #include <QTimer>
-#include "pixmapmanager.h"
 #include "rankingbg.h"
 #include "background.h"
 #include "tracke.h"
@@ -70,7 +69,6 @@ private:
     int Scorepre,Scorenow;
     int Combopre,Combonow;
     //RankingBG *BG1;
-    Pixmapmanager manager;
     int Comborecord,ssr;
     double timerecord;
     int t,tranjudge;
