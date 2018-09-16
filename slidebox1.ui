@@ -33,6 +33,7 @@
    </property>
    <property name="styleSheet">
     <string notr="true">border-image:url(:/assets/image/titlebox1.png);
+font: 75 12pt &quot;ADMUI3Lg&quot;;
 background-color:transparent;
 color:white</string>
    </property>
