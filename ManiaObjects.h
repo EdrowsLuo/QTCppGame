@@ -45,10 +45,10 @@ namespace nso{
 
     class ManiaBaseJudgeObject : public JudgeableObject<ManiaPlaytimeData> {
     public:
-        ManiaBaseJudgeObject() : Released(false), Depth(0), JudgeResult(-1) { }
+        ManiaBaseJudgeObject();
 
-        double getStartJudgeTime() { return StartJudgeTime; }
-        double getEndJudgeTime() { return EndJudgeTime; }
+        double getStartJudgeTime();
+        double getEndJudgeTime();
         Interface(void onJudge(ManiaPlaytimeData *data)) //具体的判定逻辑
         Interface(void onRelease())
         Interface(void onTimeout(ManiaPlaytimeData *data))
@@ -56,8 +56,8 @@ namespace nso{
         void release();
 
         void applyScore(ManiaPlaytimeData *data, int type, int score, double offset);
-        bool isReleased() { return Released; } //判断是否被释放
-        int depth() { return Depth; } //物件判定顺序，主要是那些会消耗事件的需要给值
+        bool isReleased(); //判断是否被释放
+        int depth(); //物件判定顺序，主要是那些会消耗事件的需要给值
 
         GetSet(int,Line)
         GetSet(double,MaxJudgeTime)

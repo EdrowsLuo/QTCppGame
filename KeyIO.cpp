@@ -52,12 +52,11 @@ bool edp::KeyPipe::keyDown(int key, const string &txt) {
     if (output) {
         return false;
     } else {
-        double time = Timer->getTime();
         KeyEvent event;
         event.type = KeyState::Down;
         event.key = key;
         event.text = txt;
-        event.rawtime = time;
+        event.rawtime = Timer->getTime();
         events.push_back(event);
         return true;
     }
@@ -70,12 +69,12 @@ bool edp::KeyPipe::keyUp(int key, const string &txt) {
     if (output) {
         return false;
     } else {
-        events.push_back(KeyEvent{
-                KeyState::Up,
-                key,
-                txt,
-                Timer->getTime()
-        });
+        KeyEvent event;
+        event.type = KeyState::Up;
+        event.key = key;
+        event.text = txt;
+        event.rawtime = Timer->getTime();
+        events.push_back(event);
         return true;
     }
 }

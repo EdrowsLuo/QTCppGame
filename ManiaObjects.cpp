@@ -22,6 +22,16 @@ void nso::ManiaBaseJudgeObject::applyScore(nso::ManiaPlaytimeData *data, int typ
     JudgeResult = score;
 }
 
+ManiaBaseJudgeObject::ManiaBaseJudgeObject() : Released(false), Depth(0), JudgeResult(-1) { }
+
+double ManiaBaseJudgeObject::getStartJudgeTime() { return StartJudgeTime; }
+
+double ManiaBaseJudgeObject::getEndJudgeTime() { return EndJudgeTime; }
+
+bool ManiaBaseJudgeObject::isReleased() { return Released; }
+
+int ManiaBaseJudgeObject::depth() { return Depth; }
+
 nso::ManiaNoteJudgeObject::ManiaNoteJudgeObject(nso::PlayingNote *note, nso::Beatmap *beatmap) : ManiaBaseJudgeObject(), Note(note) {
     RawBeatmap = beatmap;
     StartJudgeTime = note->getTime() - ManiaUtil::hitWindow(beatmap->OverallDifficulty, Mania::S_MISS);

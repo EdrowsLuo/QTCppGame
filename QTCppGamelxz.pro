@@ -65,9 +65,7 @@ SOURCES += \
         progressbar.cpp \
         rhythmline.cpp\
         judgescore.cpp \
-        widgettest.cpp \
         calscore.cpp \
-        pixmapmanager.cpp\
         judgescore2.cpp\
         addcas.cpp\
         rankingpic.cpp\
@@ -140,9 +138,7 @@ HEADERS  += \
         progressbar.h \
         rhythmline.h\
         judgescore.h \
-        widgettest.h \
         calscore.h \
-        pixmapmanager.h\
         judgescore2.h\
     \
     \
