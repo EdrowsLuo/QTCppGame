@@ -35,6 +35,10 @@ void ManiaPlaytimeData::endJudge() {
     }
 }
 
+void ManiaPlaytimeData::setTimer(EdpTimer *t) {
+    timer = t;
+}
+
 
 ManiaDrawdata::ManiaDrawdata(nso::Beatmap &beatmap) :
         Preempt(500),
@@ -237,6 +241,39 @@ void ManiaDrawdata::updateTypeSpeedChange(double time) {
     }
 }
 
+vector<ManiaDrawdataNode> &ManiaDrawdata::getDatas() {
+    return datas;
+}
+
+vector<PlayingHitObject *> *ManiaDrawdata::rawObjectsPointer() {
+    return &rawObjects;
+}
+
+vector<double> *ManiaDrawdata::getBeatsAvalibe() {
+    return &beatsAvalible;
+}
+
+ScrollingControlPoint &ManiaDrawdata::findScrollingPoint(double time) {
+    vector<ScrollingControlPoint>::iterator itr = scrollingPoints.begin();
+    if (itr->startTime >= time) {
+        return *itr;
+    } else {
+        itr++;
+        while (itr != scrollingPoints.end()) {
+            if (itr->startTime > time) {
+                return *(itr - 1);
+            }
+            itr++;
+        }
+        return *(itr - 1);
+    }
+}
+
+float ManiaDrawdata::timeToPosition(double time) {
+    ScrollingControlPoint &sp = findScrollingPoint(time);
+    return static_cast<float>(sp.startPosition + (time - sp.startTime) * sp.speed);
+}
+
 PlayingHitObject::PlayingHitObject(HitObject &h) :
         released(false),
         X(h.x),
@@ -245,6 +282,14 @@ PlayingHitObject::PlayingHitObject(HitObject &h) :
         Type(h.type & HitObject::TYPE_MASK),
         HitSound(h.hitSound) {
 
+}
+
+bool PlayingHitObject::isReleased() {
+    return released;
+}
+
+void PlayingHitObject::release() {
+    released = true;
 }
 
 
@@ -576,6 +621,8 @@ int ManiaScore::getScore() {
 }
 
 ManiaScore::ManiaScore(Beatmap *beatmap) :
+        Offset(0),
+        TotalHit(0),
         RawBeatmap(beatmap),
         RecentScore(0),
         TotalScore(0),
@@ -597,6 +644,69 @@ ManiaScore::ManiaScore(Beatmap *beatmap) :
     ForEachLong(beatmap->hitobjects, itr, vector<HitObject *>::iterator) {
         HitObject *object = *itr;
         TotalHit += (object->type & HitObject::TYPE_MASK) == HitObject::TYPE_MANIA_HOLD ? 2 : 1;
+    }
+}
+
+void ManiaScore::applyScore(ManiaHitResult &result) { //apply 一个成绩
+    RecentScore = result.score;
+
+    switch (result.type) {
+        case Mania::ScoreType_Note:{
+            TotalScore += Mania::BaseScore[result.score];
+            CurrentBonusRate += Mania::BonusMul[result.score];
+            CurrentBonusRate = Clamp(0, CurrentBonusRate, 100);
+            TotalBonus += (int)(Mania::BaseBonus[result.score] * sqrt(CurrentBonusRate)+0.0001);
+
+            AccScore += Mania::BaseAcc[result.score];
+            HitCount++;
+
+            HitCounter[result.score]++;
+        }break;
+
+        case Mania::ScoreType_Tick:
+        default:{
+            //tick不影响分数
+            if (result.score == Mania::S_MISS) {
+                CurrentBonusRate = 0;
+            }
+        }break;
+    }
+
+    PassedCombo++;
+    if (result.score > Mania::S_MISS) {
+        Combo++;
+    } else {
+        if (MaxCombo < Combo) {
+            MaxCombo = Combo;
+        }
+        Combo = 0;
+    }
+}
+
+double ManiaScore::getAccuracy() {
+    if (HitCount == 0) {
+        return 1;
+    } else {
+        return AccScore / (HitCount * 300.0);
+    }
+}
+
+string ManiaScore::getRanking() {
+    if (AccScore == HitCount * 300) {
+        return Mania::Ranking_SS;
+    } else {
+        double acc = getAccuracy();
+        if (acc >= 0.95) {
+            return Mania::Ranking_S;
+        } else if (acc >= 0.90) {
+            return Mania::Ranking_A;
+        } else if (acc >= 0.80) {
+            return Mania::Ranking_B;
+        } else if (acc >= 0.70) {
+            return Mania::Ranking_C;
+        } else {
+            return Mania::Ranking_D;
+        }
     }
 }
 
@@ -633,5 +743,158 @@ void GameHolder::reloadGame() {
     if (checkGame()) {
         releaseGame();
         loadGame(savedPath);
+    }
+}
+
+GameHolder::GameHolder() :
+        Mods(0),
+        BaseVolume(0.4f),
+        Game(NULL),
+        Channel(NULL),
+        Setting(NULL),
+        KeyPipe(NULL),
+        AutoPlay(NULL),
+        EscPressed(false),
+        SpeedLevel(10) {
+
+}
+
+bool GameHolder::modIsEnable(int mod) {
+    return (Mods & mod) == mod;
+}
+
+bool GameHolder::enableMod(int mod) {
+    if (checkGame()) {
+        DebugI("you can't change mod when game is loaded!")
+        return false;
+    }
+    Mods |= mod;
+    return true;
+}
+
+bool GameHolder::disableMod(int mod) {
+    if (checkGame()) {
+        DebugI("you can't change mod when game is loaded!")
+        return false;
+    }
+    Mods &= ~mod;
+    return true;
+}
+
+bool GameHolder::loadMusic(const string &path, int previewTime) {
+    if (checkGame()) {
+        DebugI("you can't change music when game is loaded!")
+        return false;
+    }
+    if (Channel != NULL) {
+        Channel->release();
+        delete Channel;
+        Channel = NULL;
+    }
+    Channel = new EdpBassChannel(path);
+    Channel->setVolume(BaseVolume);
+    Channel->seekTo(previewTime);
+    Channel->play();
+}
+
+void GameHolder::pauseNormalMusic() {
+    if (Channel != NULL) {
+        Channel->pause();
+    }
+}
+
+void GameHolder::playNormalMusic() {
+    if (Channel != NULL) {
+        Channel->reset();
+        Channel->play();
+    }
+}
+
+bool GameHolder::checkGame() {
+    return Game != NULL;
+}
+
+void GameHolder::startGame() {
+    if (checkGame()) {
+        if (!Game->getSongChannel()->isPlaying()) {
+            Game->getSongChannel()->setVolume(BaseVolume);
+            Game->runGame();
+            if (Channel != NULL) {
+                Channel->pause();
+            }
+        }
+    }
+}
+
+void GameHolder::releaseGame() {
+    if (checkGame()) {
+        Game->pauseGame();
+        if (modIsEnable(Mania::MOD_AUTO)) {
+            delete AutoPlay;
+            AutoPlay = NULL;
+        } else {
+            delete KeyPipe;
+            KeyPipe = NULL;
+        }
+        delete Game;
+        Game = NULL;
+    }
+}
+
+void GameHolder::update() {
+    if (checkGame()) {
+        if (Game->updateTime()) {
+            if (modIsEnable(Mania::MOD_AUTO)) {
+                AutoPlay->update(Game->getFrameTime());
+            }
+            Game->update();
+        }
+    }
+
+}
+
+void GameHolder::endUpdate() {
+    EscPressed = false;
+}
+
+void GameHolder::mkeyPressEvent(QKeyEvent *event) {
+
+    if (event->key() == Qt::Key_Tab) {
+        if (checkGame()) {
+            Game->getSongChannel()->seekTo(Game->getSongChannel()->getTime() + 1000);
+        }
+    }
+
+
+    if (event->isAutoRepeat()) {
+        return;
+    }
+
+    if (event->key() == Qt::Key_Escape) {
+        EscPressed = true;
+    }
+
+    if (KeyPipe != NULL) {
+        KeyPipe->keyPressEvent(event);
+    }
+}
+
+void GameHolder::mkeyReleaseEvent(QKeyEvent *event) {
+    if (event->isAutoRepeat()) {
+        return;
+    }
+    if (KeyPipe != NULL) {
+        KeyPipe->keyReleaseEvent(event);
+    }
+}
+
+void GameHolder::setBaseVolume(float v) {
+    v = Clamp(0, v, 1);
+    BaseVolume = v;
+    if (Game != NULL) {
+        Game->getSongChannel()->setVolume(BaseVolume);
+    }
+    if (Channel != NULL) {
+        Channel->setVolume(BaseVolume);
     }
 }

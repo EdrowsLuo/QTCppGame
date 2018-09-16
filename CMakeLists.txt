@@ -94,8 +94,6 @@ add_executable(qt_bb
         myscore.cpp
         myscore.h
         nsoclass.h
-        parsers.cpp
-        parsers.h
         pixmapmanager.cpp
         pixmapmanager.h
         progressbar.cpp
