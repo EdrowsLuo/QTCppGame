@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>ocpp!mania</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QMainWindow{background-color:RGB(40,44,53)}</string>
@@ -33,8 +33,9 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image: url(:/assets/image/powerButtonOff.png);color:black}
-QPushButton::hover{border-image:url(:/assets/image/powerButtonOn.png);color:black}</string>
+     <string notr="true">QPushButton{border-image: url(:/assets/image/powerButtonOff.png);color:black;font: 75 9pt &quot;黑体&quot;;}
+
+QPushButton::hover{border-image:url(:/assets/image/powerButtonOn.png);color:black;font: 75 9pt &quot;黑体&quot;;}</string>
     </property>
     <property name="text">
      <string>Menu</string>
@@ -50,8 +51,8 @@ QPushButton::hover{border-image:url(:/assets/image/powerButtonOn.png);color:blac
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image: url(:/assets/image/Menu.png)}
-QPushButton::hover{border-image:url(:/assets/image/tiltle2.png)}</string>
+     <string notr="true">QPushButton{border-image: url(:/assets/image/Menu.png);font: 75 9pt &quot;黑体&quot;;}
+QPushButton::hover{border-image:url(:/assets/image/tiltle2.png);font: 75 9pt &quot;黑体&quot;;}</string>
     </property>
     <property name="text">
      <string>manual</string>
@@ -84,9 +85,10 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image:url(:/assets/image/Btf1.png);}
-QPushButton::hover{border-image:url(:/assets/image/Btf2.png);}
-QPushButton::pressed{border-image: url(:/assets/image/Btf3.png);}
+     <string notr="true">QPushButton{border-image:url(:/assets/image/Btf1.png);font: 75 14pt &quot;黑体&quot;;}
+
+QPushButton::hover{border-image:url(:/assets/image/Btf2.png);font: 75 14pt &quot;黑体&quot;;}
+QPushButton::pressed{border-image: url(:/assets/image/Btf3.png);font: 75 14pt &quot;黑体&quot;;}
 </string>
     </property>
     <property name="text">
@@ -103,9 +105,10 @@ QPushButton::pressed{border-image: url(:/assets/image/Btf3.png);}
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image:url(:/assets/image/Btf1.png)}
-QPushButton::hover{border-image:url(:/assets/image/Btf2.png)}
-QPushButton::pressed{border-image: url(:/assets/image/Btf3.png)}
+     <string notr="true">QPushButton{border-image:url(:/assets/image/Btf1.png);font: 75 14pt &quot;黑体&quot;;}
+
+QPushButton::hover{border-image:url(:/assets/image/Btf2.png);font: 75 14pt &quot;黑体&quot;;}
+QPushButton::pressed{border-image: url(:/assets/image/Btf3.png);font: 75 14pt &quot;黑体&quot;;}
 </string>
     </property>
     <property name="text">
@@ -122,10 +125,10 @@ QPushButton::pressed{border-image: url(:/assets/image/Btf3.png)}
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image:url(:/assets/image/Btf1.png)}
-QPushButton::hover{border-image:url(:/assets/image/Btf2.png)}
-QPushButton::pressed{border-image: url(:/assets/image/Btf3.png)}
-</string>
+     <string notr="true">QPushButton{border-image:url(:/assets/image/Btf1.png);font: 75 14pt &quot;黑体&quot;;}
+
+QPushButton::hover{border-image:url(:/assets/image/Btf2.png);font: 75 14pt &quot;黑体&quot;;}
+QPushButton::pressed{border-image: url(:/assets/image/Btf3.png);font: 75 14pt &quot;黑体&quot;;}</string>
     </property>
     <property name="text">
      <string>EXIT</string>

@@ -33,7 +33,7 @@
    </property>
    <property name="styleSheet">
     <string notr="true">border-image:url(:/assets/image/titlebox1.png);
-font: 75 12pt &quot;ADMUI3Lg&quot;;
+font: 75 16pt &quot;黑体&quot;;
 background-color:transparent;
 color:white</string>
    </property>
@@ -52,6 +52,7 @@ color:white</string>
    </property>
    <property name="styleSheet">
     <string notr="true">border-image:url(:/assets/image/titlebox1.png);
+font: 75 16pt &quot;黑体&quot;;
 background-color:transparent;
 color:white</string>
    </property>
@@ -70,6 +71,7 @@ color:white</string>
    </property>
    <property name="styleSheet">
     <string notr="true">border-image:url(:/assets/image/titlebox1.png);
+font: 75 16pt &quot;黑体&quot;;
 background-color:transparent;
 color:white</string>
    </property>
@@ -88,6 +90,7 @@ color:white</string>
    </property>
    <property name="styleSheet">
     <string notr="true">border-image:url(:/assets/image/titlebox1.png);
+font: 75 16pt &quot;黑体&quot;;
 background-color:transparent;
 color:white</string>
    </property>
@@ -106,6 +109,7 @@ color:white</string>
    </property>
    <property name="styleSheet">
     <string notr="true">border-image:url(:/assets/image/titlebox1.png);
+font: 75 16pt &quot;黑体&quot;;
 background-color:transparent;
 color:white</string>
    </property>
@@ -124,6 +128,7 @@ color:white</string>
    </property>
    <property name="styleSheet">
     <string notr="true">border-image:url(:/assets/image/titlebox1.png);
+font: 75 16pt &quot;黑体&quot;;
 background-color:transparent;
 color:white</string>
    </property>
@@ -142,6 +147,7 @@ color:white</string>
    </property>
    <property name="styleSheet">
     <string notr="true">border-image:url(:/assets/image/titlebox1.png);
+font: 75 16pt &quot;黑体&quot;;
 background-color:transparent;
 color:white</string>
    </property>
