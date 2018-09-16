@@ -60,13 +60,9 @@ namespace edp{
         static const unsigned int Up = 4;
         static const unsigned int MainStateMask = Down + Up;
 
-        static bool isPressed(unsigned int stat){
-            return (stat & Pressed) == Pressed;
-        }
+        static bool isPressed(unsigned int stat);
 
-        static void clearState(unsigned int &state, unsigned int code) {
-            state &= ~code;
-        }
+        static void clearState(unsigned int &state, unsigned int code);
 
     };
 
@@ -77,9 +73,7 @@ namespace edp{
         string text;
         double rawtime;
 
-        bool operator<(const KeyEvent &other) const {
-            return rawtime > other.rawtime;
-        }
+        bool operator<(const KeyEvent &other) const;
     };
 
     class KeyInput{
@@ -92,63 +86,17 @@ namespace edp{
     class QueryKeyInput:public KeyInput {
     public:
 
-        /*virtual void start() {
-            output = true;
-            if (outputNext()) {
-                DebugI("start")
-            }
-        }
+        virtual void start();
 
-        virtual void end() {
-            output = false;
-            if (outputNext()) {
-                DebugI("end")
-            }
-        }
+        bool getKeyEvevnt(KeyEvent &event);
 
-        bool getKeyEvevnt(KeyEvent &event) {
-            if (outputNext()) {
-                event = events.back();
-                events.erase(events.end() - 1);
-                Debug("read one input event");
-                DebugI("key: " << event.key << " time: " << event.rawtime << " type: " << event.type)
-                return true;
-            } else {
-                return false;
-            }
-        }*/
+        virtual void end();
 
-        virtual void start() {
-            output = true;
-        }
+        virtual bool outputNext();
 
-        bool getKeyEvevnt(KeyEvent &event) {
-            if (outputNext()) {
-                event = events.back();
-                events.erase(events.end() - 1);
-                return true;
-            } else {
-                return false;
-            }
-        }
+        void sortByTime();
 
-        virtual void end() {
-            output = false;
-        }
-
-        virtual bool outputNext() {
-            return events.size() > 0;
-        }
-
-
-
-        void sortByTime() {
-            sort(events.begin(), events.end());
-        }
-
-        vector<KeyEvent> &Events(){
-            return events;
-        }
+        vector<KeyEvent> &Events();
 
     protected:
         vector<KeyEvent> events;
@@ -163,40 +111,9 @@ namespace edp{
 
     class KeyPipe : public QueryKeyInput,public KeyOutput {
     public:
-        bool keyDown(int key, const string &txt){
-            if (!Timer->isRunning()) {
-                return false;
-            }
-            if (output) {
-                return false;
-            } else {
-                double time = Timer->getTime();
-                events.push_back(KeyEvent{
-                    KeyState::Down,
-                    key,
-                    txt,
-                    time
-                });
-                return true;
-            }
-        }
+        bool keyDown(int key, const string &txt);
 
-        bool keyUp(int key, const string &txt){
-            if (!Timer->isRunning()) {
-                return false;
-            }
-            if (output) {
-                return false;
-            } else {
-                events.push_back(KeyEvent{
-                        KeyState::Up,
-                        key,
-                        txt,
-                        Timer->getTime()
-                });
-                return true;
-            }
-        }
+        bool keyUp(int key, const string &txt);
 
         GetSetO(EdpTimer,Timer)
 
@@ -218,44 +135,23 @@ namespace edp{
 
     class KeyHolder{
     public:
-        virtual void acceptDownEvent(){
-            if (!KeyState::isPressed(State)) {
-                State |= KeyState::Down;
-                State |= KeyState::Pressed;
-            }
-        }
+        virtual void acceptDownEvent();
 
-        void acceptUpEvent() {
-            if (KeyState::isPressed(State)) {
-                cancel = true;
-                State |= KeyState::Up;
-            }
-        }
+        void acceptUpEvent();
 
-        int parseMainState(){
-            return State & KeyState::MainStateMask;
-        }
+        int parseMainState();
 
         //消耗掉事件停止继续的操作
-        virtual void consumeEvent(){
-            KeyState::clearState(State, KeyState::Down | KeyState::Up);
-        }
+        virtual void consumeEvent();
 
         //一帧结束将没有处理掉的事件删除掉
-        virtual void pass() {
-            if (cancel) {
-                cancel = false;
-                State = 0;
-            }
-        }
+        virtual void pass();
 
         GetSet(string,Name)
         GetSet(double,Time)
         GetSet(unsigned int,State)
 
-        bool isPressed() {
-            return KeyState::isPressed(State);
-        }
+        bool isPressed();
 
     protected:
         double Time;
@@ -266,46 +162,18 @@ namespace edp{
 
     class KeyFrame{
     public:
-        KeyFrame(KeyInput *in) : input(in) {
+        explicit KeyFrame(KeyInput *in);
 
-        }
+        explicit KeyFrame();
 
-        explicit KeyFrame() {
+        void update(double time);
 
-        }
+        void endFrame();
 
-        void update(double time) {
-            FrameTime = time;
-            if (input) {
-                ForEach(holders,it,it->second->setTime(FrameTime),map<int,KeyHolder*>::iterator)
-                KeyEvent event;
-                input->start();
-                while (input->getKeyEvevnt(event)) {
-                    map<int,KeyHolder*>::iterator holder = holders.find(event.key);
-                    if (holder != holders.end()) {
-                        switch (event.type) {
-                            RCase(KeyState::Down, holder->second->acceptDownEvent());
-                            DCase(KeyState::Up,holder->second->acceptUpEvent());
-                        }
-                        holder->second->setTime(event.rawtime);
-                    }
-                }
-                input->end();
-            }
-        }
-
-        void endFrame() {
-            ForEach(holders,it,it->second->pass(),map<int,KeyHolder*>::iterator)
-        }
-
-        void registerHolder(int key, KeyHolder *holder) {
-            holders[key] = holder;
-        }
+        void registerHolder(int key, KeyHolder *holder);
 
         Getter(double,FrameTime)
-        void setKeyInput(KeyInput *in){
-            input = in;
-        }
+        void setKeyInput(KeyInput *in);
 
     protected:
         map<int,KeyHolder*> holders;

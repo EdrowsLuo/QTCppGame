@@ -37,8 +37,8 @@ SOURCES += \
     EdpFileReader.cpp \
     EdpFileWriter.cpp \
     IOUtil.cpp \
+    KeyIO.cpp\
     Beatmap.cpp \
-    parsers.cpp \
     BeatmapDecoder.cpp \
     EdpBass.cpp \
     GameJudgement.cpp \
@@ -75,6 +75,7 @@ SOURCES += \
     \
     cJSON.cpp\
     CJsonObject.cpp\
+    settings.cpp
 
 
 
@@ -104,7 +105,6 @@ HEADERS  += \
     IOUtil.h \
     Beatmap.h \
     StringUtil.h \
-    parsers.h \
     BeatmapDecoder.h \
     nsoclass.h \
     EdpBass.h \
@@ -149,6 +149,7 @@ HEADERS  += \
     \
     CJsonObject.hpp \
     cJSON.h \
+    settings.h
 
 
 
@@ -156,7 +157,8 @@ FORMS    += mainwindow.ui \
     slidebox1.ui \
     difficultyscrollarea.ui \
     difficultyframe.ui \
-    rightframe.ui
+    rightframe.ui \
+    settings.ui
 
 FORMS    += widget.ui
 
