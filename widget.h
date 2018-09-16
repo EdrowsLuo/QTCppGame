@@ -31,7 +31,6 @@ namespace Ui {
 }
 
 #define USING_GL
-
 #ifdef USING_GL
 typedef QGLWidget Renderer;
 #else

@@ -378,6 +378,7 @@ namespace nso{
 
         Getter(ManiaGame *,Game)
         Setter(int,SpeedLevel)
+        BoolGetSet(EnableBackground)
 
         bool EscPressed;
 
@@ -391,6 +392,7 @@ namespace nso{
         QTKeyPipe *KeyPipe;
         AutoKeyPipe *AutoPlay;
         int SpeedLevel;
+        bool EnableBackground;
 
         string savedPath;
     };

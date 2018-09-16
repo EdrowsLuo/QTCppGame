@@ -668,10 +668,10 @@ void ManiaScore::applyScore(ManiaHitResult &result) { //apply 一个成绩
     if (result.score > Mania::S_MISS) {
         Combo++;
     } else {
-        if (MaxCombo < Combo) {
-            MaxCombo = Combo;
-        }
         Combo = 0;
+    }
+    if (MaxCombo < Combo) {
+        MaxCombo = Combo;
     }
 }
 
@@ -747,7 +747,8 @@ GameHolder::GameHolder() :
         Setting(NULL),
         KeyPipe(NULL),
         AutoPlay(NULL),
-        SpeedLevel(10) {
+        SpeedLevel(10),
+        EnableBackground(true) {
 
 }
 

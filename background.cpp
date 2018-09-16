@@ -1,17 +1,34 @@
 #include "background.h"
+#include "Project.h"
 
-BackGround::BackGround()
+using namespace nso;
+
+BackGround::BackGround() : pixmap(NULL)
 {
     //address = new QString;
     address = Project::fromRoot("assets\\image\\a021f3383448084929d0878cb1d4fc50.jpg").c_str();
+    pixmap = new QPixmap;
+    pixmap->load(address);
 }
 void BackGround::draw (QPaintEvent *event, QPainter *painter){
     painter->save();
-
     painter->setRenderHint(QPainter::Antialiasing, true);
-    QPixmap Pixmap0;
-    Pixmap0.load(address);
-    painter->drawPixmap(0,0,1280,720,Pixmap0);
+    if (Project::ProjectGame->isEnableBackground()) {
+        painter->drawPixmap(0,0,1280,720,*pixmap);
+    } else {
+        QPainterPath pathbb1;
+        pathbb1.moveTo(0,0);
+        pathbb1.lineTo(1280,0);
+        pathbb1.lineTo(1280,720);
+        pathbb1.lineTo(0,720);
+        painter->setBrush(QColor(40, 44, 53));
+        painter->drawPath(pathbb1);
+    }
+
+
+    //QPixmap Pixmap0;
+    //Pixmap0.load(address);
+
     /*QPainterPath pathq;
     pathq.moveTo(0,0);
     pathq.lineTo(0,720);
