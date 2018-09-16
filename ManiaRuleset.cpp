@@ -437,8 +437,8 @@ bool ManiaGame::running() {
 }
 
 ManiaGame::ManiaGame(EdpFile *f, ManiaSetting *setting) :
-        FrameTime(0), OsuFile(new EdpFile(f->getFullPath())), SetDirectory(
-        new EdpFile(f->getParentPath())), Setting(setting), paused(false), Length(0) {
+         OsuFile(new EdpFile(f->getFullPath())), SetDirectory(
+        new EdpFile(f->getParentPath())), Setting(setting),FrameTime(0), paused(false), Length(0) {
 
 }
 
@@ -459,7 +459,7 @@ ManiaGame::~ManiaGame() {
     delete SongChannel;
 }
 
-AutoKeyPipe::AutoKeyPipe() : time(0), minHoldTime(125) {
+AutoKeyPipe::AutoKeyPipe() : minHoldTime(125), time(0) {
 
 }
 
@@ -481,18 +481,15 @@ void AutoKeyPipe::load(Beatmap *beatmap, ManiaSetting *setting) {
             HitObject *object = *itr;
             if ((object->type & HitObject::TYPE_MASK) == HitObject::TYPE_MANIA_HOLD) {
                 int keynum = keybinding[i];
-                events.push_back(KeyEvent{
-                        KeyState::Down,
-                        keynum,
-                        "a",
-                        (double)object->time
-                });
-                events.push_back(KeyEvent{
-                        KeyState::Up,
-                        keynum,
-                        "a",
-                        (double)(((ManiaHold &) *object).endTime)
-                });
+                KeyEvent event;
+                event.type = KeyState::Down;
+                event.key = keynum;
+                event.text = "a";
+                event.rawtime = (double)object->time;
+                events.push_back(event);
+                event.type = KeyState::Up;
+                event.rawtime = (double)(((ManiaHold &) *object).endTime);
+                events.push_back(event);
             } else {
                 int keynum = keybinding[i];
 
@@ -514,18 +511,15 @@ void AutoKeyPipe::load(Beatmap *beatmap, ManiaSetting *setting) {
                     }
                 }
 
-                events.push_back(KeyEvent{
-                        KeyState::Down,
-                        keynum,
-                        "a",
-                        (double)object->time
-                });
-                events.push_back(KeyEvent{
-                        KeyState::Up,
-                        keynum,
-                        "a",
-                        (double)(object->time + offset)
-                });
+                KeyEvent event;
+                event.type = KeyState::Down;
+                event.key = keynum;
+                event.text = "a";
+                event.rawtime = (double)object->time;
+                events.push_back(event);
+                event.type = KeyState::Up;
+                event.rawtime = (double)(object->time + offset);
+                events.push_back(event);
             }
         }
     }
@@ -745,6 +739,7 @@ void GameHolder::reloadGame() {
 }
 
 GameHolder::GameHolder() :
+        EscPressed(false),
         Mods(0),
         BaseVolume(0.4f),
         Game(NULL),
@@ -752,7 +747,6 @@ GameHolder::GameHolder() :
         Setting(NULL),
         KeyPipe(NULL),
         AutoPlay(NULL),
-        EscPressed(false),
         SpeedLevel(10) {
 
 }
@@ -793,6 +787,7 @@ bool GameHolder::loadMusic(const string &path, int previewTime) {
     Channel->setVolume(BaseVolume);
     Channel->seekTo(previewTime);
     Channel->play();
+    return true;
 }
 
 void GameHolder::pauseNormalMusic() {

@@ -94,8 +94,6 @@ add_executable(qt_bb
         myscore.cpp
         myscore.h
         nsoclass.h
-        pixmapmanager.cpp
-        pixmapmanager.h
         progressbar.cpp
         progressbar.h
         Project.cpp
@@ -127,9 +125,6 @@ add_executable(qt_bb
         Util.h
         widget.cpp
         widget.h
-        widget1.cpp
-        widget1.h
-        widgettest.cpp
         easing.h KeyIO.cpp)
 
 target_link_libraries(qt_bb ${QT_LIBRARIES} )

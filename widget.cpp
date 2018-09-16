@@ -14,7 +14,6 @@
 #include "rhythmline.h"
 #include "judgescore.h"
 #include "calscore.h"
-#include "rankingbg.h"
 #include "judgescore2.h"
 #include "addcas.h"
 #include "rankingpic.h"

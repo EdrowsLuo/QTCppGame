@@ -68,9 +68,9 @@ namespace nso{
         double EndJudgeTime;
         double MaxJudgeTime;
         int Depth;
-        bool Released;
         int Line;
         int JudgeResult;
+        bool Released;
     };
 
     class ManiaNoteJudgeObject : public ManiaBaseJudgeObject {
@@ -107,8 +107,8 @@ namespace nso{
 
         void onTimeout(ManiaPlaytimeData *data);
     private:
-        bool pressed;
         PlayingHold *Hold;
+        bool pressed;
     };
 
 
@@ -125,10 +125,10 @@ namespace nso{
 
         void onTimeout(ManiaPlaytimeData *data);
     private:
-        bool pressed;
         PlayingHold *Hold;
         ManiaHoldStartJudgeObject *StartObject;
         vector<ManiaHoldTickJudgeObject*> *TickObjects;
+        bool pressed;
     };
 
 }

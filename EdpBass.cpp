@@ -8,18 +8,18 @@
 using namespace edp;
 
 EdpBassChannel::EdpBassChannel(const string &path) :
-        playing(false),
         recodeTime(-1L),
         startTime(-1L),
-        isPrePlaying(false) {
+        isPrePlaying(false),
+        playing(false){
     handle = BASS_StreamCreateFile(FALSE, path.c_str(), 0, 0, 0);
 }
 
 EdpBassChannel::EdpBassChannel(EdpFile &file) :
-        playing(false),
         recodeTime(-1L),
         startTime(-1L),
-        isPrePlaying(false) {
+        isPrePlaying(false),
+        playing(false) {
     handle = BASS_StreamCreateFile(FALSE, file.getFullPath().c_str(), 0, 0, 0);
 }
 
