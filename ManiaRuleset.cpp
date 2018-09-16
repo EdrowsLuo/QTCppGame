@@ -131,29 +131,27 @@ void ManiaDrawdata::update(double time) {
     datas.clear();
     ForEachLong(objectsUsing, it, vector<PlayingHitObject*>::iterator) {
         PlayingHitObject *object = *it;
+        ManiaDrawdataNode drawdata;
         if (object->getType() == HitObject::TYPE_MANIA_HOLD) {
             float t = (object->getTime() - (float) time) / Preempt;
             t = Clamp(0, t, 1);
             float t2 = (object->getEndTime() - (float) time) / Preempt;
             t2 = Clamp(0, t2, 1);
-            datas.push_back(ManiaDrawdataNode{
-                    object,
-                    ManiaDrawdata::HOLD,
-                    ManiaUtil::positionToLine(object->getX(), LineCount),
-                    t,
-                    t2
-            });
+            drawdata.rawObject = object;
+            drawdata.type = ManiaDrawdata::HOLD;
+            drawdata.line = ManiaUtil::positionToLine(object->getX(), LineCount);
+            drawdata.position = t;
+            drawdata.endposition = t2;
         } else {
             float t = (object->getTime() - (float) time) / Preempt;
             t = Clamp(0, t, 1);
-            datas.push_back(ManiaDrawdataNode{
-                    object,
-                    ManiaDrawdata::NOTE,
-                    ManiaUtil::positionToLine(object->getX(), LineCount),
-                    t,
-                    t
-            });
+            drawdata.rawObject = object;
+            drawdata.type = ManiaDrawdata::NOTE;
+            drawdata.line = ManiaUtil::positionToLine(object->getX(), LineCount);
+            drawdata.position = t;
+            drawdata.endposition = t;
         }
+        datas.push_back(drawdata);
     }
 
     beatsAvalible.clear();
@@ -170,7 +168,7 @@ void ManiaDrawdata::update(double time) {
 }
 
 void ManiaDrawdata::updateTypeSpeedChange(double time) {
-    //DebugI("time: " << time)
+    /*//DebugI("time: " << time)
     time = timeToPosition(time);
     //DebugI("pos : " << time)
     //添加
@@ -215,7 +213,7 @@ void ManiaDrawdata::updateTypeSpeedChange(double time) {
                     t,
                     t2
             });
-       /* } else {
+       *//* } else {
             float t = static_cast<float>((it->startPosition - time) / Preempt);
             t = Clamp(0, t, 1);
             datas.push_back(ManiaDrawdataNode{
@@ -225,7 +223,7 @@ void ManiaDrawdata::updateTypeSpeedChange(double time) {
                     t,
                     t
             });
-        }*/
+        }*//*
     }
 
     beatsAvalible.clear();
@@ -238,7 +236,7 @@ void ManiaDrawdata::updateTypeSpeedChange(double time) {
         } else {
             break;
         }
-    }
+    }*/
 }
 
 vector<ManiaDrawdataNode> &ManiaDrawdata::getDatas() {

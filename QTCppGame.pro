@@ -38,7 +38,6 @@ SOURCES += \
     EdpFileWriter.cpp \
     IOUtil.cpp \
     Beatmap.cpp \
-    parsers.cpp \
     BeatmapDecoder.cpp \
     EdpBass.cpp \
     GameJudgement.cpp \
@@ -104,7 +103,6 @@ HEADERS  += \
     IOUtil.h \
     Beatmap.h \
     StringUtil.h \
-    parsers.h \
     BeatmapDecoder.h \
     nsoclass.h \
     EdpBass.h \
