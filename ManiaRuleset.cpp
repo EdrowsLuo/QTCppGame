@@ -98,7 +98,6 @@ void ManiaDrawdata::update(double time) {
         return;
     }
 
-
     //添加
     double preShowTime = time + Preempt;
     while (!objectsToAdd.empty()) {
@@ -727,7 +726,7 @@ void GameHolder::loadGame(EdpFile *osuFile) {
         p = SpeedLevel / 10.0;
         preempt = 3000 * (1 - p) + 500 * p;
     }
-    Game->getDrawdata()->setPreempt((int) (p + 0.001));
+    Game->getDrawdata()->setPreempt((int) (preempt + 0.001));
     savedPath = osuFile->getFullPath();
     Game->getSongChannel()->setVolume(BaseVolume);
     if (modIsEnable(Mania::MOD_AUTO)) {
