@@ -73,7 +73,7 @@ SOURCES += \
     \
     \
     cJSON.cpp\
-    CJsonObject.cpp\
+    CJsonObject.cpp
 
 
 
@@ -145,7 +145,7 @@ HEADERS  += \
     \
     \
     CJsonObject.hpp \
-    cJSON.h \
+    cJSON.h
 
 
 
