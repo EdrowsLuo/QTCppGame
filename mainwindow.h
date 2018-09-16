@@ -17,7 +17,7 @@
 #include "CJsonObject.hpp"
 #include "Project.h"
 #include "widget.h"
-
+#include "settings.h"
 namespace Ui {
     class MainWindow;
 }
@@ -59,7 +59,7 @@ public:
     bool al,a2;
     Songs *Songinfo[7];
     QGraphicsOpacityEffect *uppaged;
-
+    Settings* setSurface;
 
  //   QString *CreaterName;
 
@@ -88,6 +88,8 @@ private slots:
     void on_upButton_clicked();
     void on_ExitButton_clicked();
     void on_ModeButton1_clicked();
+
+    void on_SetButton_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -12,6 +12,8 @@ Settings::Settings(QWidget *parent) :
     connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),ui->spinBox,SLOT(setValue(int)));
     connect(ui->spinBox,SIGNAL(valueChanged(int)),ui->horizontalSlider,SLOT(setValue(int)));
     ui->spinBox->setValue(40);
+    ui->verticalSlider->setValue(40);
+    this->setAutoFillBackground(true);
 }
 
 Settings::~Settings()
