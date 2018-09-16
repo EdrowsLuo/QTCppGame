@@ -4,7 +4,7 @@
 #include <string>
 #include <QApplication>
 #include "defext.h"
-
+#include "Util.h"
 
 
 MyQSplitter::MyQSplitter( int nn, const My_Song & jsong, QWidget *parent ) :
@@ -17,7 +17,9 @@ MyQSplitter::MyQSplitter( int nn, const My_Song & jsong, QWidget *parent ) :
         f[i]->setMinimumHeight( 200 );
         f[i]->setObjectName("sb");
         connect(f[i],SIGNAL(passtosplitter()),this,SLOT(passedtosplitter()));
-        MakeString(s,"Version: " << jsong.difficultylist[i].version <<"  Star: " << jsong.difficultylist[i].star << endl<<"OverallDifficulty: "<< jsong.difficultylist[i].overalldifficulty << endl << "  KeyCount: " <<jsong.difficultylist[i].circlesize <<"  Length: "<<jsong.difficultylist[i].lenth);
+        string t = util::formatTimeMS(jsong.difficultylist[i].lenth);
+
+        MakeString(s,"Version: " << jsong.difficultylist[i].version <<"  Star: " << jsong.difficultylist[i].star << endl<<"OverallDifficulty: "<< jsong.difficultylist[i].overalldifficulty << endl << "  KeyCount: " <<jsong.difficultylist[i].circlesize <<"  Length: "<<t);
         const char*  ch;
         ch=s.c_str();
 
