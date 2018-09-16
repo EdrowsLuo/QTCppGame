@@ -73,30 +73,37 @@ namespace edp{
                     return v * (2 - v);
                 case InOutQuad:
                     if (v < .5) return v * v * 2;
-                    return --v * v * -2 + 1;
+                    v = v - 1;
+                    return v * v * -2 + 1;
                 case InCubic:
                     return v * v * v;
                 case OutCubic:
-                    return --v * v * v + 1;
+                    v = v - 1;
+                    return v * v * v + 1;
                 case InOutCubic:
                     if (v < .5) return v * v * v * 4;
-                    return --v * v * v * 4 + 1;
+                    v = v - 1;
+                    return v * v * v * 4 + 1;
 
                 case InQuart:
                     return v * v * v * v;
                 case OutQuart:
-                    return 1 - --v * v * v * v;
+                    v = v - 1;
+                    return 1 - v * v * v * v;
                 case InOutQuart:
                     if (v < .5) return v * v * v * v * 8;
-                    return --v * v * v * v * -8 + 1;
+                    v = v - 1;
+                    return v * v * v * v * -8 + 1;
 
                 case InQuint:
                     return v * v * v * v * v;
                 case OutQuint:
-                    return --v * v * v * v * v + 1;
+                    v = v - 1;
+                    return v * v * v * v * v + 1;
                 case InOutQuint:
                     if (v < .5) return v * v * v * v * v * 16;
-                    return --v * v * v * v * v * 16 + 1;
+                    v = v - 1;
+                    return v * v * v * v * v * 16 + 1;
 
                 case InSine:
                     return 1 - cos(v * PI * .5);
@@ -116,10 +123,13 @@ namespace edp{
                 case InCirc:
                     return 1 - sqrt(1 - v * v);
                 case OutCirc:
-                    return sqrt(1 - --v * v);
+                    v = v - 1;
+                    return sqrt(1 - v * v);
                 case InOutCirc:
-                    if ((v *= 2) < 1) return .5 - .5 * sqrt(1 - v * v);
-                    return .5 * sqrt(1 - (v -= 2) * v) + .5;
+                    v *= 2;
+                    if (v < 1) return .5 - .5 * sqrt(1 - v * v);
+                    v -= 2;
+                    return .5 * sqrt(1 - v * v) + .5;
 
                 case InElastic:
                     return -pow(2, -10 + 10 * v) * sin((1 - elastic_const2 - v) * elastic_const);
@@ -130,41 +140,57 @@ namespace edp{
                 case OutElasticQuarter:
                     return pow(2, -10 * v) * sin((.25 * v - elastic_const2) * elastic_const) + 1;
                 case InOutElastic:
-                    if ((v *= 2) < 1)
+                    v *= 2;
+                    if (v < 1)
                         return -.5 * pow(2, -10 + 10 * v) * sin((1 - elastic_const2 * 1.5 - v) * elastic_const / 1.5);
-                    return .5 * pow(2, -10 * --v) * sin((v - elastic_const2 * 1.5) * elastic_const / 1.5) + 1;
+                    v = v - 1;
+                    return .5 * pow(2, -10 * v) * sin((v - elastic_const2 * 1.5) * elastic_const / 1.5) + 1;
 
                 case InBack:
                     return v * v * ((back_const + 1) * v - back_const);
                 case OutBack:
-                    return --v * v * ((back_const + 1) * v + back_const) + 1;
+                    v = v - 1;
+                    return v * v * ((back_const + 1) * v + back_const) + 1;
                 case InOutBack:
-                    if ((v *= 2) < 1) return .5 * v * v * ((back_const2 + 1) * v - back_const2);
-                    return .5 * ((v -= 2) * v * ((back_const2 + 1) * v + back_const2) + 2);
+                    v *= 2;
+                    if (v < 1) return .5 * v * v * ((back_const2 + 1) * v - back_const2);
+                    v -= 2;
+                    return .5 * (v * v * ((back_const2 + 1) * v + back_const2) + 2);
 
                 case InBounce:
                     v = 1 - v;
                     if (v < bounce_const)
                         return 1 - 7.5625 * v * v;
-                    if (v < 2 * bounce_const)
-                        return 1 - (7.5625 * (v -= 1.5 * bounce_const) * v + .75);
-                    if (v < 2.5 * bounce_const)
-                        return 1 - (7.5625 * (v -= 2.25 * bounce_const) * v + .9375);
-                    return 1 - (7.5625 * (v -= 2.625 * bounce_const) * v + .984375);
+                    if (v < 2 * bounce_const){
+                        v -= 1.5;
+                        return 1 - (7.5625 * (v * bounce_const) * v + .75);
+                    }
+                    if (v < 2.5 * bounce_const){
+                        v -= 2.25;
+                        return 1 - (7.5625 * (v * bounce_const) * v + .9375);
+                    }
+                    v -= 2.625;
+                    return 1 - (7.5625 * (v * bounce_const) * v + .984375);
                 case OutBounce:
                     if (v < bounce_const)
                         return 7.5625 * v * v;
-                    if (v < 2 * bounce_const)
-                        return 7.5625 * (v -= 1.5 * bounce_const) * v + .75;
-                    if (v < 2.5 * bounce_const)
-                        return 7.5625 * (v -= 2.25 * bounce_const) * v + .9375;
-                    return 7.5625 * (v -= 2.625 * bounce_const) * v + .984375;
+                    if (v < 2 * bounce_const){
+                        v -= 1.5;
+                        return 7.5625 * (v * bounce_const) * v + .75;
+                    }
+                    if (v < 2.5 * bounce_const){
+                        v -= 2.25;
+                        return 7.5625 * (v * bounce_const) * v + .9375;
+                    }
+                    v -= 2.625;
+                    return 7.5625 * (v * bounce_const) * v + .984375;
                 case InOutBounce:
                     if (v < .5) return .5 - .5 * applyEasing(1 - v * 2,OutBounce);
                     return applyEasing((v - .5) * 2,OutBounce) * .5 + .5;
 
                 case OutPow10:
-                    return --v * pow(v, 10) + 1;
+                    v = v - 1;
+                    return v * pow(v, 10) + 1;
                 case Jump:
                     //return (v==1)?1:0;
                 default:

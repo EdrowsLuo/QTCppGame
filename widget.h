@@ -9,7 +9,6 @@
 #include "BeatmapDecoder.h"
 #include "EdpFile.h"
 #include <QTimer>
-#include "rankingbg.h"
 #include "background.h"
 #include "tracke.h"
 #include "keys.h"

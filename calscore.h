@@ -1,6 +1,6 @@
 #ifndef CALSCORE_H
 #define CALSCORE_H
-#include "MyDraw.h";
+#include "MyDraw.h"
 #include <string>
 
 class calScore : public MyDraw

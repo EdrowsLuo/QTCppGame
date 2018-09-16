@@ -104,7 +104,7 @@ void BaseParser::parseLine(const string &line, Beatmap &beatmap) {
         passBaseParse(line, beatmap);
         return;
     }
-    int spl = nline.find(':');
+    unsigned int spl = nline.find(':');
     if (spl != string::npos) {
         string key = nline.substr(0, spl);
         //qDebug() << "key : " << key.c_str();

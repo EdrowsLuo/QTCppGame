@@ -89,17 +89,18 @@ namespace nso{
         string getRanking();
 
     public:
-        Beatmap *RawBeatmap;
+
         int Offset;
+        int TotalHit;
+        Beatmap *RawBeatmap;
         int RecentScore;
         int TotalScore;
-        int AccScore;
-        int HitCount;
         int TotalBonus;
         int CurrentBonusRate;
-        int TotalHit;
         int MaxCombo;
         int Combo;
+        int HitCount;
+        int AccScore;
         int PassedCombo;
         int *HitCounter;
     };
@@ -297,11 +298,11 @@ namespace nso{
         EdpBassChannel *SongChannel;
         KeyFrame *GameKeyFrame;
 
-        int Length;
-
-        bool paused;
 
         double FrameTime;
+        bool paused;
+        int Length;
+
 
         ManiaPlaytimeData *PlayingData;
 
@@ -317,8 +318,6 @@ namespace nso{
     class AutoKeyPipe:public QueryKeyInput,public IUpdateByTime{
     public:
 
-        double minHoldTime;
-
         AutoKeyPipe();
 
         void load(Beatmap *beatmap, ManiaSetting *setting);
@@ -328,6 +327,7 @@ namespace nso{
         void update(double t);
 
     private:
+        double minHoldTime;
         double time;
     };
 
@@ -382,19 +382,17 @@ namespace nso{
         bool EscPressed;
 
     private:
-        EdpBassChannel *Channel;
-        float BaseVolume;
-        int SpeedLevel;
-
-        QTKeyPipe *KeyPipe;
-        AutoKeyPipe *AutoPlay;
-
-        ManiaSetting *Setting;
-
-        ManiaGame *Game;
-        string savedPath;
 
         int Mods;
+        float BaseVolume;
+        ManiaGame *Game;
+        EdpBassChannel *Channel;
+        ManiaSetting *Setting;
+        QTKeyPipe *KeyPipe;
+        AutoKeyPipe *AutoPlay;
+        int SpeedLevel;
+
+        string savedPath;
     };
 
 

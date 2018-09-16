@@ -17,12 +17,15 @@ void nso::ManiaBaseJudgeObject::release() { //判定完了或超时进行释放
 }
 
 void nso::ManiaBaseJudgeObject::applyScore(nso::ManiaPlaytimeData *data, int type, int score, double offset) {
-    ManiaHitResult result{type, score, offset};
+    ManiaHitResult result;
+    result.type = type;
+    result.score = score;
+    result.offset = offset;
     data->getScore()->applyScore(result);
     JudgeResult = score;
 }
 
-ManiaBaseJudgeObject::ManiaBaseJudgeObject() : Released(false), Depth(0), JudgeResult(-1) { }
+ManiaBaseJudgeObject::ManiaBaseJudgeObject() : Depth(0), JudgeResult(-1), Released(false) { }
 
 double ManiaBaseJudgeObject::getStartJudgeTime() { return StartJudgeTime; }
 
