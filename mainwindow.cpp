@@ -8,6 +8,7 @@
 #include "defext.h"
 #include "CJsonObject.hpp"
 #include "songgroup.h"
+#include "settings.h"
 
 using namespace nso;
 using namespace neb;
@@ -30,34 +31,6 @@ MainWindow::MainWindow(QWidget *parent) :
      IOUtil::readFull(out,str);
      CJsonObject object(str);
      CJsonObject *basicData;
-
-     numOfSong = object["data"].GetArraySize();
-
-     basicData = new CJsonObject[numOfSong];
-     SongName = new string[numOfSong];
-
-
-     for ( int i = 0 ; i<numOfSong ; i++ ){
-         objcet["data"].Get(i,basicData[i]);
-     }
-
-     SongName = new string[numOfSong];
-
- */
-
-
-
-
-/*    ss= new QString[9];
-    ss[0]="s0";
-    ss[1]="s1";
-    ss[2]="s2";
-    ss[3]="s3";
-    ss[4]="s4";
-    ss[5]="s5";
-    ss[6]="s6";
-    ss[7]="s7";
-    ss[8]="s8";
 */
     ss = new QString[s.Number];
     for ( int i = 0 ; i<s.Number ; i++ ){
@@ -141,6 +114,8 @@ MainWindow::MainWindow(QWidget *parent) :
     upButtonAppear01 = new QPropertyAnimation(ui->upButton,"geometry",this);
     rightBoxAppear01 = new QPropertyAnimation(RightBox,"geometry",this);
 
+ //   Settings *SetSurface = new Settings;
+
 }
 
 void MainWindow::SongACopyB( Songs * a , Songs * b ){
@@ -200,12 +175,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_StartButton_clicked()
 {
-
-    /*  QMessageBox::about(NULL,"s",QString::number(ui->label->x()));
-      QMessageBox::about(NULL,"s",QString::number(ui->label->y()));
-      QMessageBox::about(NULL,"s",QString::number(ui->label->width()));
-      QMessageBox::about(NULL,"s",QString::number(ui->label->height()));*/
-
     leftBoxAppear0->setTargetObject(LeftBox[(SN+100)%2]);
     leftBoxAppear0->setPropertyName("geometry");
 
@@ -238,8 +207,9 @@ void MainWindow::on_StartButton_clicked()
     place = place + s.songlist[(ST+s.Number+3)%s.Number].difficultylist[0].audiofilename;
     EdpFile f(*Project::ProjectRoot,place);
     string fullpath = f.getFullPath();
-    Project::ProjectGame->loadMusic(fullpath,s.songlist[(ST+s.Number+3)%s.Number].difficultylist[0].previewtime);
 
+    Project::ProjectGame->loadMusic(fullpath,s.songlist[(ST+s.Number+3)%s.Number].difficultylist[0].previewtime);
+    DebugI("d")
 }
 
 
