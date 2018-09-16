@@ -71,7 +71,7 @@ private:
     //RankingBG *BG1;
     int Comborecord,ssr;
     double timerecord;
-    int t,tranjudge;
+    int t,tranjudge,missjudge;
     int MaxCombo[4];
     int Totalscore[7];
     bool esc;

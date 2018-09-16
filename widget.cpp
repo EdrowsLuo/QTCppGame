@@ -52,6 +52,7 @@ Widget::Widget(QWidget *parent) :
     //mGameHolder->getGame()->getSongChannel()->seekTo(102000);
     esc= false;
     tranj = 0.0;
+    missjudge = 0;
 }
 
 void Widget::animate(){
@@ -187,6 +188,17 @@ void Widget::paintEvent(QPaintEvent *event){
             }
             Combopre = Game->getPlayingData()->getScore()->Combo;
         }
+        if (Game->getPlayingData()->getScore()->HitCounter[0]>missjudge){
+            if (Scorenow != Scorepre) {
+                //if (Combopre==Combonow){
+                drawjudge.set(Game->getPlayingData()->getScore()->RecentScore, false);
+                drawjudge.draw(event, &painter);
+            } else {
+                drawjudge.set(Game->getPlayingData()->getScore()->RecentScore, true);
+                drawjudge.draw(event, &painter);
+            }
+        }
+        missjudge = Game->getPlayingData()->getScore()->HitCounter[0];
         if (KeyNum == 0) {
             //drawkey0.setjudge(KeyNum);
             for (int j = 0; j < 7; j++) {
