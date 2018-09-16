@@ -20,7 +20,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMainWindow{}</string>
+   <string notr="true">QMainWindow{background-color:RGB(40,44,53)}</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QPushButton" name="upButton">
